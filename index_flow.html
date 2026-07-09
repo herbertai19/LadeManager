@@ -443,12 +443,9 @@ function updateBars() {
     $("#smartslider").val(smart);
     $("#smartslidervalue").text(smart + " %");
 
-    if ($("#smartstate").text().trim() == "on")
-        $("#smartstatus").addClass("on");
-    else
-        $("#smartstatus").removeClass("on");
+    let smartState = $("#smartstate").text().trim().toLowerCase();
 
-
+$("#smartstatus").toggleClass("on", smartState === "on");
     // Hyundai
     let ioniq = parseFloat(
         $('[data-device="LadeManager"][data-get="Ioniq5_SOC"]')
@@ -460,10 +457,9 @@ function updateBars() {
     $("#ioniqslider").val(ioniq);
     $("#ioniqslidervalue").text(ioniq + " %");
 
-    if ($("#ioniqstate").text().trim() == "on")
-        $("#ioniqstatus").addClass("on");
-    else
-        $("#ioniqstatus").removeClass("on");
+  let ioniqState = $("#ioniqstate").text().trim().toLowerCase();
+
+$("#ioniqstatus").toggleClass("on", ioniqState === "on");
 }
 //-----------------------------------------------------
 // Smart
