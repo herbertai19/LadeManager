@@ -268,17 +268,38 @@ body{
 
         <div class="cardtitle">Smart EQ</div>
 
-        <div class="bar">
-            <div id="smartbar" class="barfill"></div>
-        </div>
+    <div class="bar">
+    <div id="smartbar" class="barfill"></div>
+</div>
 
-        <div class="value"
-             data-type="label"
-             data-device="LadeManager"
-             data-get="Smart_SOC"
-             data-unit="%">
-        </div>
+<div class="value"
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Smart_SOC"
+     data-unit="%">
+</div>
 
+<div style="margin:18px 10px 8px 10px;">
+
+    <input
+        id="smartslider"
+        type="range"
+        min="0"
+        max="100"
+        value="50"
+        style="width:100%;"
+        oninput="$('#smartslidervalue').text(this.value+' %');"
+        onchange="setSmartSOC(this.value);">
+
+</div>
+
+<div id="smartslidervalue"
+     style="text-align:center;
+            font-size:20px;
+            color:#bbb;
+            margin-bottom:10px;">
+    50 %
+</div>
         <div class="buttons">
             <div class="btn" onclick="smart85()">85 %</div>
             <div class="btn" onclick="smart100()">100 %</div>
@@ -317,18 +338,38 @@ body{
     <div class="card">
 
         <div class="cardtitle">Hyundai Ioniq5</div>
+<div class="bar">
+    <div id="ioniqbar" class="barfill"></div>
+</div>
 
-        <div class="bar">
-            <div id="ioniqbar" class="barfill"></div>
-        </div>
+<div class="value"
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Ioniq5_SOC"
+     data-unit="%">
+</div>
 
-        <div class="value"
-             data-type="label"
-             data-device="LadeManager"
-             data-get="Ioniq5_SOC"
-             data-unit="%">
-        </div>
+<div style="margin:18px 10px 8px 10px;">
 
+    <input
+        id="ioniqslider"
+        type="range"
+        min="0"
+        max="100"
+        value="50"
+        style="width:100%;"
+        oninput="$('#ioniqslidervalue').text(this.value+' %');"
+        onchange="setIoniqSOC(this.value);">
+
+</div>
+
+<div id="ioniqslidervalue"
+     style="text-align:center;
+            font-size:20px;
+            color:#bbb;
+            margin-bottom:10px;">
+    50 %
+</div>
         <div class="buttons">
             <div class="btn" onclick="ioniq85()">85 %</div>
             <div class="btn" onclick="ioniq100()">100 %</div>
@@ -390,39 +431,39 @@ var ioniq=50;
 
 function updateBars() {
 
-    var txtSmart = $('[data-device="LadeManager"][data-get="Smart_SOC"]').first().text().trim();
-    var txtIoniq = $('[data-device="LadeManager"][data-get="Ioniq5_SOC"]').first().text().trim();
+    // Smart
+    let smart = parseFloat(
+        $('[data-device="LadeManager"][data-get="Smart_SOC"]')
+        .first().text()
+    ) || 0;
 
-    console.log("TXT Smart=", txtSmart);
-    console.log("TXT Ioniq=", txtIoniq);
+    $("#smartbar").css("width", smart + "%");
 
-    var smart = parseFloat(txtSmart);
-    var ioniq = parseFloat(txtIoniq);
+    $("#smartslider").val(smart);
+    $("#smartslidervalue").text(smart + " %");
 
-    console.log("Smart=", smart);
-    console.log("Ioniq=", ioniq);
+    if ($("#smartstate").text().trim() == "on")
+        $("#smartstatus").addClass("on");
+    else
+        $("#smartstatus").removeClass("on");
 
-    document.getElementById("smartbar").style.width = smart + "%";
-    document.getElementById("ioniqbar").style.width = ioniq + "%";
-// Smart
-if ($("#smartstate").text().trim() == "on")
-    $("#smartstatus").addClass("on");
-else
-    $("#smartstatus").removeClass("on");
 
-// Hyundai
-if ($("#ioniqstate").text().trim() == "on")
-    $("#ioniqstatus").addClass("on");
-else
-    $("#ioniqstatus").removeClass("on");
+    // Hyundai
+    let ioniq = parseFloat(
+        $('[data-device="LadeManager"][data-get="Ioniq5_SOC"]')
+        .first().text()
+    ) || 0;
+
+    $("#ioniqbar").css("width", ioniq + "%");
+
+    $("#ioniqslider").val(ioniq);
+    $("#ioniqslidervalue").text(ioniq + " %");
+
+    if ($("#ioniqstate").text().trim() == "on")
+        $("#ioniqstatus").addClass("on");
+    else
+        $("#ioniqstatus").removeClass("on");
 }
-
-setInterval(updateBars,1000);
-
-$(document).ready(function(){
-
-    updateBars();
-});
 //-----------------------------------------------------
 // Smart
 //-----------------------------------------------------
@@ -457,6 +498,21 @@ function ioniq100(){
     $.get("/fhem?XHR=1&cmd="+
         encodeURIComponent("{Ioniq100();;}"));
 
+}
+//-----------------------------------------------------
+// Slider
+//-----------------------------------------------------
+
+function setSmartSOC(v){
+
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent('{SetSOC("Smart",' + v + ');}'));
+}
+
+function setIoniqSOC(v){
+
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent('{SetSOC("Ioniq5",' + v + ');}'));
 }
 ############################################################
 # SetSOC
