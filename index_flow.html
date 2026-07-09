@@ -503,13 +503,13 @@ function ioniq100(){
 function setSmartSOC(v){
 
     $.get("/fhem?XHR=1&cmd=" +
-        encodeURIComponent('{SetSOC("Smart",' + v + ');}'));
+        encodeURIComponent('{SetSOC("Smart",' + v + ');;}'));
 }
 
 function setIoniqSOC(v){
 
     $.get("/fhem?XHR=1&cmd=" +
-        encodeURIComponent('{SetSOC("Ioniq5",' + v + ');}'));
+        encodeURIComponent('{SetSOC("Ioniq5",' + v + ');;}'));
 }
 
 </script>
