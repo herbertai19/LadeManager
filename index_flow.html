@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/fhem-tablet-ui.css">
+
+<script src="lib/jquery.min.js"></script>
+<script src="js/fhem-tablet-ui.min.js"></script>
+
+<style>
+
+body{
+    margin:0;
+    background:#111;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.title{
+    text-align:center;
+    font-size:38px;
+    padding:20px;
+    font-weight:bold;
+    color:#ffffff;
+}
+
+.dashboard{
+    width:1500px;
+    margin:auto;
+}
+
+/*************** obere Zeile ****************/
+
+.toprow{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+
+/*************** untere Zeile ****************/
+
+.bottomrow{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+/*************** Karten ****************/
+
+.card{
+
+    background:#1b1b1b;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    box-shadow:0 0 18px rgba(0,0,0,.45);
+
+    min-height:260px;
+
+}
+
+.cardtitle{
+
+    font-size:28px;
+
+    text-align:center;
+
+    margin-bottom:18px;
+
+}
+
+.value{
+
+    text-align:center;
+
+    font-size:58px;
+
+    color:#00ff99;
+
+    font-weight:bold;
+
+}
+
+.label{
+
+    font-size:20px;
+
+    color:#bbb;
+
+    margin-top:10px;
+
+}
+
+/*************** Balken ****************/
+
+.bar{
+
+    width:92%;
+
+    margin:auto;
+
+    height:22px;
+
+    background:#444;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    margin-top:15px;
+
+}
+
+.barfill{
+    display:block;
+    width:50%;
+    height:22px;
+    background:#2ecc71;
+    transition:width .5s;
+}
+
+/*************** Buttons ****************/
+
+.buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:14px;
+
+    margin-top:18px;
+
+}
+
+.btn{
+
+    flex:1;
+
+    background:#1976d2;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    color:white;
+
+    font-size:26px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.btn:hover{
+
+    background:#29a0ff;
+    transform:scale(1.04);
+
+}
+
+/*************** Status ****************/
+
+.status{
+
+    margin-top:16px;
+
+    font-size:22px;
+
+    text-align:center;
+
+}
+
+.statusdot{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    margin:12px auto;
+    background:#d32f2f;
+    transition:background-color .3s;
+}
+
+.statusdot.on{
+    background:#43a047;
+}
+
+.green{
+
+    color:#3ddc84;
+
+}
+
+.red{
+
+    color:#ff6666;
+
+}
+
+.orange{
+
+    color:#ffb74d;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="title">Haus Energiefluss</div>
+
+<div class="dashboard">
+
+<div class="toprow">
+
+    <div class="card">
+        <div class="cardtitle">. PV</div>
+        <div class="value"
+             data-type="label"
+             data-device="SENEC"
+             data-get="PV-Erzeugung"
+             data-unit=" W"></div>
+    </div>
+
+    <div class="card">
+        <div class="cardtitle">.. Haus</div>
+        <div class="value"
+             data-type="label"
+             data-device="SENEC"
+             data-get="Haus-Stromverbrauch"
+             data-unit=" W"></div>
+    </div>
+
+    <div class="card">
+        <div class="cardtitle">.. Speicher</div>
+        <div class="value"
+             data-type="label"
+             data-device="SENEC"
+             data-get="AKKU-Beladung"
+             data-unit="%"></div>
+    </div>
+
+    <div class="card">
+        <div class="cardtitle">.. Netz</div>
+        <div class="value"
+             data-type="label"
+             data-device="SENEC"
+             data-get="Netz-Bezug"
+             data-unit=" W"></div>
+    </div>
+
+</div>
+<div class="bottomrow">
+
+    <!-- Smart ----------------------------------------------------->
+    <div class="card">
+
+        <div class="cardtitle">Smart EQ</div>
+
+        <div class="bar">
+            <div id="smartbar" class="barfill"></div>
+        </div>
+
+        <div class="value"
+             data-type="label"
+             data-device="LadeManager"
+             data-get="Smart_SOC"
+             data-unit="%">
+        </div>
+
+        <div class="buttons">
+            <div class="btn" onclick="smart85()">85 %</div>
+            <div class="btn" onclick="smart100()">100 %</div>
+        </div>
+
+        <div class="label" style="text-align:center">
+
+            Rest:
+            <span data-type="label"
+                  data-device="LadeManager"
+                  data-get="Smart_Rest_kWh"></span> kWh
+
+            <br><br>
+
+            Ende:
+            <span data-type="label"
+                  data-device="LadeManager"
+                  data-get="Smart_Ende"></span>
+
+            <br><br>
+
+            Status
+
+            <div id="smartstatus" class="statusdot"></div>
+<span id="smartstate"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly1_Smart"
+      data-get="state">
+</span>
+        </div>
+
+    </div>
+
+    <!-- Hyundai --------------------------------------------------->
+    <div class="card">
+
+        <div class="cardtitle">Hyundai Ioniq5</div>
+
+        <div class="bar">
+            <div id="ioniqbar" class="barfill"></div>
+        </div>
+
+        <div class="value"
+             data-type="label"
+             data-device="LadeManager"
+             data-get="Ioniq5_SOC"
+             data-unit="%">
+        </div>
+
+        <div class="buttons">
+            <div class="btn" onclick="ioniq85()">85 %</div>
+            <div class="btn" onclick="ioniq100()">100 %</div>
+        </div>
+
+        <div class="label" style="text-align:center">
+
+            Rest:
+            <span data-type="label"
+                  data-device="LadeManager"
+                  data-get="Ioniq5_Rest_kWh"></span> kWh
+
+            <br><br>
+
+            Ende:
+            <span data-type="label"
+                  data-device="LadeManager"
+                  data-get="Ioniq5_Ende"></span>
+
+            <br><br>
+
+            Status
+
+            <div id="ioniqstatus" class="statusdot"></div>
+<span id="ioniqstate"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly2_Ioniq5"
+      data-get="state">
+</span>
+        </div>
+
+    </div>
+
+    <!-- Einhell --------------------------------------------------->
+    <div class="card">
+
+        <div class="cardtitle">Einhell</div>
+
+        <div style="margin-top:60px;text-align:center">
+
+            <div class="small"
+                 data-type="switch"
+                 data-device="Shelly3"
+                 data-get="state"
+                 data-set-on="on"
+                 data-set-off="off">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+var smart=50;
+var ioniq=50;
+
+function updateBars() {
+
+    var txtSmart = $('[data-device="LadeManager"][data-get="Smart_SOC"]').first().text().trim();
+    var txtIoniq = $('[data-device="LadeManager"][data-get="Ioniq5_SOC"]').first().text().trim();
+
+    console.log("TXT Smart=", txtSmart);
+    console.log("TXT Ioniq=", txtIoniq);
+
+    var smart = parseFloat(txtSmart);
+    var ioniq = parseFloat(txtIoniq);
+
+    console.log("Smart=", smart);
+    console.log("Ioniq=", ioniq);
+
+    document.getElementById("smartbar").style.width = smart + "%";
+    document.getElementById("ioniqbar").style.width = ioniq + "%";
+// Smart
+if ($("#smartstate").text().trim() == "on")
+    $("#smartstatus").addClass("on");
+else
+    $("#smartstatus").removeClass("on");
+
+// Hyundai
+if ($("#ioniqstate").text().trim() == "on")
+    $("#ioniqstatus").addClass("on");
+else
+    $("#ioniqstatus").removeClass("on");
+}
+
+setInterval(updateBars,1000);
+
+$(document).ready(function(){
+
+    updateBars();
+});
+//-----------------------------------------------------
+// Smart
+//-----------------------------------------------------
+
+function smart85(){
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Smart85();;}"));
+
+}
+
+function smart100(){
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Smart100();;}"));
+
+}
+
+//-----------------------------------------------------
+// Ioniq
+//-----------------------------------------------------
+
+function ioniq85(){
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Ioniq85();;}"));
+
+}
+
+function ioniq100(){
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Ioniq100();;}"));
+
+}
+############################################################
+# SetSOC
+############################################################
+
+sub SetSOC
+{
+    my ($car,$soc)=@_;
+
+    return if(!defined($Cars{$car}));
+
+    $soc = int($soc);
+
+    $soc = 0   if($soc < 0);
+    $soc = 100 if($soc > 100);
+
+    readingsSingleUpdate(
+        $defs{"LadeManager"},
+        "${car}_SOC",
+        $soc,
+        1
+    );
+}
+
+</script>
+</body>
+</html>
