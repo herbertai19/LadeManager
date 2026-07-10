@@ -325,14 +325,15 @@ body{
             Status
 
             <div id="smartstatus" class="statusdot"></div>
-<span id="smartstate"
+
+</span>
+        </div>
+<span id="smartpower"
       style="display:none"
       data-type="label"
       data-device="Shelly1_Smart"
-      data-get="state">
+      data-get="power">
 </span>
-        </div>
-
     </div>
 
     <!-- Hyundai --------------------------------------------------->
@@ -395,11 +396,11 @@ body{
             Status
 
             <div id="ioniqstatus" class="statusdot"></div>
-<span id="ioniqstate"
+<span id="ioniqpower"
       style="display:none"
       data-type="label"
       data-device="Shelly2_Ioniq5"
-      data-get="state">
+      data-get="power">
 </span>
         </div>
 
@@ -442,10 +443,10 @@ function updateBars() {
 
     $("#smartslider").val(smart);
     $("#smartslidervalue").text(smart + " %");
+    let smartPower = parseFloat($("#smartpower").text()) || 0;
 
-    let smartState = $("#smartstate").text().trim().toLowerCase();
+     $("#smartstatus").toggleClass("on", smartPower > 100);
 
-$("#smartstatus").toggleClass("on", smartState === "on");
     // Hyundai
     let ioniq = parseFloat(
         $('[data-device="LadeManager"][data-get="Ioniq5_SOC"]')
@@ -457,9 +458,9 @@ $("#smartstatus").toggleClass("on", smartState === "on");
     $("#ioniqslider").val(ioniq);
     $("#ioniqslidervalue").text(ioniq + " %");
 
-  let ioniqState = $("#ioniqstate").text().trim().toLowerCase();
+    let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
 
-$("#ioniqstatus").toggleClass("on", ioniqState === "on");
+    $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
 }
 //-----------------------------------------------------
 // Smart
