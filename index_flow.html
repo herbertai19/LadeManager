@@ -505,12 +505,14 @@ function setSmartSOC(v){
 
     $.get("/fhem?XHR=1&cmd=" +
         encodeURIComponent('{SetSOC("Smart",' + v + ');;}'));
+        updateBars();
 }
 
 function setIoniqSOC(v){
 
     $.get("/fhem?XHR=1&cmd=" +
         encodeURIComponent('{SetSOC("Ioniq5",' + v + ');;}'));
+        updateBars();
 }
 $(document).ready(function(){
 
