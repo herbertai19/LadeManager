@@ -446,7 +446,7 @@ function updateBars() {
 
     let smartPower = parseFloat($("#smartpower").text()) || 0;
 
-     $("#smartstatus").toggleClass("on", smartPower > 1);
+     $("#smartstatus").toggleClass("on", smartPower > 100);
     if (document.activeElement !== $("#smartslider")[0]) {
         $("#smartslider").val(smart);
         $("#smartslidervalue").text(smart + " %");
@@ -465,7 +465,7 @@ function updateBars() {
     }
     let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
 
-    $("#ioniqstatus").toggleClass("on", ioniqPower > 1);
+    $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
 }
 //-----------------------------------------------------
 // Smart
