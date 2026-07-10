@@ -512,7 +512,13 @@ function setIoniqSOC(v){
     $.get("/fhem?XHR=1&cmd=" +
         encodeURIComponent('{SetSOC("Ioniq5",' + v + ');;}'));
 }
+$(document).ready(function(){
 
+    updateBars();
+
+    setInterval(updateBars,1000);
+
+});
 </script>
 </body>
 </html>
