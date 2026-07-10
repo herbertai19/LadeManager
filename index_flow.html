@@ -445,7 +445,7 @@ function updateBars() {
     $("#smartslidervalue").text(smart + " %");
     let smartPower = parseFloat($("#smartpower").text()) || 0;
 
-     $("#smartstatus").toggleClass("on", smartPower > 100);
+     $("#smartstatus").toggleClass("on", smartPower > 1);
 
     // Hyundai
     let ioniq = parseFloat(
@@ -460,7 +460,7 @@ function updateBars() {
 
     let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
 
-    $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
+    $("#ioniqstatus").toggleClass("on", ioniqPower > 1);
 }
 //-----------------------------------------------------
 // Smart
