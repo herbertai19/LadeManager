@@ -108,13 +108,7 @@ sub StartCar
         return;
     }
 
-    my $power = ReadingsNum($shelly,"power",0);
 
-    if($power > 100)
-    {
-        Log 1,"LadeManager: $car laedt bereits (${power}W).";
-        return;
-    }
 
     fhem("setreading LadeManager ${car}_SOC $soc");
     fhem("setreading LadeManager ${car}_Ziel $ziel");
@@ -125,7 +119,13 @@ sub StartCar
 
     fhem("setreading LadeManager ${car}_Status Laedt");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
+    my $power = ReadingsNum($shelly,"power",0);
 
+    if($power > 100)
+    {
+        Log 1,"LadeManager: $car laedt bereits (${power}W).";
+        return;
+    }
     Log 1,"LadeManager: $car startet fuer $zeit";
 
     fhem("set $shelly on-for-timer $sek");
