@@ -103,13 +103,21 @@ sub StartCar
     my ($rest,$netz,$sek,$zeit,$ende) =
         CalcCharge($akku,$leistung,$soc,$ziel);
 
-    if($sek == 0)
-    {
-        Log 1,"LadeManager: $car bereits auf Ziel.";
-        return;
-    }
+if($sek == 0)
+{
+    fhem("set $shelly off");
 
+    fhem("setreading LadeManager ${car}_Status Fertig");
+    fhem("setreading LadeManager ${car}_Rest_kWh 0");
+    fhem("setreading LadeManager ${car}_Netz_kWh 0");
+    fhem("setreading LadeManager ${car}_Ladezeit 00:00");
+    fhem("setreading LadeManager ${car}_Ende Jetzt");
+    fhem("setreading LadeManager ${car}_State $soc%->$ziel% (fertig)");
 
+    Log 1,"LadeManager: $car Ziel erreicht.";
+
+    return;
+}
 
     fhem("setreading LadeManager ${car}_SOC $soc");
     fhem("setreading LadeManager ${car}_Ziel $ziel");
