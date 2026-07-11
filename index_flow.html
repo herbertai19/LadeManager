@@ -467,6 +467,8 @@ $("#ioniqslidervalue").text(ioniq + " %");
     
 function updateStatus() {
 
+    console.log("updateStatus", $("#smartpower").text());
+
     let smartPower = parseFloat($("#smartpower").text()) || 0;
     $("#smartstatus").toggleClass("on", smartPower > 100);
 
