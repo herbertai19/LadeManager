@@ -528,19 +528,8 @@ function updateStatus() {
     } else {
         $("#ioniqpowertext").text("⚡ --");
     }
-}
+} // Ende updateStatus()
 
-// Ioniq-Leistung
-let ip = parseFloat($("#ioniqpower").text()) || 0;
-
-if ($("#ioniqrelay").text() === "on") {
-    $("#ioniqpowertext").text(
-        "⚡ " + (ip / 1000).toFixed(2).replace(".", ",") + " kW"
-    );
-} else {
-    $("#ioniqpowertext").text("⚡ --");
-}
-}
 //-----------------------------------------------------
 // Smart
 //-----------------------------------------------------
