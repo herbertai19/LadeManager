@@ -502,24 +502,28 @@ function ioniq100(){
 //-----------------------------------------------------
 // Slider
 //-----------------------------------------------------
-
 function setSmartSOC(v){
 
-    $.get("/fhem?XHR=1&cmd=" +
-        encodeURIComponent('{SetSOC("Smart",' + v + ');;}'));
-        updateBars();
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent('{SetSOC("Smart",' + v + ');;}'),
+        function() {
+            setTimeout(updateBars, 300);
+        }
+    );
 }
 
 function setIoniqSOC(v){
 
-    $.get("/fhem?XHR=1&cmd=" +
-        encodeURIComponent('{SetSOC("Ioniq5",' + v + ');;}'));
-        updateBars();
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent('{SetSOC("Ioniq5",' + v + ');;}'),
+        function() {
+            setTimeout(updateBars, 300);
+        }
+    );
 }
-$(document).ready(function(){
 
-    updateBars();
-});
 </script>
 </body>
 </html>
