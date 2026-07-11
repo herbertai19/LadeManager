@@ -443,30 +443,27 @@ function updateBars() {
 
     $("#smartbar").css("width", smart + "%");
 
+// Slider nur aktualisieren, wenn er nicht benutzt wird
+if (!$("#smartslider").is(":focus")) {
+    $("#smartslider").val(smart);
+}
 
-    let smartPower = parseFloat($("#smartpower").text()) || 0;
+// Prozentanzeige immer aus FHEM übernehmen
+$("#smartslidervalue").text(smart + " %");
 
-     $("#smartstatus").toggleClass("on", smartPower > 100);
-    if (document.activeElement !== $("#smartslider")[0]) {
-        $("#smartslider").val(smart);
-        $("#smartslidervalue").text(smart + " %");
-    }
     // Hyundai
     let ioniq = parseFloat(
         $('[data-device="LadeManager"][data-get="Ioniq5_SOC"]')
         .first().text()
     ) || 0;
+$("#ioniqbar").css("width", ioniq + "%");
 
-    $("#ioniqbar").css("width", ioniq + "%");
-
-    if (document.activeElement !== $("#ioniqslider")[0]) {
-        $("#ioniqslider").val(ioniq);
-        $("#ioniqslidervalue").text(ioniq + " %");
-    }
-    let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
-
-    $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
+if (!$("#ioniqslider").is(":focus")) {
+    $("#ioniqslider").val(ioniq);
 }
+
+$("#ioniqslidervalue").text(ioniq + " %");
+
 //-----------------------------------------------------
 // Smart
 //-----------------------------------------------------
