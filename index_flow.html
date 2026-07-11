@@ -463,6 +463,13 @@ if (!$("#ioniqslider").is(":focus")) {
 }
 
 $("#ioniqslidervalue").text(ioniq + " %");
+        let smartPower = parseFloat($("#smartpower").text()) || 0;
+    $("#smartstatus").toggleClass("on", smartPower > 100);
+
+    let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
+    $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
+
+}   // <<< Ende von updateBars()
 
 //-----------------------------------------------------
 // Smart
