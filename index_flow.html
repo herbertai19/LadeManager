@@ -334,6 +334,12 @@ body{
       data-device="Shelly1_Smart"
       data-get="power">
 </span>
+<span id="smartrelay"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly1_Smart"
+      data-get="relay">
+</span>
     </div>
 
     <!-- Hyundai --------------------------------------------------->
@@ -401,6 +407,13 @@ body{
       data-type="label"
       data-device="Shelly2_Ioniq5"
       data-get="power">
+    
+<span id="ioniqrelay"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly2_Ioniq5"
+      data-get="relay">
+</span>
 </span>
         </div>
 
@@ -467,13 +480,15 @@ $("#ioniqslidervalue").text(ioniq + " %");
     
 function updateStatus() {
 
-    console.log("updateStatus", $("#smartpower").text());
+    $("#smartstatus").toggleClass(
+        "on",
+        $("#smartrelay").text() === "on"
+    );
 
-    let smartPower = parseFloat($("#smartpower").text()) || 0;
-    $("#smartstatus").toggleClass("on", smartPower > 100);
-
-    let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
-    $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
+    $("#ioniqstatus").toggleClass(
+        "on",
+        $("#ioniqrelay").text() === "on"
+    );
 }
 //-----------------------------------------------------
 // Smart
