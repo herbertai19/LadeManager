@@ -463,14 +463,16 @@ if (!$("#ioniqslider").is(":focus")) {
 }
 
 $("#ioniqslidervalue").text(ioniq + " %");
-        let smartPower = parseFloat($("#smartpower").text()) || 0;
+}   // <<< Ende von updateBars()
+    
+function updateStatus() {
+
+    let smartPower = parseFloat($("#smartpower").text()) || 0;
     $("#smartstatus").toggleClass("on", smartPower > 100);
 
     let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
     $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
-
-}   // <<< Ende von updateBars()
-
+}
 //-----------------------------------------------------
 // Smart
 //-----------------------------------------------------
@@ -533,16 +535,9 @@ function setIoniqSOC(v){
 $(function () {
 
     updateBars();
+    updateStatus();
 
-    setInterval(function () {
-
-        let smartPower = parseFloat($("#smartpower").text()) || 0;
-        $("#smartstatus").toggleClass("on", smartPower > 100);
-
-        let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
-        $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
-
-    },1000);
+    setInterval(updateStatus, 250);
 
 });
 </script>
