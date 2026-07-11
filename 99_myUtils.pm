@@ -92,6 +92,7 @@ sub CalcCharge
 sub StartCar
 {
     my ($car,$soc,$ziel) = @_;
+    Log 1, "DEBUG StartCar: car=$car soc=$soc ziel=$ziel";
 
     return if(!defined($Cars{$car}));
 
