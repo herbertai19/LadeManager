@@ -530,7 +530,21 @@ function setIoniqSOC(v){
         }
     );
 }
+$(function () {
 
+    updateBars();
+
+    setInterval(function () {
+
+        let smartPower = parseFloat($("#smartpower").text()) || 0;
+        $("#smartstatus").toggleClass("on", smartPower > 100);
+
+        let ioniqPower = parseFloat($("#ioniqpower").text()) || 0;
+        $("#ioniqstatus").toggleClass("on", ioniqPower > 100);
+
+    },1000);
+
+});
 </script>
 </body>
 </html>
