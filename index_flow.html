@@ -509,28 +509,25 @@ function updateStatus() {
 
     // Smart
     let sp = parseFloat($("#smartpower").text()) || 0;
-
-    if ($("#smartrelay").text() === "on") {
-        $("#smartpowertext").text(
-            "⚡ " + (sp / 1000).toFixed(2).replace(".", ",") + " kW"
-        );
-    } else {
-        $("#smartpowertext").text("⚡ --");
-    }
-
+    $("#smartpowertext").text("⚡ " + formatPower(sp));
+    
     // Ioniq
     let ip = parseFloat($("#ioniqpower").text()) || 0;
+    $("#ioniqpowertext").text("⚡ " + formatPower(sp));
 
-    if ($("#ioniqrelay").text() === "on") {
-        $("#ioniqpowertext").text(
-            "⚡ " + (ip / 1000).toFixed(2).replace(".", ",") + " kW"
-        );
-    } else {
-        $("#ioniqpowertext").text("⚡ --");
-    }
 } // Ende updateStatus()
 
-//-----------------------------------------------------
+    } // Ende updateStatus()
+
+function formatPower(watt) {
+
+    if (watt < 1000)
+        return Math.round(watt) + " W";
+
+    return (watt / 1000).toFixed(2).replace(".", ",") + " kW";
+} // Ende function formatPower
+
+    //-----------------------------------------------------
 // Smart
 //-----------------------------------------------------
 
