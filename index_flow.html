@@ -506,26 +506,28 @@ function updateStatus() {
         "on",
         $("#ioniqrelay").text() === "on"
     );
+
+    // Smart
     let sp = parseFloat($("#smartpower").text()) || 0;
 
-$("#smartpowertext").text(
-    "⚡ " + (sp/1000).toFixed(2).replace(".", ",") + " kW"
-);
+    if ($("#smartrelay").text() === "on") {
+        $("#smartpowertext").text(
+            "⚡ " + (sp / 1000).toFixed(2).replace(".", ",") + " kW"
+        );
+    } else {
+        $("#smartpowertext").text("⚡ --");
+    }
 
-let ip = parseFloat($("#ioniqpower").text()) || 0;
+    // Ioniq
+    let ip = parseFloat($("#ioniqpower").text()) || 0;
 
-$("#ioniqpowertext").text(
-    "⚡ " + (ip/1000).toFixed(2).replace(".", ",") + " kW"
-);
-    // Smart-Leistung
-let sp = parseFloat($("#smartpower").text()) || 0;
-
-if ($("#smartrelay").text() === "on") {
-    $("#smartpowertext").text(
-        "⚡ " + (sp / 1000).toFixed(2).replace(".", ",") + " kW"
-    );
-} else {
-    $("#smartpowertext").text("⚡ --");
+    if ($("#ioniqrelay").text() === "on") {
+        $("#ioniqpowertext").text(
+            "⚡ " + (ip / 1000).toFixed(2).replace(".", ",") + " kW"
+        );
+    } else {
+        $("#ioniqpowertext").text("⚡ --");
+    }
 }
 
 // Ioniq-Leistung
