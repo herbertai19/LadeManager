@@ -25,10 +25,11 @@ body{
     font-weight:bold;
     color:#fff;
 }
-
 .dashboard{
     width:min(1500px,98vw);
     margin:auto;
+    padding:10px;
+    box-sizing:border-box;
 }
 
 .toprow{
@@ -50,6 +51,8 @@ body{
     padding:18px;
     box-shadow:0 0 18px rgba(0,0,0,.45);
     min-height:260px;
+    display:flex;
+    flex-direction:column;
 }
 
 .cardtitle{
@@ -128,8 +131,9 @@ body{
 .powertext{
     text-align:center;
     color:#ddd;
-    font-size:18px;
-    margin-top:8px;
+    font-size:22px;
+    margin-top:12px;
+    font-weight:bold;
 }
 
 </style>
@@ -226,7 +230,9 @@ body{
 <div class="btn" onclick="smart85()">85 %</div>
 <div class="btn" onclick="smart100()">100 %</div>
 </div>
-
+    
+<div style="flex:1"></div>
+    
 <div class="label">
 
 Rest:
