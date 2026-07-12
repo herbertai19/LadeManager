@@ -284,7 +284,7 @@ body{
 <div class="toprow">
 
     <div class="card">
-        <div class="cardtitle">. PV</div>
+        <div class="cardtitle">.. PV</div>
         <div class="value"
              data-type="label"
              data-device="SENEC"
@@ -495,45 +495,41 @@ body{
     </div>
 
     <!-- Einhell Ladegeräte --------------------------------------------------->
-   
-<div class="statusline">
+   <div class="card">
 
-    <div id="einhellstatus" class="statusdot"></div>
+    <div class="cardtitle">Einhell Ladegeräte</div>
 
-</div>
-
-<div id="einhellpowertext"
-     style="
-        text-align:center;
-        color:#ddd;
-        font-size:18px;
-        margin-top:8px;">
-    ⚡ --
-</div>
-
-<div class="buttons">
-
-    <div class="btn" onclick="einhellOn()">
-        EIN
+    <div class="statusline">
+        <div id="einhellstatus" class="statusdot"></div>
     </div>
 
-    <div class="btn" onclick="einhellOff()">
-        AUS
+    <div id="einhellpowertext"
+         style="
+            text-align:center;
+            color:#ddd;
+            font-size:18px;
+            margin-top:8px;">
+        ⚡ --
     </div>
-<span id="einhellpower"
-      style="display:none"
-      data-type="label"
-      data-device="Shelly3_Einhell"
-      data-get="power">
-</span>
 
-<span id="einhellrelay"
-      style="display:none"
-      data-type="label"
-      data-device="Shelly3_Einhell"
-      data-get="relay">
-</span>
-</div>
+    <div class="buttons">
+        <div class="btn" onclick="einhellOn()">EIN</div>
+        <div class="btn" onclick="einhellOff()">AUS</div>
+    </div>
+
+    <span id="einhellpower"
+          style="display:none"
+          data-type="label"
+          data-device="Shelly3_Einhell"
+          data-get="power">
+    </span>
+
+    <span id="einhellrelay"
+          style="display:none"
+          data-type="label"
+          data-device="Shelly3_Einhell"
+          data-get="relay">
+    </span>
 
 </div>
 
