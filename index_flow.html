@@ -159,6 +159,12 @@ body{
     margin-top:12px;
     font-weight:bold;
 }
+    .infoLine{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:6px 0;
+}
 
 /* ---------- Tablet (alle iPads) ---------- */
 
@@ -324,19 +330,23 @@ body{
     
 <div class="label">
 
-Rest:
-<span data-type="label"
-      data-device="LadeManager"
-      data-get="Smart_Rest_kWh"></span> kWh
+<div class="infoLine">
+    <span>Rest:</span>
+    <span>
+        <span data-type="label"
+              data-device="LadeManager"
+              data-get="Smart_Rest_kWh"></span> kWh
+    </span>
+</div>
 
-<br><br>
+<div class="infoLine">
+    <span>Ende:</span>
+    <span data-type="label"
+          data-device="LadeManager"
+          data-get="Smart_Ende"></span>
+</div>
 
-Ende:
-<span data-type="label"
-      data-device="LadeManager"
-      data-get="Smart_Ende"></span>
-
-<br><br>
+<br>
 
 Status
 <div id="smartstate" class="statustext">
@@ -409,19 +419,23 @@ Status
 
         <div class="label" style="text-align:center">
 
-            Rest:
-            <span data-type="label"
-                  data-device="LadeManager"
-                  data-get="Ioniq5_Rest_kWh"></span> kWh
+<div class="infoLine">
+    <span>Rest:</span>
+    <span>
+        <span data-type="label"
+              data-device="LadeManager"
+              data-get="Ioniq5_Rest_kWh"></span> kWh
+    </span>
+</div>
 
-            <br><br>
+<div class="infoLine">
+    <span>Ende:</span>
+    <span data-type="label"
+          data-device="LadeManager"
+          data-get="Ioniq5_Ende"></span>
+</div>
 
-            Ende:
-            <span data-type="label"
-                  data-device="LadeManager"
-                  data-get="Ioniq5_Ende"></span>
-
-            <br><br>
+<br>
 
             Status
 
