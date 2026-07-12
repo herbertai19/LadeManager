@@ -256,6 +256,21 @@ body{
     }
 
 }
+.statusline{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+
+    margin-top:10px;
+}
+
+.statusline span{
+
+    color:#ddd;
+    font-size:18px;
+}    
 </style>
 
 </head>
@@ -539,17 +554,22 @@ $("#ioniqslidervalue").text(ioniq + " %");
 }   // <<< Ende von updateBars()
     
 function updateStatus() {
+    
+const smartOn = $("#smartrelay").text() === "on";
 
-    $("#smartstatus").toggleClass(
-        "on",
-        $("#smartrelay").text() === "on"
-    );
+$("#smartstatus").toggleClass("on", smartOn);
 
-    $("#ioniqstatus").toggleClass(
-        "on",
-        $("#ioniqrelay").text() === "on"
-    );
+$("#smartstatustext").text(
+    smartOn ? "Lädt" : "Aus"
+);
 
+const ioniqOn = $("#ioniqrelay").text() === "on";
+
+$("#ioniqstatus").toggleClass("on", ioniqOn);
+
+$("#ioniqstatustext").text(
+    ioniqOn ? "Lädt" : "Aus"
+);
  // Smart
 let sp = parseFloat($("#smartpower").text()) || 0;
 
