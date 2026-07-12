@@ -166,6 +166,17 @@ body{
     margin:6px 0;
 }
 
+    .sliderbox{
+    margin:18px 10px 8px 10px;
+}
+
+.sliderValue{
+    text-align:center;
+    font-size:20px;
+    color:#bbb;
+    margin-bottom:10px;
+}
+
 /* ---------- Tablet (alle iPads) ---------- */
 
 @media (max-width:1366px){
@@ -299,7 +310,7 @@ body{
      data-unit="%">
 </div>
 
-<div style="margin:18px 10px 8px 10px;">
+<div class="sliderbox">
 
 <input
     id="smartslider"
@@ -313,12 +324,7 @@ body{
 
 </div>
 
-<div id="smartslidervalue"
-     style="text-align:center;
-            font-size:20px;
-            color:#bbb;
-            margin-bottom:10px;">
-50 %
+<div id="smartslidervalue" class="sliderValue">
 </div>
 
 <div class="buttons">
@@ -391,7 +397,7 @@ Status
      data-unit="%">
 </div>
 
-<div style="margin:18px 10px 8px 10px;">
+<div class="sliderbox">
 
     <input
         id="ioniqslider"
@@ -405,12 +411,7 @@ Status
 
 </div>
 
-<div id="ioniqslidervalue"
-     style="text-align:center;
-            font-size:20px;
-            color:#bbb;
-            margin-bottom:10px;">
-    50 %
+<div id="ioniqslidervalue" class="sliderValue">
 </div>
         <div class="buttons">
             <div class="btn" onclick="ioniq85()">85 %</div>
