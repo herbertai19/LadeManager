@@ -478,87 +478,111 @@ $("#ioniqslidervalue").text(ioniq + " %");
 }   // <<< Ende von updateBars()
     
 function updateStatus() {
-   // Smart Status
-let sp = parseFloat($("#smartpower").text()) || 0;
 
-if (sp > 50) {
+    //-------------------------------------------------
+    // Smart
+    //-------------------------------------------------
 
-    $("#smartstate")
-        .text("LÄDT")
-        .removeClass("off")
-        .addClass("on");
+    const smartRelay = $("#smartrelay").text() === "on";
+    const sp = parseFloat($("#smartpower").text()) || 0;
 
-} else {
+    if (!smartRelay) {
 
-    $("#smartstate")
-        .text("AUS")
-        .removeClass("on")
-        .addClass("off");
+        $("#smartstate")
+            .text("AUS")
+            .removeClass("on")
+            .addClass("off");
 
-}
+        $("#smartpowertext").text("⚡ --");
 
-// Hyundai Status
-let ip = parseFloat($("#ioniqpower").text()) || 0;
+    } else if (sp > 50) {
 
-if (ip > 50) {
+        $("#smartstate")
+            .text("LÄDT")
+            .removeClass("off")
+            .addClass("on");
 
-    $("#ioniqstate")
-        .text("LÄDT")
-        .removeClass("off")
-        .addClass("on");
+        $("#smartpowertext")
+            .text("⚡ " + formatPower(sp));
 
-} else {
+    } else {
 
-    $("#ioniqstate")
-        .text("AUS")
-        .removeClass("on")
-        .addClass("off");
+        $("#smartstate")
+            .text("FERTIG")
+            .removeClass("off")
+            .addClass("on");
 
-} 
+        $("#smartpowertext")
+            .text("⚡ 0 W");
 
- // Smart
+    }
 
-if ($("#smartrelay").text() === "on") {
-    $("#smartpowertext").text(
-        "⚡ " + (sp / 1000).toFixed(2).replace(".", ",") + " kW"
-    );
-} else {
-    $("#smartpowertext").text("⚡ --");
-}
-    
-// Ioniq
+    //-------------------------------------------------
+    // Hyundai
+    //-------------------------------------------------
 
-if ($("#ioniqrelay").text() === "on") {
-    $("#ioniqpowertext").text("⚡ " + formatPower(ip));
-} else {
-    $("#ioniqpowertext").text("⚡ --");
-}
-// Einhell
+    const ioniqRelay = $("#ioniqrelay").text() === "on";
+    const ip = parseFloat($("#ioniqpower").text()) || 0;
 
-const einhellOn = $("#einhellrelay").text() === "on";
-if (einhellOn) {
+    if (!ioniqRelay) {
 
-    $("#einhellstate")
-        .text("EIN")
-        .removeClass("off")
-        .addClass("on");
+        $("#ioniqstate")
+            .text("AUS")
+            .removeClass("on")
+            .addClass("off");
 
-} else {
+        $("#ioniqpowertext").text("⚡ --");
 
-    $("#einhellstate")
-        .text("AUS")
-        .removeClass("on")
-        .addClass("off");
+    } else if (ip > 50) {
 
-}
+        $("#ioniqstate")
+            .text("LÄDT")
+            .removeClass("off")
+            .addClass("on");
 
-let ep = parseFloat($("#einhellpower").text()) || 0;
+        $("#ioniqpowertext")
+            .text("⚡ " + formatPower(ip));
 
-if (einhellOn) {
-    $("#einhellpowertext").text("⚡ " + formatPower(ep));
-} else {
-    $("#einhellpowertext").text("⚡ --");
-}
+    } else {
+
+        $("#ioniqstate")
+            .text("FERTIG")
+            .removeClass("off")
+            .addClass("on");
+
+        $("#ioniqpowertext")
+            .text("⚡ 0 W");
+
+    }
+
+    //-------------------------------------------------
+    // Einhell
+    //-------------------------------------------------
+
+    const einhellRelay = $("#einhellrelay").text() === "on";
+    const ep = parseFloat($("#einhellpower").text()) || 0;
+
+    if (!einhellRelay) {
+
+        $("#einhellstate")
+            .text("AUS")
+            .removeClass("on")
+            .addClass("off");
+
+        $("#einhellpowertext").text("⚡ --");
+
+    } else {
+
+        $("#einhellstate")
+            .text("EIN")
+            .removeClass("off")
+            .addClass("on");
+
+        $("#einhellpowertext")
+            .text("⚡ " + formatPower(ep));
+
+    }
+
 } // Ende updateStatus()
 
 function formatPower(watt) {
