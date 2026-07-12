@@ -463,24 +463,45 @@ $("#ioniqslidervalue").text(ioniq + " %");
 }   // <<< Ende von updateBars()
     
 function updateStatus() {
-    
-const smartOn = $("#smartrelay").text() === "on";
-
-$("#smartstatus").toggleClass("on", smartOn);
-
-$("#smartstatustext").text(
-    smartOn ? "Lädt" : "Aus"
-);
-
-const ioniqOn = $("#ioniqrelay").text() === "on";
-
-$("#ioniqstatus").toggleClass("on", ioniqOn);
-
-$("#ioniqstatustext").text(
-    ioniqOn ? "Lädt" : "Aus"
-);
- // Smart
+   // Smart Status
 let sp = parseFloat($("#smartpower").text()) || 0;
+
+if (sp > 50) {
+
+    $("#smartstate")
+        .text("LÄDT")
+        .removeClass("off")
+        .addClass("on");
+
+} else {
+
+    $("#smartstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+}
+
+// Hyundai Status
+let ip = parseFloat($("#ioniqpower").text()) || 0;
+
+if (ip > 50) {
+
+    $("#ioniqstate")
+        .text("LÄDT")
+        .removeClass("off")
+        .addClass("on");
+
+} else {
+
+    $("#ioniqstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+} 
+
+ // Smart
 
 if ($("#smartrelay").text() === "on") {
     $("#smartpowertext").text(
@@ -491,7 +512,6 @@ if ($("#smartrelay").text() === "on") {
 }
     
 // Ioniq
-let ip = parseFloat($("#ioniqpower").text()) || 0;
 
 if ($("#ioniqrelay").text() === "on") {
     $("#ioniqpowertext").text("⚡ " + formatPower(ip));
