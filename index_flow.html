@@ -18,20 +18,22 @@ body{
     font-family:Arial,Helvetica,sans-serif;
 }
 
-.title{
-    text-align:center;
-    font-size:38px;
-    padding:20px;
-    font-weight:bold;
-    color:#fff;
-}
+
 .dashboard{
     width:min(1500px,98vw);
     margin:auto;
     padding:10px;
     box-sizing:border-box;
 }
-
+    
+.title{
+    text-align:center;
+    font-size:clamp(26px,3vw,38px);
+    padding:20px;
+    font-weight:bold;
+    color:#fff;
+}
+    
 .toprow{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -56,17 +58,17 @@ body{
 }
 
 .cardtitle{
-    font-size:28px;
+    font-size:clamp(20px,2vw,28px);
     text-align:center;
     margin-bottom:18px;
 }
-
-.value{
+    
+ .value{
     text-align:center;
-    font-size:58px;
+    font-size:clamp(36px,4vw,58px);
     color:#00ff99;
     font-weight:bold;
-}
+}   
 
 .label{
     font-size:20px;
@@ -157,7 +159,58 @@ body{
     margin-top:12px;
     font-weight:bold;
 }
+/* ---------- iPad / Tablet ---------- */
 
+@media (max-width: 1200px){
+
+    .dashboard{
+        width:99vw;
+    }
+
+    .toprow{
+        gap:12px;
+    }
+
+    .bottomrow{
+        gap:12px;
+    }
+
+    .card{
+        min-height:220px;
+        padding:14px;
+    }
+
+    .title{
+        font-size:30px;
+        padding:14px;
+    }
+
+    .cardtitle{
+        font-size:22px;
+    }
+
+    .value{
+        font-size:46px;
+    }
+
+    .label{
+        font-size:17px;
+    }
+
+    .btn{
+        font-size:20px;
+        padding:14px;
+    }
+
+    .powertext{
+        font-size:18px;
+    }
+
+    .statustext{
+        font-size:18px;
+    }
+
+}
 </style>
 
 </head>
