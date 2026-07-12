@@ -382,7 +382,7 @@ Status
 </div>
 
 <!-- Hyundai ----------------------------------------------------->
-    <!-- Hyundai --------------------------------------------------->
+
     <div class="card">
 
         <div class="cardtitle">Hyundai Ioniq5</div>
@@ -591,7 +591,19 @@ if (!smartRelay) {
 // Hyundai Status
 let ip = parseFloat($("#ioniqpower").text()) || 0;
 
-if (ip > 50) {
+// Hyundai Status
+
+const ioniqRelay = $("#ioniqrelay").text() === "on";
+const ip = parseFloat($("#ioniqpower").text()) || 0;
+
+if (!ioniqRelay) {
+
+    $("#ioniqstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+} else if (ip > 50) {
 
     $("#ioniqstate")
         .text("LÄDT")
@@ -601,11 +613,11 @@ if (ip > 50) {
 } else {
 
     $("#ioniqstate")
-        .text("AUS")
-        .removeClass("on")
-        .addClass("off");
+        .text("FERTIG")
+        .removeClass("off")
+        .addClass("on");
 
-} 
+}
 
  // Smart
 
