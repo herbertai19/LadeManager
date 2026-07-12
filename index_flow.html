@@ -161,14 +161,18 @@ body{
 }
 /* ---------- iPad / Tablet ---------- */
 
-@media (max-width: 1200px){
+/* ---------- Tablet (alle iPads) ---------- */
+
+@media (max-width:1366px){
 
     .dashboard{
         width:99vw;
+        padding:6px;
     }
 
     .toprow{
         gap:12px;
+        margin-bottom:18px;
     }
 
     .bottomrow{
@@ -176,38 +180,53 @@ body{
     }
 
     .card{
-        min-height:220px;
-        padding:14px;
+        min-height:200px;
+        padding:12px;
+        border-radius:14px;
     }
 
     .title{
-        font-size:30px;
-        padding:14px;
+        font-size:26px;
+        padding:12px;
     }
 
     .cardtitle{
-        font-size:22px;
+        font-size:20px;
+        margin-bottom:10px;
     }
 
     .value{
-        font-size:46px;
+        font-size:36px;
     }
 
     .label{
-        font-size:17px;
+        font-size:16px;
     }
 
     .btn{
-        font-size:20px;
-        padding:14px;
+        font-size:18px;
+        padding:12px;
+        border-radius:10px;
     }
 
     .powertext{
-        font-size:18px;
+        font-size:16px;
     }
 
     .statustext{
         font-size:18px;
+    }
+
+    .bar{
+        height:16px;
+    }
+
+    .barfill{
+        height:16px;
+    }
+
+    input[type="range"]{
+        height:18px;
     }
 
 }
