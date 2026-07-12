@@ -618,10 +618,8 @@ if (!ioniqRelay) {
 
  // Smart
 
-if ($("#smartrelay").text() === "on") {
-    $("#smartpowertext").text(
-        "⚡ " + (sp / 1000).toFixed(2).replace(".", ",") + " kW"
-    );
+if (smartRelay) {
+    $("#smartpowertext").text("⚡ " + formatPower(sp));
 } else {
     $("#smartpowertext").text("⚡ --");
 }
