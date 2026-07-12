@@ -560,10 +560,19 @@ $("#ioniqslidervalue").text(ioniq + " %");
 }   // <<< Ende von updateBars()
     
 function updateStatus() {
-   // Smart Status
-let sp = parseFloat($("#smartpower").text()) || 0;
+// Smart Status
 
-if (sp > 50) {
+const smartRelay = $("#smartrelay").text() === "on";
+const sp = parseFloat($("#smartpower").text()) || 0;
+
+if (!smartRelay) {
+
+    $("#smartstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+} else if (sp > 50) {
 
     $("#smartstate")
         .text("LÄDT")
@@ -573,9 +582,9 @@ if (sp > 50) {
 } else {
 
     $("#smartstate")
-        .text("AUS")
-        .removeClass("on")
-        .addClass("off");
+        .text("FERTIG")
+        .removeClass("off")
+        .addClass("on");
 
 }
 
