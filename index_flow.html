@@ -128,6 +128,28 @@ body{
     background:#43a047;
 }
 
+.statustext{
+
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin-top:8px;
+    margin-bottom:8px;
+
+}
+
+.statustext.on{
+
+    color:#2ecc71;
+
+}
+
+.statustext.off{
+
+    color:#e74c3c;
+
+}
+
 .powertext{
     text-align:center;
     color:#ddd;
@@ -372,17 +394,29 @@ Status
         <div class="btn" onclick="einhellOff()">AUS</div>
     </div>
 
-    <div class="label">
+<div class="label">
 
-        Status
+    Status
 
-        <div id="einhellstatus" class="statusdot"></div>
+    <div id="einhellstatus" class="statusdot"></div>
 
-        <div id="einhellpowertext" class="powertext">
-            ⚡ --
-        </div>
-
+    <div id="einhellstate" class="statustext">
+        AUS
     </div>
+
+    <div id="einhellpowertext" class="powertext">
+        &#9889; --
+    </div>
+
+    <br>
+
+    Gesamt:
+
+    <span data-type="label"
+          data-device="Shelly3_Einhell"
+          data-get="energy"></span> kWh
+
+</div>
 
     <span id="einhellpower"
           style="display:none"
@@ -476,7 +510,21 @@ if ($("#ioniqrelay").text() === "on") {
 // Einhell
 
 const einhellOn = $("#einhellrelay").text() === "on";
+if (einhellOn) {
 
+    $("#einhellstate")
+        .text("EIN")
+        .removeClass("off")
+        .addClass("on");
+
+} else {
+
+    $("#einhellstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+}
 $("#einhellstatus").toggleClass("on", einhellOn);
 
 let ep = parseFloat($("#einhellpower").text()) || 0;
