@@ -408,7 +408,7 @@ Status
     <div id="einhellpowertext" class="powertext">
         &#9889; --
     </div>
-
+    
    <br>
 
 <div style="text-align:center;color:#bbb;font-size:16px;">
@@ -421,9 +421,31 @@ Status
           data-get="energy_round"></span> kWh
 </div>
 
-</div>
+...
+<div class="label">
+
+    ...
+    Gesamt
+    ...
 
 </div>
+
+<span id="einhellpower"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly3_Einhell"
+      data-get="power">
+</span>
+
+<span id="einhellrelay"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly3_Einhell"
+      data-get="relay">
+</span>
+
+</div>   <!-- Ende Einhell-Karte -->
+    
 <script>
 var smart=50;
 var ioniq=50;
@@ -613,10 +635,13 @@ function setIoniqSOC(v){
         }
     );
 }
-  function einhellOn(){
+
+function einhellOn(){
 
     $.get("/fhem?XHR=1&cmd=" +
         encodeURIComponent("set Shelly3_Einhell on"));
+
+    setTimeout(updateStatus,500);
 
 }
 
