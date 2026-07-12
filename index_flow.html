@@ -38,7 +38,7 @@ body{
 .toprow{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:20px;
+    gap:14px;
     margin-bottom:30px;
 }
 
@@ -47,7 +47,7 @@ body{
 .bottomrow{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:20px;
+    gap:14px;
 }
 
 /*************** Karten ****************/
@@ -56,9 +56,9 @@ body{
 
     background:#1b1b1b;
 
-    border-radius:18px;
+    border-radius:14px;
 
-    padding:18px;
+    padding:14px;
 
     box-shadow:0 0 18px rgba(0,0,0,.45);
 
@@ -213,7 +213,48 @@ body{
     color:#ffb74d;
 
 }
+/***************************************************
+ Tablet
+****************************************************/
 
+@media (max-width: 1300px) {
+    .bar{
+        height:18px;
+    }
+
+    .barfill{
+        height:18px;
+    }
+        input[type=range]{
+        height:18px;
+    }
+
+    .title{
+        font-size:30px;
+    }
+
+    .cardtitle{
+        font-size:22px;
+    }
+
+    .value{
+        font-size:46px;
+    }
+
+    .label{
+        font-size:17px;
+    }
+
+    .buttons{
+        gap:10px;
+    }
+
+    .btn{
+        font-size:18px;
+        padding:8px 14px;
+    }
+
+}
 </style>
 
 </head>
