@@ -92,8 +92,7 @@ sub CalcCharge
 sub StartCar
 {
     my ($car,$soc,$ziel) = @_;
-    Log 1, "DEBUG StartCar: car=$car soc=$soc ziel=$ziel";
-
+Log 1, "StartCar: car=$car soc=$soc ziel=$ziel caller=".(caller(1))[3];
     return if(!defined($Cars{$car}));
 
     my $akku     = $Cars{$car}{Akku};
@@ -106,7 +105,7 @@ sub StartCar
 if($sek == 0)
 {
     fhem("set $shelly off");
-
+    fhem("setreading LadeManager ${car}_Ziel $ziel");
     fhem("setreading LadeManager ${car}_Status Fertig");
     fhem("setreading LadeManager ${car}_Rest_kWh 0");
     fhem("setreading LadeManager ${car}_Netz_kWh 0");
