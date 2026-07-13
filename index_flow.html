@@ -821,14 +821,32 @@ function einhellOff(){
 
 function smartPV(){
 
-    $("#smartpvbtn").toggleClass("active");
+    const btn = $("#smartpvbtn");
+    const on = btn.hasClass("active");
 
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent(
+            'setreading LadeManager Smart_PV ' + (on ? "off" : "on")
+        )
+    );
+
+    btn.toggleClass("active");
 }
 
 function ioniqPV(){
 
-    $("#ioniqpvbtn").toggleClass("active");
+    const btn = $("#ioniqpvbtn");
+    const on = btn.hasClass("active");
 
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent(
+            'setreading LadeManager Ioniq_PV ' + (on ? "off" : "on")
+        )
+    );
+
+    btn.toggleClass("active");
 }
     
 $(function () {
