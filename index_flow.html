@@ -671,10 +671,17 @@ if ($('[data-device="LadeManager"][data-get="Ioniq_PV"]').text().trim() === "on"
     $("#ioniqpvbtn").removeClass("active");
 }
     // Smart Ziel
+    console.log(
+    "Smart_Ziel:",
+    $('[data-device="LadeManager"][data-get="Smart_Ziel"]').text()
+);
 const smartZiel =
     $('[data-device="LadeManager"][data-get="Smart_Ziel"]')
     .text().trim();
-
+console.log(
+    "Ioniq_Ziel:",
+    $('[data-device="LadeManager"][data-get="Ioniq5_Ziel"]').text()
+);
 $("#smart85btn").toggleClass("selected", smartZiel === "85");
 $("#smart100btn").toggleClass("selected", smartZiel === "100");
 
