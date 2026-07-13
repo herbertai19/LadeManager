@@ -371,7 +371,7 @@ body{
 <div class="buttons">
     <div class="btn" onclick="smart85()">85 %</div>
     <div class="btn" onclick="smart100()">100 %</div>
-    <div class="btn pvbtn" onclick="smartPV()">☀ PV</div>
+    <div class="btn pvbtn" id="smartpvbtn" onclick="smartPV()">☀ PV</div>
 </div>
     
 <div style="flex:1"></div>
@@ -455,10 +455,12 @@ Status
 
 <div id="ioniqslidervalue" class="sliderValue">
 </div>
-        <div class="buttons">
-            <div class="btn" onclick="ioniq85()">85 %</div>
-            <div class="btn" onclick="ioniq100()">100 %</div>
-        </div>
+
+     <div class="buttons">
+    <div class="btn" onclick="ioniq85()">85 %</div>
+    <div class="btn" onclick="ioniq100()">100 %</div>
+    <div class="btn pvbtn" id="ioniqpvbtn" onclick="ioniqPV()">☀ PV</div>
+</div>   
 
         <div class="label" style="text-align:center">
 
@@ -819,7 +821,13 @@ function einhellOff(){
 
 function smartPV(){
 
-    $(".pvbtn").toggleClass("active");
+    $("#smartpvbtn").toggleClass("active");
+
+}
+
+function ioniqPV(){
+
+    $("#ioniqpvbtn").toggleClass("active");
 
 }
     
