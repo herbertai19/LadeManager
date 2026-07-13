@@ -711,7 +711,6 @@ if (einhellOn) {
     $("#einhellpowertext").text("⚡ --");
 }
 
-    console.log("updateStatus läuft");
     const now = new Date();
 
 $("#lastupdate").text(
@@ -721,7 +720,6 @@ $("#lastupdate").text(
         second: "2-digit"
     })
 );
-   console.log($("#lastupdate").text()); 
 } // Ende updateStatus()
 
 function formatPower(watt) {
