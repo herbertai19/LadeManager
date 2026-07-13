@@ -243,7 +243,7 @@ body{
 
 }
 
-.statusbar{
+ .statusbar{
     margin-top:14px;
     padding:8px 14px;
     border-top:1px solid #333;
@@ -251,11 +251,16 @@ body{
     font-size:14px;
 
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr;
-    gap:12px;
+    grid-template-columns:220px 140px 140px 140px;
+    justify-content:space-between;
     align-items:center;
-}    
+} 
 
+    .statusbar #lastupdate{
+    color:#00ff99;
+    font-weight:bold;
+}
+    
 </style>
 
 </head>
@@ -539,8 +544,7 @@ Status
 <div class="statusbar">
 
     <div>
-        Aktualisiert:
-        <span id="lastupdate">--:--:--</span>
+<div id="lastupdate">--:--:--</div>
     </div>
 
     <div>
@@ -697,6 +701,15 @@ if (einhellOn) {
 } else {
     $("#einhellpowertext").text("⚡ --");
 }
+    const now = new Date();
+
+$("#lastupdate").text(
+    now.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    })
+);
 } // Ende updateStatus()
 
 function formatPower(watt) {
