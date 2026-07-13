@@ -93,6 +93,8 @@ sub StartCar
 {
     my ($car,$soc,$ziel) = @_;
 Log 1, "StartCar: car=$car soc=$soc ziel=$ziel caller=".(caller(1))[3];
+fhem("setreading LadeManager ${car}_Ziel $ziel");
+Log 1, "Nach setreading: ".ReadingsVal("LadeManager","${car}_Ziel","?");
     return if(!defined($Cars{$car}));
 
     my $akku     = $Cars{$car}{Akku};
