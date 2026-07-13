@@ -351,6 +351,13 @@ body{
      data-unit="%">
 </div>
 
+    <div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Smart_PV"
+     style="display:none">
+</div>
+ 
 <div class="sliderbox">
 
 <input
@@ -438,6 +445,13 @@ Status
      data-get="Ioniq5_SOC"
      data-unit="%">
 </div>
+
+    <div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Ioniq_PV"
+     style="display:none">
+</div>    
 
 <div class="sliderbox">
 
@@ -623,6 +637,19 @@ if (!$("#ioniqslider").is(":focus")) {
 }
 
 $("#ioniqslidervalue").text(ioniq + " %");
+    // PV-Modus Smart
+if ($('[data-device="LadeManager"][data-get="Smart_PV"]').text().trim() === "on") {
+    $("#smartpvbtn").addClass("active");
+} else {
+    $("#smartpvbtn").removeClass("active");
+}
+
+// PV-Modus Ioniq
+if ($('[data-device="LadeManager"][data-get="Ioniq_PV"]').text().trim() === "on") {
+    $("#ioniqpvbtn").addClass("active");
+} else {
+    $("#ioniqpvbtn").removeClass("active");
+}
 }   // <<< Ende von updateBars()
     
 function updateStatus() {
