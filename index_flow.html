@@ -245,31 +245,30 @@ body{
 
 .statusbar{
     margin-top:14px;
-    padding:8px 14px;
+    padding:8px 20px;
     border-top:1px solid #333;
 
     display:flex;
     align-items:center;
-    justify-content:space-between;
 
     color:#aaa;
     font-size:14px;
 }
 
-.statusbar > div{
-    flex:1;
-    text-align:center;
+.statusbar > div:first-child{
+    flex:0 0 110px;
+    text-align:left;
 }
 
-.statusbar > div:first-child{
-    text-align:left;
-    flex:0 0 120px;
+.statusbar > div:not(:first-child){
+    flex:1;
+    text-align:center;
 }
 
 .statusbar #lastupdate{
     color:#00ff99;
     font-weight:bold;
-}
+    font-size:16px;
 }
     
 </style>
