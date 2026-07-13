@@ -114,6 +114,16 @@ body{
     cursor:pointer;
 }
 
+.pvbtn{
+    flex:0.8;
+    background:#555;
+}
+
+.pvbtn.active{
+    background:#2e7d32;
+    color:#fff;
+}
+
 .btn:hover{
     background:#29a0ff;
 }
@@ -359,8 +369,9 @@ body{
 </div>
 
 <div class="buttons">
-<div class="btn" onclick="smart85()">85 %</div>
-<div class="btn" onclick="smart100()">100 %</div>
+    <div class="btn" onclick="smart85()">85 %</div>
+    <div class="btn" onclick="smart100()">100 %</div>
+    <div class="btn pvbtn" onclick="smartPV()">☀ PV</div>
 </div>
     
 <div style="flex:1"></div>
@@ -805,6 +816,13 @@ function einhellOff(){
         encodeURIComponent("set Shelly3_Einhell off"));
 
 }  
+
+function smartPV(){
+
+    $(".pvbtn").toggleClass("active");
+
+}
+    
 $(function () {
 
     updateBars();
