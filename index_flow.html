@@ -242,6 +242,18 @@ body{
     }
 
 }
+    .statusbar{
+    margin-top:14px;
+    padding:8px 14px;
+    border-top:1px solid #333;
+    color:#aaa;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
 </style>
 
 </head>
@@ -520,7 +532,33 @@ Status
 </span>
 
 </div>   <!-- Ende Einhell-Karte -->
-    
+    </div>   <!-- Ende Einhell-Karte -->
+
+<div class="statusbar">
+
+    <div>
+        Aktualisiert:
+        <span id="lastupdate">--:--:--</span>
+    </div>
+
+    <div>
+        Smart:
+        <span id="smartcomm">OK</span>
+    </div>
+
+    <div>
+        Ioniq:
+        <span id="ioniqcomm">OK</span>
+    </div>
+
+    <div>
+        Einhell:
+        <span id="einhellcomm">OK</span>
+    </div>
+
+</div>
+
+<script>
 <script>
 var smart=50;
 var ioniq=50;
