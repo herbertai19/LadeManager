@@ -243,25 +243,32 @@ body{
 
 }
 
- .statusbar{
+.statusbar{
     margin-top:14px;
     padding:8px 14px;
     border-top:1px solid #333;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
     color:#aaa;
     font-size:14px;
+}
 
-    display:grid;
-    grid-template-columns:220px 140px 140px 140px;
-    justify-content:space-between;
-    align-items:center;
-} 
+.statusbar > div{
+    flex:1;
+    text-align:center;
+}
+
+.statusbar > div:first-child{
+    text-align:left;
+    flex:0 0 120px;
+}
 
 .statusbar #lastupdate{
     color:#00ff99;
     font-weight:bold;
-    font-size:22px;
-    width:180px;
-    white-space:nowrap;
 }
 }
     
