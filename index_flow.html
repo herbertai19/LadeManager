@@ -125,9 +125,12 @@ body{
 }
 
 .btn.selected{
-    background:#0d47a1;
-    box-shadow:0 0 12px rgba(0,180,255,.8);
+    background:#0b4ea2;
+    border:2px solid #8fd3ff;
+    color:#fff;
+    box-sizing:border-box;
 }
+    
 }
 
 .btn:hover{
@@ -671,27 +674,25 @@ if ($('[data-device="LadeManager"][data-get="Ioniq_PV"]').text().trim() === "on"
     $("#ioniqpvbtn").removeClass("active");
 }
     // Smart Ziel
-    console.log(
-    "Smart_Ziel:",
-    $('[data-device="LadeManager"][data-get="Smart_Ziel"]').text()
-);
 const smartZiel =
     $('[data-device="LadeManager"][data-get="Smart_Ziel"]')
     .text().trim();
-console.log(
-    "Ioniq_Ziel:",
-    $('[data-device="LadeManager"][data-get="Ioniq5_Ziel"]').text()
-);
-$("#smart85btn").toggleClass("selected", smartZiel === "85");
-$("#smart100btn").toggleClass("selected", smartZiel === "100");
+
+if (smartZiel !== "") {
+    $("#smart85btn").toggleClass("selected", smartZiel === "85");
+    $("#smart100btn").toggleClass("selected", smartZiel === "100");
+}
 
 // Ioniq Ziel
 const ioniqZiel =
     $('[data-device="LadeManager"][data-get="Ioniq5_Ziel"]')
     .text().trim();
 
-$("#ioniq85btn").toggleClass("selected", ioniqZiel === "85");
-$("#ioniq100btn").toggleClass("selected", ioniqZiel === "100");
+if (ioniqZiel !== "") {
+    $("#ioniq85btn").toggleClass("selected", ioniqZiel === "85");
+    $("#ioniq100btn").toggleClass("selected", ioniqZiel === "100");
+}
+    
 }   // <<< Ende von updateBars()
     
 function updateStatus() {
@@ -930,14 +931,16 @@ function ioniqPV(){
     btn.toggleClass("active");
 }
     
-$(function () {
+    $(function () {
 
     updateBars();
     updateStatus();
 
-    setInterval(updateStatus, 250);
+    setInterval(updateStatus, 500);
+    setInterval(updateBars,1000);
 
 });
+
 </script>
 </body>
 </html>
