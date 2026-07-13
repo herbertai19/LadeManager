@@ -124,6 +124,11 @@ body{
     color:#fff;
 }
 
+    .btn.selected{
+    background:#3b8cff;
+    color:#fff;
+}
+
 .btn:hover{
     background:#29a0ff;
 }
@@ -357,6 +362,13 @@ body{
      data-get="Smart_PV"
      style="display:none">
 </div>
+
+    <div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Smart_Ziel"
+     style="display:none">
+</div>
  
 <div class="sliderbox">
 
@@ -376,8 +388,8 @@ body{
 </div>
 
 <div class="buttons">
-    <div class="btn" onclick="smart85()">85 %</div>
-    <div class="btn" onclick="smart100()">100 %</div>
+    <div class="btn" id="smart85btn" onclick="smart85()">85 %</div>
+    <div class="btn" id="smart100btn" onclick="smart100()">100 %</div>
     <div class="btn pvbtn" id="smartpvbtn" onclick="smartPV()">☀ PV</div>
 </div>
     
@@ -453,6 +465,13 @@ Status
      style="display:none">
 </div>    
 
+    <div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Ioniq5_Ziel"
+     style="display:none">
+</div>
+        
 <div class="sliderbox">
 
     <input
@@ -471,9 +490,9 @@ Status
 </div>
 
      <div class="buttons">
-    <div class="btn" onclick="ioniq85()">85 %</div>
-    <div class="btn" onclick="ioniq100()">100 %</div>
-    <div class="btn pvbtn" id="ioniqpvbtn" onclick="ioniqPV()">☀ PV</div>
+     <div class="btn" id="ioniq85btn" onclick="ioniq85()">85 %</div>
+     <div class="btn" id="ioniq100btn" onclick="ioniq100()">100 %</div>
+     <div class="btn pvbtn" id="ioniqpvbtn" onclick="ioniqPV()">☀ PV</div>
 </div>   
 
         <div class="label" style="text-align:center">
@@ -650,6 +669,21 @@ if ($('[data-device="LadeManager"][data-get="Ioniq_PV"]').text().trim() === "on"
 } else {
     $("#ioniqpvbtn").removeClass("active");
 }
+    // Smart Ziel
+const smartZiel =
+    $('[data-device="LadeManager"][data-get="Smart_Ziel"]')
+    .text().trim();
+
+$("#smart85btn").toggleClass("selected", smartZiel === "85");
+$("#smart100btn").toggleClass("selected", smartZiel === "100");
+
+// Ioniq Ziel
+const ioniqZiel =
+    $('[data-device="LadeManager"][data-get="Ioniq5_Ziel"]')
+    .text().trim();
+
+$("#ioniq85btn").toggleClass("selected", ioniqZiel === "85");
+$("#ioniq100btn").toggleClass("selected", ioniqZiel === "100");
 }   // <<< Ende von updateBars()
     
 function updateStatus() {
