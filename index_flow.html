@@ -818,12 +818,17 @@ function formatPower(watt) {
 
 function smart85(){
 
+    $("#smart85btn").addClass("selected");
+    $("#smart100btn").removeClass("selected");
+
     $.get("/fhem?XHR=1&cmd="+
         encodeURIComponent("{Smart85();;}"));
 
 }
+    function smart100(){
 
-function smart100(){
+    $("#smart100btn").addClass("selected");
+    $("#smart85btn").removeClass("selected");
 
     $.get("/fhem?XHR=1&cmd="+
         encodeURIComponent("{Smart100();;}"));
@@ -836,6 +841,9 @@ function smart100(){
 
 function ioniq85(){
 
+    $("#ioniq85btn").addClass("selected");
+    $("#ioniq100btn").removeClass("selected");
+
     $.get("/fhem?XHR=1&cmd="+
         encodeURIComponent("{Ioniq85();;}"));
 
@@ -843,10 +851,14 @@ function ioniq85(){
 
 function ioniq100(){
 
+    $("#ioniq100btn").addClass("selected");
+    $("#ioniq85btn").removeClass("selected");
+
     $.get("/fhem?XHR=1&cmd="+
         encodeURIComponent("{Ioniq100();;}"));
 
 }
+
 //-----------------------------------------------------
 // Slider
 //-----------------------------------------------------
