@@ -336,7 +336,7 @@ body{
 </div>
 
 <div class="bottomrow">
-
+<div class="btn" onclick="testPV()">Test PV</div>
 <!-- Smart ----------------------------------------------------->
 <div class="card">
 
@@ -915,6 +915,12 @@ function ioniqPV(){
     );
 
     btn.toggleClass("active");
+}
+
+function testPV()
+{
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("{CheckPV();;}"));
 }
     
     $(function () {
