@@ -133,7 +133,15 @@ sub NeedsCharge
 {
     my ($car) = @_;
 
-    my $soc  = ReadingsNum(
+    my $aktiv = ReadingsVal(
+        "LadeManager",
+        "${car}_Aktiv",
+        "off"
+    );
+
+    return 0 unless ($aktiv eq "on");
+
+    my $soc = ReadingsNum(
         "LadeManager",
         "${car}_SOC",
         0
@@ -202,6 +210,10 @@ sub StartCar
     if($sek == 0)
     {
         Log 1,"LadeManager: $car bereits auf Ziel.";
+        fhem("setreading LadeManager ${car}_Aktiv off");
+        fhem("setreading LadeManager ${car}_Status Fertig");
+        fhem("setreading LadeManager ${car}_State ${ziel}%->$ziel% (fertig)");
+        
         return;
     }
 
@@ -215,6 +227,7 @@ sub StartCar
 
     fhem("setreading LadeManager ${car}_SOC $soc");
     fhem("setreading LadeManager ${car}_Ziel $ziel");
+    fhem("setreading LadeManager ${car}_Aktiv on");
     fhem("setreading LadeManager ${car}_Rest_kWh $rest");
     fhem("setreading LadeManager ${car}_Netz_kWh $netz");
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
@@ -227,6 +240,24 @@ sub StartCar
 
     fhem("set $shelly on-for-timer $sek");
 }
+
+############################################################
+# StopCar
+############################################################
+
+sub StopCar
+{
+    my ($car)=@_;
+
+    my $shelly = $Cars{$car}{Shelly};
+
+    fhem("set $shelly off");
+
+    fhem("setreading LadeManager ${car}_Status WARTET");
+
+    Log 1,"StopCar: $car";
+}
+
 sub StartSmart
 {
     my ($soc,$ziel)=@_;
@@ -355,17 +386,39 @@ sub CheckPV
 
         Log 1,"CheckPV: Kandidat = $car";
 
-        if($netz <= $Config{PV_Start})
-        {
-            Log 1,"CheckPV: PV reicht zum Laden";
-        }
-        else
-        {
-            Log 1,"CheckPV: Noch nicht genug PV";
-        }
+if($netz <= $Config{PV_Start})
+{
+    StartPV($car);
+}
+elsif($netz >= $Config{PV_Stop})
+{
+    StopPV($car);
+}
 
         last;
     }
+}
+
+############################################################
+# Start PV-Ladung
+############################################################
+
+sub StartPV
+{
+    my ($car) = @_;
+
+    Log 1,"StartPV: $car";
+}
+
+############################################################
+# Stop PV-Ladung
+############################################################
+
+sub StopPV
+{
+    my ($car) = @_;
+
+    Log 1,"StopPV: $car";
 }
 
 1;
