@@ -353,13 +353,13 @@ body{
 <div id="smartbar" class="barfill"></div>
 </div>
 
-<div class="value"
+<div id="smartsoc"
+     class="value"
      data-type="label"
      data-device="LadeManager"
      data-get="Smart_SOC"
      data-unit="%">
 </div>
-
     <div
      data-type="label"
      data-device="LadeManager"
@@ -384,7 +384,7 @@ body{
     max="100"
     value="50"
     style="width:100%;"
-    oninput="$('#smartslidervalue').text(this.value+' %');"
+oninput="$('#smartsoc').text(this.value+'%');"
     onchange="setSmartSOC(this.value);">
 
 </div>
@@ -456,13 +456,14 @@ Status
     <div id="ioniqbar" class="barfill"></div>
 </div>
 
-<div class="value"
+
+<div id="ioniqsoc"
+     class="value"
      data-type="label"
      data-device="LadeManager"
      data-get="Ioniq5_SOC"
      data-unit="%">
 </div>
-
     <div
      data-type="label"
      data-device="LadeManager"
@@ -487,7 +488,7 @@ Status
         max="100"
         value="50"
         style="width:100%;"
-        oninput="$('#ioniqslidervalue').text(this.value+' %');"
+oninput="$('#ioniqsoc').text(this.value+'%');"
         onchange="setIoniqSOC(this.value);">
 
 </div>
