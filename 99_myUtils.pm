@@ -374,42 +374,13 @@ sub CheckPV
 {
     my $netz = GetNetPower();
 
-    Log 1, sprintf("CheckPV: Netz %.0f W",$netz);
-
-    foreach my $car (
-        sort {
-            $Cars{$a}{Priority} <=> $Cars{$b}{Priority}
-        } keys %Cars)
+    if($netz <= -500)
     {
-        next unless IsPVEnabled($car);
-        next unless NeedsCharge($car);
-
-        Log 1,"CheckPV: Kandidat = $car";
-
-        my $soc = ReadingsNum(
-            "LadeManager",
-            "${car}_SOC",
-            0
-        );
-
-        my $ziel = ReadingsNum(
-            "LadeManager",
-            "${car}_Ziel",
-            100
-        );
-
-        if($netz <= $Config{PV_Start})
-        {
-            Log 1,"CheckPV: Starte $car";
-            StartCar($car,$soc,$ziel);
-        }
-        elsif($netz >= $Config{PV_Stop})
-        {
-            Log 1,"CheckPV: Stoppe $car";
-            StopCar($car);
-        }
-
-        last;
+        TestPV();
+    }
+    else
+    {
+        TestStop();
     }
 }
 
@@ -433,6 +404,19 @@ sub StopPV
     my ($car) = @_;
 
     Log 1,"StopPV: $car";
+}
+
+sub TestPV
+{
+    my $soc  = ReadingsNum("LadeManager","Smart_SOC",0);
+    my $ziel = ReadingsNum("LadeManager","Smart_Ziel",85);
+
+    StartCar("Smart",$soc,$ziel);
+}
+
+sub TestStop
+{
+    StopCar("Smart");
 }
 
 1;
