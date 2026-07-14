@@ -373,15 +373,43 @@ sub IoniqMinus {
 sub CheckPV
 {
     Log 1,"*** CheckPV wurde aufgerufen ***";
+
     my $netz = GetNetPower();
-Log 1,"CheckPV: Netz = $netz W";
-    if($netz <= -500)
+
+    Log 1,"CheckPV: Netz = $netz W";
+
+    foreach my $car (
+        sort {
+            $Cars{$a}{Priority} <=> $Cars{$b}{Priority}
+        } keys %Cars)
     {
-        TestPV();
-    }
-    else
-    {
-        TestStop();
+        next unless IsPVEnabled($car);
+        next unless NeedsCharge($car);
+
+        my $soc = ReadingsNum(
+            "LadeManager",
+            "${car}_SOC",
+            0
+        );
+
+        my $ziel = ReadingsNum(
+            "LadeManager",
+            "${car}_Ziel",
+            100
+        );
+
+        if($netz <= $Config{PV_Start})
+        {
+            Log 1,"CheckPV: Starte $car";
+            StartCar($car,$soc,$ziel);
+        }
+        elsif($netz >= $Config{PV_Stop})
+        {
+            Log 1,"CheckPV: Stoppe $car";
+            StopCar($car);
+        }
+
+        last;
     }
 }
 
