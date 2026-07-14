@@ -372,6 +372,7 @@ sub IoniqMinus {
 
 sub CheckPV
 {
+    Log 1,"*** CheckPV wurde aufgerufen ***";
     my $netz = GetNetPower();
 
     if($netz <= -500)
