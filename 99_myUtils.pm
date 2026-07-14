@@ -36,12 +36,14 @@ Smart => {
     Leistung  => 2.3,
     Shelly    => "Shelly1_Smart",
     Priority  => 1,
+    PVReading => "Smart_PV",
 },
 Ioniq5 => {
     Akku      => 77.4,
     Leistung  => 3.7,
     Shelly    => "Shelly2_Ioniq5",
     Priority  => 2,
+    PVReading => "Ioniq_PV",
 }
 );
 ############################################################
@@ -117,10 +119,10 @@ sub IsPVEnabled
     my ($car) = @_;
 
     return ReadingsVal(
-        "LadeManager",
-        "${car}_PV",
-        "off"
-    ) eq "on";
+    "LadeManager",
+    $Cars{$car}{PVReading},
+    "off"
+) eq "on";
 }
 
 ############################################################
