@@ -355,6 +355,15 @@ sub CheckPV
 
         Log 1,"CheckPV: Kandidat = $car";
 
+        if($netz <= $Config{PV_Start})
+        {
+            Log 1,"CheckPV: PV reicht zum Laden";
+        }
+        else
+        {
+            Log 1,"CheckPV: Noch nicht genug PV";
+        }
+
         last;
     }
 }
