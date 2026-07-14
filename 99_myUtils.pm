@@ -149,6 +149,27 @@ sub NeedsCharge
 }
 
 ############################################################
+# Nächstes Fahrzeug für PV-Ladung bestimmen
+############################################################
+
+sub GetNextPVCar
+{
+    foreach my $car (
+        sort {
+            $Cars{$a}{Priority} <=> $Cars{$b}{Priority}
+        } keys %Cars
+    )
+    {
+        next unless IsPVEnabled($car);
+        next unless NeedsCharge($car);
+
+        return $car;
+    }
+
+    return undef;
+}
+
+############################################################
 # Fahrzeug angeschlossen?
 ############################################################
 
