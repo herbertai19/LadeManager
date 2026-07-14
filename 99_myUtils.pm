@@ -343,26 +343,19 @@ sub CheckPV
 {
     my $netz = GetNetPower();
 
-    Log 1, sprintf(
-        "PV-Check: Netz=%.0f W",
-        $netz
-    );
+    Log 1, sprintf("CheckPV: Netz %.0f W",$netz);
 
-    foreach my $car (sort {
+    foreach my $car (
+        sort {
             $Cars{$a}{Priority} <=> $Cars{$b}{Priority}
         } keys %Cars)
     {
+        next unless IsPVEnabled($car);
+        next unless NeedsCharge($car);
 
-        my $pv = IsPVEnabled($car);
-        my $ok = NeedsCharge($car);
+        Log 1,"CheckPV: Kandidat = $car";
 
-        Log 1,
-            sprintf(
-                "%s: PV=%s Bedarf=%s",
-                $car,
-                $pv ? "on" : "off",
-                $ok ? "ja" : "nein"
-            );
+        last;
     }
 }
 
