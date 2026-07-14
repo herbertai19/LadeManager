@@ -386,14 +386,28 @@ sub CheckPV
 
         Log 1,"CheckPV: Kandidat = $car";
 
-if($netz <= $Config{PV_Start})
-{
-    StartPV($car);
-}
-elsif($netz >= $Config{PV_Stop})
-{
-    StopPV($car);
-}
+        my $soc = ReadingsNum(
+            "LadeManager",
+            "${car}_SOC",
+            0
+        );
+
+        my $ziel = ReadingsNum(
+            "LadeManager",
+            "${car}_Ziel",
+            100
+        );
+
+        if($netz <= $Config{PV_Start})
+        {
+            Log 1,"CheckPV: Starte $car";
+            StartCar($car,$soc,$ziel);
+        }
+        elsif($netz >= $Config{PV_Stop})
+        {
+            Log 1,"CheckPV: Stoppe $car";
+            StopCar($car);
+        }
 
         last;
     }
