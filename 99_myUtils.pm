@@ -15,21 +15,34 @@ sub myUtils_Initialize() {
 ############################################################
 # Fahrzeugdaten
 ############################################################
+############################################################
+# Konfiguration
+############################################################
 
+my %Config = (
+
+    PV_Start         => -300,    # W Einspeisung
+    PV_Stop          => 150,     # W Netzbezug
+
+    PV_StartDelay    => 60,      # Sekunden
+    PV_StopDelay     => 30,
+
+    PV_CheckInterval => 30,
+
+);
 my %Cars = (
-
-    Smart => {
-        Akku    => 17.0,
-        Leistung=> 2.3,
-        Shelly  => "Shelly1_Smart",
-    },
-
-    Ioniq5 => {
-        Akku    => 77.4,
-        Leistung=> 3.7,
-        Shelly  => "Shelly2_Ioniq5",
-    }
-
+Smart => {
+    Akku      => 17.0,
+    Leistung  => 2.3,
+    Shelly    => "Shelly1_Smart",
+    Priority  => 1,
+},
+Ioniq5 => {
+    Akku      => 77.4,
+    Leistung  => 3.7,
+    Shelly    => "Shelly2_Ioniq5",
+    Priority  => 2,
+}
 );
 ############################################################
 # CalcCharge
