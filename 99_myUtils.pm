@@ -21,7 +21,7 @@ sub myUtils_Initialize() {
 
 my %Config = (
 
-    PV_Start         => 0,    # W Einspeisung
+    PV_Start         => 300,    # W Einspeisung
     PV_Stop          => 150,     # W Netzbezug
 
     PV_StartDelay    => 60,      # Sekunden
@@ -227,7 +227,6 @@ sub StartCar
 
     fhem("setreading LadeManager ${car}_SOC $soc");
     fhem("setreading LadeManager ${car}_Ziel $ziel");
-    fhem("setreading LadeManager ${car}_Aktiv on");
     fhem("setreading LadeManager ${car}_Rest_kWh $rest");
     fhem("setreading LadeManager ${car}_Netz_kWh $netz");
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
@@ -251,11 +250,13 @@ sub StopCar
 
     my $shelly = $Cars{$car}{Shelly};
 
+    return if(ReadingsVal($shelly,"relay","off") eq "off");
+
     fhem("set $shelly off");
 
     fhem("setreading LadeManager ${car}_Status WARTET");
 
-    Log 1,"StopCar: $car";
+    Log 1,"StopCar: $car gestoppt";
 }
 
 sub StartSmart
@@ -277,14 +278,14 @@ sub StartIoniq
 sub Smart85
 {
     my $soc = ReadingsNum("LadeManager","Smart_SOC",50);
-
+    fhem("setreading LadeManager Smart_Aktiv on");
     StartCar("Smart",$soc,85);
 }
 
 sub Smart100
 {
     my $soc = ReadingsNum("LadeManager","Smart_SOC",50);
-
+    fhem("setreading LadeManager Smart_Aktiv on");
     StartCar("Smart",$soc,100);
 }
 
@@ -325,14 +326,14 @@ sub SmartMinus {
 sub Ioniq85
 {
     my $soc = ReadingsNum("LadeManager","Ioniq5_SOC",50);
-
+    fhem("setreading LadeManager Ioniq5_Aktiv on");
     StartCar("Ioniq5",$soc,85);
 }
 
 sub Ioniq100
 {
     my $soc = ReadingsNum("LadeManager","Ioniq5_SOC",50);
-
+    fhem("setreading LadeManager Ioniq5_Aktiv on");
     StartCar("Ioniq5",$soc,100);
 }
 
