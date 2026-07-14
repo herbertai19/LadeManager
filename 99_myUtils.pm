@@ -299,4 +299,35 @@ sub IoniqMinus {
 
 }
 
+############################################################
+# PV-Ladesteuerung
+############################################################
+
+sub CheckPV
+{
+    my $netz = GetNetPower();
+
+    Log 1, sprintf(
+        "PV-Check: Netz=%.0f W",
+        $netz
+    );
+
+    foreach my $car (sort {
+            $Cars{$a}{Priority} <=> $Cars{$b}{Priority}
+        } keys %Cars)
+    {
+
+        my $pv = IsPVEnabled($car);
+        my $ok = NeedsCharge($car);
+
+        Log 1,
+            sprintf(
+                "%s: PV=%s Bedarf=%s",
+                $car,
+                $pv ? "on" : "off",
+                $ok ? "ja" : "nein"
+            );
+    }
+}
+
 1;
