@@ -448,5 +448,24 @@ sub TestStop
 {
     StopCar("Smart");
 }
+sub SetSOC
+{
+    my ($car,$soc)=@_;
 
+    return if(!defined($Cars{$car}));
+
+    $soc = int($soc);
+
+    $soc = 0   if($soc < 0);
+    $soc = 100 if($soc > 100);
+
+    readingsSingleUpdate(
+        $defs{"LadeManager"},
+        "${car}_SOC",
+        $soc,
+        1
+    );
+
+    fhem("setreading LadeManager ${car}_Aktiv on");
+}
 1;
