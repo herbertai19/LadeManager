@@ -21,7 +21,7 @@ sub myUtils_Initialize() {
 
 my %Config = (
 
-    PV_Start         => -300,    # W Einspeisung
+    PV_Start         => 0,    # W Einspeisung
     PV_Stop          => 150,     # W Netzbezug
 
     PV_StartDelay    => 60,      # Sekunden
