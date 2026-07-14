@@ -109,6 +109,44 @@ sub GetNetPower
 }
 
 ############################################################
+# PV-Modus aktiv?
+############################################################
+
+sub IsPVEnabled
+{
+    my ($car) = @_;
+
+    return ReadingsVal(
+        "LadeManager",
+        "${car}_PV",
+        "off"
+    ) eq "on";
+}
+
+############################################################
+# Ziel noch nicht erreicht?
+############################################################
+
+sub NeedsCharge
+{
+    my ($car) = @_;
+
+    my $soc  = ReadingsNum(
+        "LadeManager",
+        "${car}_SOC",
+        0
+    );
+
+    my $ziel = ReadingsNum(
+        "LadeManager",
+        "${car}_Ziel",
+        100
+    );
+
+    return ($soc < $ziel);
+}
+
+############################################################
 # StartCar
 ############################################################
 
