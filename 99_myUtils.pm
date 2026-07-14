@@ -374,7 +374,7 @@ sub CheckPV
 {
     Log 1,"*** CheckPV wurde aufgerufen ***";
     my $netz = GetNetPower();
-
+Log 1,"CheckPV: Netz = $netz W";
     if($netz <= -500)
     {
         TestPV();
