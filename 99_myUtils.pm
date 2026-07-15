@@ -285,6 +285,10 @@ else
 {
     fhem("setreading LadeManager ${car}_Status Fertig");
     fhem("setreading LadeManager ${car}_Aktiv off");
+    
+    LMLog("$car fertig -> pruefe naechstes PV-Fahrzeug");
+
+    CheckPV();
 }
 
     LMLog("StopCar: $car gestoppt");
