@@ -192,7 +192,9 @@ sub GetNextPVCar
     {
         next unless IsPVEnabled($car);
         next unless NeedsCharge($car);
-
+LMLog("$car: PV=" . IsPVEnabled($car)
+    . " Aktiv=" . ReadingsVal("LadeManager","${car}_Aktiv","?")
+    . " NeedsCharge=" . NeedsCharge($car));
         return $car;
     }
 
