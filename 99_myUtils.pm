@@ -298,7 +298,7 @@ sub CheckStart
 
         Log 1,"CheckPV: Starte $car";
 
-        StartCar($car,$soc,$ziel);
+StartPV($car,$soc,$ziel);
 
         $PV_StartSince = 0;
     }
@@ -451,7 +451,7 @@ if($netz >= $Config{PV_Stop})
 {
     $PV_StartSince = 0;
 
-    next unless IsCharging($car);
+return unless IsCharging($car);
 
     if(!$PV_StopSince)
     {
@@ -467,7 +467,7 @@ if($netz >= $Config{PV_Stop})
     }
 
     Log 1,"CheckPV: Stoppe $car";
-    StopCar($car);
+    StopPV($car);
 
     $PV_StopSince = 0;
 }
@@ -480,9 +480,11 @@ if($netz >= $Config{PV_Stop})
 
 sub StartPV
 {
-    my ($car) = @_;
+    my ($car,$soc,$ziel) = @_;
 
     Log 1,"StartPV: $car";
+
+    StartCar($car,$soc,$ziel);
 }
 
 ############################################################
@@ -494,6 +496,8 @@ sub StopPV
     my ($car) = @_;
 
     Log 1,"StopPV: $car";
+
+    StopCar($car);
 }
 
 sub TestPV
