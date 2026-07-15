@@ -18,9 +18,13 @@ sub LMLog
 
     my $ts = TimeNow();
 
-    open(my $fh, ">>", "/opt/fhem/log/LadeManager.log");
-    print $fh "$ts $text\n";
-    close($fh);
+    Log 1,"[LM] $text";
+
+    if (open(my $fh, ">>", "/opt/fhem/log/LadeManager.log"))
+    {
+        print $fh "$ts $text\n";
+        close($fh);
+    }
 }
 
 ############################################################
