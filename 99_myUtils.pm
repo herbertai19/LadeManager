@@ -406,16 +406,33 @@ sub CheckPV
             100
         );
 
-        if($netz <= $Config{PV_Start})
-        {
-            Log 1,"CheckPV: Starte $car";
-            StartCar($car,$soc,$ziel);
-        }
-        elsif($netz >= $Config{PV_Stop})
-        {
-            Log 1,"CheckPV: Stoppe $car";
-            StopCar($car);
-        }
+if($netz <= $Config{PV_Start})
+{
+    if(!$PV_StartSince)
+    {
+        $PV_StartSince = time();
+        Log 1,"CheckPV: Start-Timer gestartet";
+        return;
+    }
+
+    if(time() - $PV_StartSince < $Config{PV_StartDelay})
+    {
+        Log 1,"CheckPV: Warte auf Startverzögerung";
+        return;
+    }
+
+    Log 1,"CheckPV: Starte $car";
+    StartCar($car,$soc,$ziel);
+
+    $PV_StartSince = 0;
+}
+elsif($netz >= $Config{PV_Stop})
+{
+    $PV_StartSince = 0;
+
+    Log 1,"CheckPV: Stoppe $car";
+    StopCar($car);
+}
 
         last;
     }
