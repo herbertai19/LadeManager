@@ -386,7 +386,8 @@ sub CheckPV
 
     Log 1,"PV_Start=".$Config{PV_Start}."  PV_Stop=".$Config{PV_Stop};
 
-    Log 1,"CheckPV: Netz = $netz W";
+   # Log 1,"CheckPV: Netz = $netz W";
+    Log 1,"TESTVERSION: PV_Start=".$Config{PV_Start}." Netz=".$netz;
 
     foreach my $car (
         sort {
