@@ -416,26 +416,20 @@ return unless defined $pvcar;
 
     Log 1,"CheckPV: Netz = $netz W";
 
-    foreach my $car (
-        sort {
-            $Cars{$a}{Priority} <=> $Cars{$b}{Priority}
-        } keys %Cars)
-    {
-        next unless IsPVEnabled($car);
-        next unless NeedsCharge($car);
+my $car = $pvcar;
 
-        my $soc = ReadingsNum(
-            "LadeManager",
-            "${car}_SOC",
-            0
-        );
+my $soc = ReadingsNum(
+    "LadeManager",
+    "${car}_SOC",
+    0
+);
 
-        my $ziel = ReadingsNum(
-            "LadeManager",
-            "${car}_Ziel",
-            100
-        );
-
+my $ziel = ReadingsNum(
+    "LadeManager",
+    "${car}_Ziel",
+    100
+);
+  
 CheckStart($car,$netz,$soc,$ziel);
 
 if($netz >= $Config{PV_Stop})
@@ -462,8 +456,7 @@ if($netz >= $Config{PV_Stop})
 
     $PV_StopSince = 0;
 }
-        last;
-    }
+
 }
 
 ############################################################
