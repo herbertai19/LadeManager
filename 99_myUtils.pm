@@ -422,7 +422,8 @@ sub CheckPV
 
 return unless defined $pvcar;
 
-    Log 1,"CheckPV: Netz = $netz W";
+Log 1, "CheckPV: PV-Fahrzeug = $pvcar";
+Log 1,"CheckPV: Netz = $netz W";
 
 my $car = $pvcar;
 
