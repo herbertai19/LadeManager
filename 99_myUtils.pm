@@ -480,7 +480,7 @@ return unless IsCharging($car);
     if(!$PV_StopSince)
     {
         $PV_StopSince = time();
-        LMLog,"(CheckPV: Stop-Timer gestartet");
+        LMLog,("CheckPV: Stop-Timer gestartet");
         return;
     }
 
