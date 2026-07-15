@@ -260,7 +260,15 @@ sub StopCar
 
     fhem("set $shelly off");
 
-    fhem("setreading LadeManager ${car}_Status WARTET");
+if (NeedsCharge($car))
+{
+    fhem("setreading LadeManager ${car}_Status Wartet");
+}
+else
+{
+    fhem("setreading LadeManager ${car}_Status Fertig");
+    fhem("setreading LadeManager ${car}_Aktiv off");
+}
 
     Log 1,"StopCar: $car gestoppt";
 }
