@@ -410,6 +410,9 @@ sub CheckPV
     Log 1,"*** CheckPV wurde aufgerufen ***";
 
     my $netz = GetNetPower();
+    my $pvcar = GetNextPVCar();
+
+return unless defined $pvcar;
 
     Log 1,"CheckPV: Netz = $netz W";
 
