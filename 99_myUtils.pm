@@ -417,10 +417,16 @@ sub CheckPV
 {
     Log 1,"*** CheckPV wurde aufgerufen ***";
 
-    my $netz = GetNetPower();
-    my $pvcar = GetNextPVCar();
+my $netz = GetNetPower();
+my $pvcar = GetNextPVCar();
 
-return unless defined $pvcar;
+unless (defined $pvcar)
+{
+    $PV_StartSince = 0;
+    $PV_StopSince  = 0;
+    Log 1,"CheckPV: Kein PV-Fahrzeug";
+    return;
+}
 
 Log 1, "CheckPV: PV-Fahrzeug = $pvcar";
 Log 1,"CheckPV: Netz = $netz W";
