@@ -433,17 +433,33 @@ elsif($netz > $Config{PV_Start} && $netz < $Config{PV_Stop})
     }
 
     $PV_StartSince = 0;
+    $PV_StopSince = 0;
 }
+
 elsif($netz >= $Config{PV_Stop})
 {
     $PV_StartSince = 0;
 
     next unless IsCharging($car);
 
+    if(!$PV_StopSince)
+    {
+        $PV_StopSince = time();
+        Log 1,"CheckPV: Stop-Timer gestartet";
+        return;
+    }
+
+    if(time() - $PV_StopSince < $Config{PV_StopDelay})
+    {
+        Log 1,"CheckPV: Warte auf Stopverzögerung";
+        return;
+    }
+
     Log 1,"CheckPV: Stoppe $car";
     StopCar($car);
-}
 
+    $PV_StopSince = 0;
+}
         last;
     }
 }
