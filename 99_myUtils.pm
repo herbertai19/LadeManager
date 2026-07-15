@@ -384,6 +384,8 @@ sub CheckPV
 
     my $netz = GetNetPower();
 
+    Log 1,"PV_Start=".$Config{PV_Start}."  PV_Stop=".$Config{PV_Stop};
+
     Log 1,"CheckPV: Netz = $netz W";
 
     foreach my $car (
