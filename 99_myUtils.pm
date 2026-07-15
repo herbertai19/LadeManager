@@ -271,23 +271,40 @@ sub StopCar
 
 sub CheckStart
 {
-    my ($car,$netz)=@_;
+    my ($car,$netz,$soc,$ziel)=@_;
 
-    Log 1,"CheckStart: $car";
+    if($netz <= $Config{PV_Start})
+    {
+        if(!$PV_StartSince)
+        {
+            $PV_StartSince = time();
+            Log 1,"CheckPV: Start-Timer gestartet";
+            return;
+        }
+
+        if(time() - $PV_StartSince < $Config{PV_StartDelay})
+        {
+            Log 1,"CheckPV: Warte auf Startverzögerung";
+            return;
+        }
+
+        Log 1,"CheckPV: Starte $car";
+
+        StartCar($car,$soc,$ziel);
+
+        $PV_StartSince = 0;
+    }
+    else
+    {
+        if($PV_StartSince)
+        {
+            Log 1,"CheckPV: Start-Timer verworfen";
+        }
+
+        $PV_StartSince = 0;
+    }
 }
 
-sub StartSmart
-{
-    my ($soc,$ziel)=@_;
-
-    StartCar("Smart",$soc,$ziel);
-}
-sub StartIoniq
-{
-    my ($soc,$ziel)=@_;
-
-    StartCar("Ioniq5",$soc,$ziel);
-}
 ############################################################
 # Komfortfunktionen Smart
 ############################################################
@@ -416,36 +433,7 @@ sub CheckPV
             100
         );
 
-if($netz <= $Config{PV_Start})
-{
-    if(!$PV_StartSince)
-    {
-        $PV_StartSince = time();
-        Log 1,"CheckPV: Start-Timer gestartet";
-        return;
-    }
-
-    if(time() - $PV_StartSince < $Config{PV_StartDelay})
-    {
-        Log 1,"CheckPV: Warte auf Startverzögerung";
-        return;
-    }
-
-    Log 1,"CheckPV: Starte $car";
-    StartCar($car,$soc,$ziel);
-
-    $PV_StartSince = 0;
-}
-elsif($netz > $Config{PV_Start} && $netz < $Config{PV_Stop})
-{
-    if($PV_StartSince)
-    {
-        Log 1,"CheckPV: Start-Timer verworfen";
-    }
-
-    $PV_StartSince = 0;
-    $PV_StopSince = 0;
-}
+CheckStart($car,$netz,$soc,$ziel);
 
 elsif($netz >= $Config{PV_Stop})
 {
