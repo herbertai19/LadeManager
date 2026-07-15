@@ -237,8 +237,7 @@ sub StartCar
     fhem("setreading LadeManager ${car}_Rest_kWh $rest");
     fhem("setreading LadeManager ${car}_Netz_kWh $netz");
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
-    fhem("setreading LadeManager ${car}_Ende \"$ende\"");
-
+    fhem("setreading LadeManager ${car}_Ende $ende");
     fhem("setreading LadeManager ${car}_Status Laedt");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
 
