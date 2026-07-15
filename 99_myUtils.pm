@@ -320,15 +320,39 @@ StartPV($car,$soc,$ziel);
 sub Smart85
 {
     my $soc = ReadingsNum("LadeManager","Smart_SOC",50);
+
     fhem("setreading LadeManager Smart_Aktiv on");
-    StartCar("Smart",$soc,85);
+    fhem("setreading LadeManager Smart_Ziel 85");
+
+    if(IsPVEnabled("Smart"))
+    {
+        Log 1,"Smart85: PV-Modus";
+        CheckPV();
+    }
+    else
+    {
+        Log 1,"Smart85: Sofort laden";
+        StartCar("Smart",$soc,85);
+    }
 }
 
 sub Smart100
 {
     my $soc = ReadingsNum("LadeManager","Smart_SOC",50);
+
     fhem("setreading LadeManager Smart_Aktiv on");
-    StartCar("Smart",$soc,100);
+    fhem("setreading LadeManager Smart_Ziel 100");
+
+    if(IsPVEnabled("Smart"))
+    {
+        Log 1,"Smart100: PV-Modus";
+        CheckPV();
+    }
+    else
+    {
+        Log 1,"Smart100: Sofort laden";
+        StartCar("Smart",$soc,100);
+    }
 }
 
 ###############################################
