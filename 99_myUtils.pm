@@ -194,7 +194,7 @@ sub IsCharging
 
     my $shelly = $Cars{$car}{Shelly};
 
-    return ReadingsNum($shelly,"relay",0);
+    return (ReadingsVal($shelly,"relay","off") eq "on");
 }
 
 ############################################################
