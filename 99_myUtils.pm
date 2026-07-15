@@ -216,7 +216,7 @@ sub StartCar
 
     if($sek == 0)
     {
-        Log 1,"LadeManager: $car bereits auf Ziel.";
+        LMLog,("LadeManager: $car bereits auf Ziel.");
         fhem("setreading LadeManager ${car}_Aktiv off");
         fhem("setreading LadeManager ${car}_Status Fertig");
         fhem("setreading LadeManager ${car}_State ${ziel}%->$ziel% (fertig)");
@@ -228,7 +228,7 @@ sub StartCar
 
     if($power > 100)
     {
-        LMLog,"LadeManager: $car laedt bereits (${power}W).";
+        LMLog,("LadeManager: $car laedt bereits (${power}W).");
         return;
     }
 
@@ -241,7 +241,7 @@ sub StartCar
     fhem("setreading LadeManager ${car}_Status Laedt");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
 
-    LMLog,"LadeManager: $car startet fuer $zeit";
+    LMLog,("LadeManager: $car startet fuer $zeit");
 
     fhem("set $shelly on-for-timer $sek");
 }
@@ -270,7 +270,7 @@ else
     fhem("setreading LadeManager ${car}_Aktiv off");
 }
 
-    LMLog,"StopCar: $car gestoppt";
+    LMLog,("StopCar: $car gestoppt");
 }
 
 ############################################################
@@ -286,17 +286,17 @@ sub CheckStart
         if(!$PV_StartSince)
         {
             $PV_StartSince = time();
-            LMLog,"CheckPV: Start-Timer gestartet";
+            LMLog,("CheckPV: Start-Timer gestartet");
             return;
         }
 
         if(time() - $PV_StartSince < $Config{PV_StartDelay})
         {
-            LMLog,"CheckPV: Warte auf Startverzögerung";
+            LMLog,("CheckPV: Warte auf Startverzögerung");
             return;
         }
 
-        LMLog,"CheckPV: Starte $car";
+        LMLog,("CheckPV: Starte $car");
 
 StartPV($car,$soc,$ziel);
 
@@ -306,7 +306,7 @@ StartPV($car,$soc,$ziel);
     {
         if($PV_StartSince)
         {
-            LMLog,"CheckPV: Start-Timer verworfen";
+            LMLog,("CheckPV: Start-Timer verworfen");
         }
 
         $PV_StartSince = 0;
@@ -326,12 +326,12 @@ sub Smart85
 
     if(IsPVEnabled("Smart"))
     {
-        LMLog,"Smart85: PV-Modus";
+        LMLog,("Smart85: PV-Modus");
         CheckPV();
     }
     else
     {
-        LMLog,"Smart85: Sofort laden";
+        LMLog,("Smart85: Sofort laden");
         StartCar("Smart",$soc,85);
     }
 }
@@ -345,12 +345,12 @@ sub Smart100
 
     if(IsPVEnabled("Smart"))
     {
-        LMLog,"Smart100: PV-Modus";
+        LMLog,("Smart100: PV-Modus");
         CheckPV();
     }
     else
     {
-        LMLog,"Smart100: Sofort laden";
+        LMLog,("Smart100: Sofort laden");
         StartCar("Smart",$soc,100);
     }
 }
@@ -439,7 +439,7 @@ sub IoniqMinus {
 
 sub CheckPV
 {
-    LMLog,"*** CheckPV wurde aufgerufen ***";
+    LMLog,("*** CheckPV wurde aufgerufen ***");
 
 my $netz = GetNetPower();
 my $pvcar = GetNextPVCar();
@@ -448,12 +448,12 @@ unless (defined $pvcar)
 {
     $PV_StartSince = 0;
     $PV_StopSince  = 0;
-    LMLog,"CheckPV: Kein PV-Fahrzeug";
+    LMLog,("CheckPV: Kein PV-Fahrzeug");
     return;
 }
 
-LMLog, "CheckPV: PV-Fahrzeug = $pvcar";
-LMLog,"CheckPV: Netz = $netz W";
+LMLog,("CheckPV: PV-Fahrzeug = $pvcar");
+LMLog,("CheckPV: Netz = $netz W");
 
 my $car = $pvcar;
 
@@ -480,17 +480,17 @@ return unless IsCharging($car);
     if(!$PV_StopSince)
     {
         $PV_StopSince = time();
-        LMLog,"CheckPV: Stop-Timer gestartet";
+        LMLog,"(CheckPV: Stop-Timer gestartet");
         return;
     }
 
     if(time() - $PV_StopSince < $Config{PV_StopDelay})
     {
-        LMLog,"CheckPV: Warte auf Stopverzögerung";
+        LMLog,("CheckPV: Warte auf Stopverzögerung");
         return;
     }
 
-    LMLog,"CheckPV: Stoppe $car";
+    LMLog,("CheckPV: Stoppe $car");
     StopPV($car);
 
     $PV_StopSince = 0;
@@ -506,7 +506,7 @@ sub StartPV
 {
     my ($car,$soc,$ziel) = @_;
 
-    LMLog,"StartPV: $car";
+    LMLog,("StartPV: $car");
 
     StartCar($car,$soc,$ziel);
 }
@@ -519,7 +519,7 @@ sub StopPV
 {
     my ($car) = @_;
 
-    LMLog,"StopPV: $car";
+    LMLog,("StopPV: $car");
 
     StopCar($car);
 }
