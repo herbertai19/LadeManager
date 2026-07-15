@@ -17,7 +17,7 @@ sub LMLog
     my ($text) = @_;
 
     my $ts = TimeNow();
-        LMLog("LadeManager: $car bereits auf Ziel.");
+    
     LMLog("[LM] $text");
 
     if (open(my $fh, ">>", "/opt/fhem/log/LadeManager.log"))
