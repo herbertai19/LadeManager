@@ -438,6 +438,8 @@ elsif($netz >= $Config{PV_Stop})
 {
     $PV_StartSince = 0;
 
+    next unless IsCharging($car);
+
     Log 1,"CheckPV: Stoppe $car";
     StopCar($car);
 }
