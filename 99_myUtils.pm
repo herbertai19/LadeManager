@@ -426,6 +426,15 @@ if($netz <= $Config{PV_Start})
 
     $PV_StartSince = 0;
 }
+elsif($netz > $Config{PV_Start} && $netz < $Config{PV_Stop})
+{
+    if($PV_StartSince)
+    {
+        Log 1,"CheckPV: Start-Timer verworfen";
+    }
+
+    $PV_StartSince = 0;
+}
 elsif($netz >= $Config{PV_Stop})
 {
     $PV_StartSince = 0;
