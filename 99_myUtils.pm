@@ -435,7 +435,7 @@ sub CheckPV
 
 CheckStart($car,$netz,$soc,$ziel);
 
-elsif($netz >= $Config{PV_Stop})
+if($netz >= $Config{PV_Stop})
 {
     $PV_StartSince = 0;
 
