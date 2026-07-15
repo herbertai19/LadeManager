@@ -265,6 +265,17 @@ sub StopCar
     Log 1,"StopCar: $car gestoppt";
 }
 
+############################################################
+# CheckStart
+############################################################
+
+sub CheckStart
+{
+    my ($car,$netz)=@_;
+
+    Log 1,"CheckStart: $car";
+}
+
 sub StartSmart
 {
     my ($soc,$ziel)=@_;
