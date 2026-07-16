@@ -17,8 +17,8 @@ sub LMLog
     my ($text) = @_;
 
     my $ts = TimeNow();
-    
-    LMLog("[LM] $text");
+
+    Log3 undef, 1, "[LM] $text";
 
     if (open(my $fh, ">>", "/opt/fhem/log/LadeManager.log"))
     {
