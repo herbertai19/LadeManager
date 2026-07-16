@@ -44,7 +44,7 @@ my %Config = (
 
     PV_CheckInterval => 10,
     PV_MinRun => 600,   # 10 Minuten
-
+    Debug         => 0,
 );
 ############################################################
 # PV-Hysterese
@@ -193,7 +193,7 @@ sub GetNextPVCar
     {
         next unless IsPVEnabled($car);
         next unless NeedsCharge($car);
-LMLog("$car: PV=" . IsPVEnabled($car)
+DbgLog("$car: PV=" . IsPVEnabled($car)
     . " Aktiv=" . ReadingsVal("LadeManager","${car}_Aktiv","?")
     . " NeedsCharge=" . NeedsCharge($car));
         return $car;
@@ -600,6 +600,13 @@ sub SetSOC
     fhem("setreading LadeManager ${car}_Aktiv on");
 }
 
+sub DbgLog
+{
+    my ($text) = @_;
 
+    return unless $Config{Debug};
+
+    LMLog($text);
+}
 
 1;
