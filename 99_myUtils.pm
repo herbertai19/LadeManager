@@ -460,7 +460,6 @@ sub IoniqMinus {
 
 sub CheckPV
 {
-    LMLog("*** CheckPV wurde aufgerufen ***");
 
 my $netz = GetNetPower();
 my $pvcar = GetNextPVCar();
@@ -472,9 +471,6 @@ unless (defined $pvcar)
     LMLog("CheckPV: Kein PV-Fahrzeug");
     return;
 }
-
-LMLog("CheckPV: PV-Fahrzeug = $pvcar");
-LMLog("CheckPV: Netz = $netz W");
 
 my $car = $pvcar;
 
