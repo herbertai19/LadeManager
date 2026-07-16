@@ -43,6 +43,7 @@ my %Config = (
     PV_StopDelay     => 30,
 
     PV_CheckInterval => 10,
+    PV_MinRun => 600,   # 10 Minuten
 
 );
 ############################################################
@@ -261,6 +262,7 @@ sub StartCar
     LMLog("LadeManager: $car startet fuer $zeit");
 
     fhem("set $shelly on-for-timer $sek");
+    fhem("setreading LadeManager ${car}_StartTime " . time());
 }
 
 ############################################################
@@ -292,6 +294,7 @@ else
 }
 
     LMLog("StopCar: $car gestoppt");
+    fhem("deletereading LadeManager ${car}_StartTime");
 }
 
 ############################################################
@@ -500,6 +503,14 @@ if($netz >= $Config{PV_Stop})
     $PV_StartSince = 0;
 
 return unless IsCharging($car);
+
+my $start = ReadingsNum("LadeManager","${car}_StartTime",0);
+
+if ($start && (time() - $start) < $Config{PV_MinRun})
+{
+    LMLog("CheckPV: Mindestlaufzeit aktiv");
+    return;
+}
 
     if(!$PV_StopSince)
     {
