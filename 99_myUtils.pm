@@ -523,7 +523,15 @@ return unless IsCharging($car);
 
     $PV_StopSince = 0;
 }
+else
+{
+    if($PV_StopSince)
+    {
+        LMLog("CheckPV: Stop-Timer verworfen");
+    }
 
+    $PV_StopSince = 0;
+}
 }
 
 ############################################################
