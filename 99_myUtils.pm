@@ -291,7 +291,6 @@ else
     
     LMLog("$car fertig -> pruefe naechstes PV-Fahrzeug");
 
-    CheckPV();
 }
 
     LMLog("StopCar: $car gestoppt");
