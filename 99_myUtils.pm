@@ -490,7 +490,14 @@ my $ziel = ReadingsNum(
     100
 );
   
-CheckStart($car,$netz,$soc,$ziel);
+if (!IsCharging($car))
+{
+    CheckStart($car,$netz,$soc,$ziel);
+}
+else
+{
+    $PV_StartSince = 0;
+}
 
 if($netz >= $Config{PV_Stop})
 {
