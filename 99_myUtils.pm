@@ -231,7 +231,13 @@ sub StartCar
     my ($car,$soc,$ziel) = @_;
 
     return if(!defined($Cars{$car}));
+     my $akkuSOC = ReadingsNum("SENEC","AKKU-Beladung",0);
 
+    if($akkuSOC < $Config{PV_MinBatterySOC})
+    {
+        LMLog("StartCar: $car verhindert - Speicher ${akkuSOC}%");
+        return;
+    }
     my $akku     = $Cars{$car}{Akku};
     my $leistung = $Cars{$car}{Leistung};
     my $shelly   = $Cars{$car}{Shelly};
@@ -517,37 +523,40 @@ my $netz  = GetNetPower();
 my $pvcar = GetNextPVCar();
 my $akku  = ReadingsNum("SENEC","AKKU-Beladung",0);
 
-# Speicher-Schutz
-if($BatteryLock)
-{
-    if($akku >= $Config{PV_ResumeBatterySOC})
-    {
-LMLog("CheckPV: Speicher wieder freigegeben ($akku%)");
-$BatteryLock = 0;
-$BatteryLockLogged = 0;
-    }
-    else
-    {
-unless ($BatteryLockLogged)
-{
-    LMLog("CheckPV: Speicher gesperrt ($akku%)");
-    $BatteryLockLogged = 1;
-}
+my $akku = ReadingsNum("SENEC","AKKU-Beladung",0);
 
-StopChargingCars();
-return;
-    }
-}
-elsif($akku < $Config{PV_MinBatterySOC})
+# Übergang in den Sperrzustand
+if(!$BatteryLock && $akku < $Config{PV_MinBatterySOC})
 {
     LMLog("CheckPV: Speicher unter $Config{PV_MinBatterySOC}% ($akku%)");
 
     $BatteryLock = 1;
     $BatteryLockLogged = 0;
 
-
     StopChargingCars();
     return;
+}
+
+# Bereits gesperrt
+if($BatteryLock)
+{
+    if($akku >= $Config{PV_ResumeBatterySOC})
+    {
+        LMLog("CheckPV: Speicher wieder freigegeben ($akku%)");
+        $BatteryLock = 0;
+        $BatteryLockLogged = 0;
+    }
+    else
+    {
+        unless($BatteryLockLogged)
+        {
+            LMLog("CheckPV: Speicher gesperrt ($akku%)");
+            $BatteryLockLogged = 1;
+        }
+
+        StopChargingCars();
+        return;
+    }
 }
 
 unless (defined $pvcar)
