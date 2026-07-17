@@ -622,9 +622,9 @@ else
 {
     if($PV_StopSince)
     {
-    LMLog(sprintf(
+LMLog(sprintf(
     "CheckPV: Stop-Timer verworfen (Netz=%.0fW)",
-    $netz,
+    $netz
 ));
     }
 
