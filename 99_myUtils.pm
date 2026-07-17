@@ -53,6 +53,9 @@ my %Config = (
 
 my $PV_StartSince = 0;
 my $PV_StopSince  = 0;
+my %AlreadyChargingLogged;
+my $NoPVLogged = 0;
+my $StopDelayLogged = 0;
 
 my %Cars = (
 Smart => {
@@ -245,11 +248,20 @@ sub StartCar
 
     my $power = ReadingsNum($shelly,"power",0);
 
-    if($power > 100)
+if($power > 100)
+{
+    unless ($AlreadyChargingLogged{$car})
     {
-        LMLog("LadeManager: $car laedt bereits (${power}W).");
-        return;
+        LMLog(sprintf(
+            "LadeManager: %s laedt bereits (%.0fW).",
+            $car,
+            $power
+        ));
+        $AlreadyChargingLogged{$car} = 1;
     }
+
+    return;
+}
 
     fhem("setreading LadeManager ${car}_SOC $soc");
     fhem("setreading LadeManager ${car}_Ziel $ziel");
@@ -292,7 +304,7 @@ else
     LMLog("$car fertig -> pruefe naechstes PV-Fahrzeug");
 
 }
-
+delete $AlreadyChargingLogged{$car};
     LMLog("StopCar: $car gestoppt");
     fhem("deletereading LadeManager ${car}_StartTime");
 }
@@ -471,9 +483,17 @@ unless (defined $pvcar)
 {
     $PV_StartSince = 0;
     $PV_StopSince  = 0;
-    LMLog("CheckPV: Kein PV-Fahrzeug");
+
+    unless ($NoPVLogged)
+    {
+        LMLog("CheckPV: Kein PV-Fahrzeug");
+        $NoPVLogged = 1;
+    }
+
     return;
 }
+
+$NoPVLogged = 0;
 
 my $car = $pvcar;
 
@@ -508,7 +528,18 @@ my $start = ReadingsNum("LadeManager","${car}_StartTime",0);
 
 if ($start && (time() - $start) < $Config{PV_MinRun})
 {
-    LMLog("CheckPV: Mindestlaufzeit aktiv");
+    my $rest = $Config{PV_MinRun} - (time() - $start);
+    $rest = 0 if $rest < 0;
+
+    my $min = int($rest / 60);
+    my $sec = $rest % 60;
+
+    LMLog(sprintf(
+        "CheckPV: Mindestlaufzeit aktiv (%02d:%02d verbleibend)",
+        $min,
+        $sec
+    ));
+
     return;
 }
 
@@ -519,11 +550,17 @@ if ($start && (time() - $start) < $Config{PV_MinRun})
         return;
     }
 
-    if(time() - $PV_StopSince < $Config{PV_StopDelay})
+if(time() - $PV_StopSince < $Config{PV_StopDelay})
+{
+    unless ($StopDelayLogged)
     {
         LMLog("CheckPV: Warte auf Stopverzögerung");
-        return;
+        $StopDelayLogged = 1;
     }
+    return;
+}
+
+$StopDelayLogged = 0;
 
     LMLog("CheckPV: Stoppe $car");
     StopPV($car);
