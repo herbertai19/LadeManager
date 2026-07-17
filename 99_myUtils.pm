@@ -335,7 +335,6 @@ sub CheckStart
 LMLog(sprintf(
     "CheckPV: Start-Timer gestartet (Netz=%.0fW)",
     $netz,
-    $pv
 ));
             return;
         }
@@ -377,7 +376,6 @@ StartPV($car,$soc,$ziel);
    LMLog(sprintf(
     "CheckPV: Start-Timer verworfen (Netz=%.0fW)",
     $netz,
-    $pv
 ));
         }
 
@@ -587,7 +585,6 @@ if ($start && (time() - $start) < $Config{PV_MinRun})
 LMLog(sprintf(
     "CheckPV: Stop-Timer gestartet (Netz=%.0fW)",
     $netz,
-    $pv
 ));
         return;
     }
@@ -628,7 +625,6 @@ else
     LMLog(sprintf(
     "CheckPV: Stop-Timer verworfen (Netz=%.0fW)",
     $netz,
-    $pv
 ));
     }
 
