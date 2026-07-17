@@ -333,7 +333,7 @@ sub CheckStart
         {
             $PV_StartSince = time();
 LMLog(sprintf(
-    "CheckPV: Start-Timer gestartet (Netz=%.0fW PV=%.0fW)",
+    "CheckPV: Start-Timer gestartet (Netz=%.0fW)",
     $netz,
     $pv
 ));
@@ -375,7 +375,7 @@ StartPV($car,$soc,$ziel);
         if($PV_StartSince)
         {
    LMLog(sprintf(
-    "CheckPV: Start-Timer verworfen (Netz=%.0fW PV=%.0fW)",
+    "CheckPV: Start-Timer verworfen (Netz=%.0fW)",
     $netz,
     $pv
 ));
@@ -585,7 +585,7 @@ if ($start && (time() - $start) < $Config{PV_MinRun})
         $PV_StopSince = time();
         
 LMLog(sprintf(
-    "CheckPV: Stop-Timer gestartet (Netz=%.0fW PV=%.0fW)",
+    "CheckPV: Stop-Timer gestartet (Netz=%.0fW)",
     $netz,
     $pv
 ));
@@ -626,7 +626,7 @@ else
     if($PV_StopSince)
     {
     LMLog(sprintf(
-    "CheckPV: Stop-Timer verworfen (Netz=%.0fW PV=%.0fW)",
+    "CheckPV: Stop-Timer verworfen (Netz=%.0fW)",
     $netz,
     $pv
 ));
