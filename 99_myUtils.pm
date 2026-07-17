@@ -55,6 +55,7 @@ my $PV_StartSince = 0;
 my $PV_StopSince  = 0;
 my %AlreadyChargingLogged;
 my $NoPVLogged = 0;
+my $StartDelayLogged = 0;
 my $StopDelayLogged = 0;
 
 my %Cars = (
@@ -335,17 +336,35 @@ sub CheckStart
             return;
         }
 
-        if(time() - $PV_StartSince < $Config{PV_StartDelay})
-        {
-            LMLog("CheckPV: Warte auf Startverzögerung");
-            return;
-        }
+if(time() - $PV_StartSince < $Config{PV_StartDelay})
+{
+    my $rest = $Config{PV_StartDelay} - (time() - $PV_StartSince);
+    $rest = 0 if $rest < 0;
+
+    my $min = int($rest / 60);
+    my $sec = $rest % 60;
+
+    unless ($StartDelayLogged)
+    {
+        LMLog(sprintf(
+            "CheckPV: Startverzögerung (%02d:%02d verbleibend)",
+            $min,
+            $sec
+        ));
+        $StartDelayLogged = 1;
+    }
+
+    return;
+}
+
+$StartDelayLogged = 0;
 
         LMLog("CheckPV: Starte $car");
 
 StartPV($car,$soc,$ziel);
 
         $PV_StartSince = 0;
+        $StartDelayLogged = 0;
     }
     else
     {
@@ -355,6 +374,7 @@ StartPV($car,$soc,$ziel);
         }
 
         $PV_StartSince = 0;
+        $StartDelayLogged = 0;
     }
 }
 
@@ -561,11 +581,22 @@ if ($start && (time() - $start) < $Config{PV_MinRun})
 
 if(time() - $PV_StopSince < $Config{PV_StopDelay})
 {
+    my $rest = $Config{PV_StopDelay} - (time() - $PV_StopSince);
+    $rest = 0 if $rest < 0;
+
+    my $min = int($rest / 60);
+    my $sec = $rest % 60;
+
     unless ($StopDelayLogged)
     {
-        LMLog("CheckPV: Warte auf Stopverzögerung");
+        LMLog(sprintf(
+            "CheckPV: Stopverzögerung (%02d:%02d verbleibend)",
+            $min,
+            $sec
+        ));
         $StopDelayLogged = 1;
     }
+
     return;
 }
 
@@ -575,6 +606,7 @@ $StopDelayLogged = 0;
     StopPV($car);
 
     $PV_StopSince = 0;
+    $StopDelayLogged = 0;
 }
 else
 {
@@ -584,6 +616,7 @@ else
     }
 
     $PV_StopSince = 0;
+    $StopDelayLogged = 0;
 }
 }
 
