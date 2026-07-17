@@ -236,15 +236,24 @@ sub StartCar
     my ($rest,$netz,$sek,$zeit,$ende) =
         CalcCharge($akku,$leistung,$soc,$ziel);
 
-    if($sek == 0)
+if($sek == 0)
+{
+    LMLog("LadeManager: $car bereits auf Ziel.");
+
+    if (IsCharging($car))
     {
-        LMLog("LadeManager: $car bereits auf Ziel.");
-        fhem("setreading LadeManager ${car}_Aktiv off");
-        fhem("setreading LadeManager ${car}_Status Fertig");
-        fhem("setreading LadeManager ${car}_State ${ziel}%->$ziel% (fertig)");
-        
-        return;
+        LMLog("LadeManager: Stoppe $car (Ziel erreicht)");
+        StopCar($car);
     }
+
+    fhem("setreading LadeManager ${car}_Aktiv off");
+    fhem("setreading LadeManager ${car}_Status Fertig");
+    fhem("setreading LadeManager ${car}_State ${soc}%->$ziel% (fertig)");
+
+    delete $AlreadyChargingLogged{$car};
+
+    return;
+}
 
     my $power = ReadingsNum($shelly,"power",0);
 
