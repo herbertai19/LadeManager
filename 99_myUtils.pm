@@ -58,6 +58,7 @@ my %AlreadyChargingLogged;
 my $NoPVLogged = 0;
 my $StartDelayLogged = 0;
 my $StopDelayLogged = 0;
+my $BatteryLockLogged = 0;
 
 my %Cars = (
 Smart => {
@@ -521,14 +522,20 @@ if($BatteryLock)
 {
     if($akku >= $Config{PV_ResumeBatterySOC})
     {
-        LMLog("CheckPV: Speicher wieder freigegeben ($akku%)");
-        $BatteryLock = 0;
+LMLog("CheckPV: Speicher wieder freigegeben ($akku%)");
+$BatteryLock = 0;
+$BatteryLockLogged = 0;
     }
     else
     {
-        LMLog("CheckPV: Speicher gesperrt ($akku%)");
-        StopChargingCars();
-        return;
+unless ($BatteryLockLogged)
+{
+    LMLog("CheckPV: Speicher gesperrt ($akku%)");
+    $BatteryLockLogged = 1;
+}
+
+StopChargingCars();
+return;
     }
 }
 elsif($akku < $Config{PV_MinBatterySOC})
@@ -536,6 +543,8 @@ elsif($akku < $Config{PV_MinBatterySOC})
     LMLog("CheckPV: Speicher unter $Config{PV_MinBatterySOC}% ($akku%)");
 
     $BatteryLock = 1;
+    $BatteryLockLogged = 0;
+
 
     StopChargingCars();
     return;
