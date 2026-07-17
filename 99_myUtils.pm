@@ -512,9 +512,9 @@ sub IoniqMinus {
 sub CheckPV
 {
 
-my $netz = GetNetPower();
+my $netz  = GetNetPower();
 my $pvcar = GetNextPVCar();
-my $akku = ReadingsNum("SENEC","AKKU-Beladung",0);
+my $akku  = ReadingsNum("SENEC","AKKU-Beladung",0);
 
 # Speicher-Schutz
 if($BatteryLock)
@@ -526,11 +526,8 @@ if($BatteryLock)
     }
     else
     {
-        if(IsCharging($car))
-        {
-            LMLog("CheckPV: Speicher gesperrt ($akku%)");
-            StopChargingCars();      
-        }
+        LMLog("CheckPV: Speicher gesperrt ($akku%)");
+        StopChargingCars();
         return;
     }
 }
@@ -540,14 +537,10 @@ elsif($akku < $Config{PV_MinBatterySOC})
 
     $BatteryLock = 1;
 
-    if(IsCharging($car))
-    {
-        StopPV($car);
-        StopChargingCars();
-    }
-
+    StopChargingCars();
     return;
 }
+
 unless (defined $pvcar)
 {
     $PV_StartSince = 0;
@@ -648,7 +641,6 @@ $StopDelayLogged = 0;
 
     LMLog("CheckPV: Stoppe $car");
     StopPV($car);
-    StopChargingCars();
 
     $PV_StopSince = 0;
     $StopDelayLogged = 0;
