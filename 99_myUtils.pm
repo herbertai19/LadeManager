@@ -37,8 +37,8 @@ sub LMLog
 
 my %Config = (
 
-    PV_Start         => 0,    # W Einspeisung
-    PV_Stop          => 150,     # W Netzbezug
+    PV_Start         => -100,    # W Einspeisung
+    PV_Stop          => 300,     # W Netzbezug
 
     PV_StartDelay    => 30,      # Sekunden
     PV_StopDelay     => 30,
