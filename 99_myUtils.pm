@@ -42,7 +42,8 @@ my %Config = (
 
     PV_StartDelay    => 30,      # Sekunden
     PV_StopDelay     => 30,
-
+PV_MinBatterySOC    => 30,    # Unterhalb keine PV-Ladung
+PV_ResumeBatterySOC => 35,    # Erst ab diesem SOC wieder freigeben
     PV_MinRun => 600,   # 10 Minuten
     Debug         => 0,
 );
@@ -52,6 +53,7 @@ my %Config = (
 
 my $PV_StartSince = 0;
 my $PV_StopSince  = 0;
+my $BatteryLock = 0;
 my %AlreadyChargingLogged;
 my $NoPVLogged = 0;
 my $StartDelayLogged = 0;
@@ -512,7 +514,40 @@ sub CheckPV
 
 my $netz = GetNetPower();
 my $pvcar = GetNextPVCar();
+my $akku = ReadingsNum("SENEC","AKKU-Beladung",0);
 
+# Speicher-Schutz
+if($BatteryLock)
+{
+    if($akku >= $Config{PV_ResumeBatterySOC})
+    {
+        LMLog("CheckPV: Speicher wieder freigegeben ($akku%)");
+        $BatteryLock = 0;
+    }
+    else
+    {
+        if(IsCharging($car))
+        {
+            LMLog("CheckPV: Speicher gesperrt ($akku%)");
+            StopChargingCars();      
+        }
+        return;
+    }
+}
+elsif($akku < $Config{PV_MinBatterySOC})
+{
+    LMLog("CheckPV: Speicher unter $Config{PV_MinBatterySOC}% ($akku%)");
+
+    $BatteryLock = 1;
+
+    if(IsCharging($car))
+    {
+        StopPV($car);
+        StopChargingCars();
+    }
+
+    return;
+}
 unless (defined $pvcar)
 {
     $PV_StartSince = 0;
@@ -613,6 +648,7 @@ $StopDelayLogged = 0;
 
     LMLog("CheckPV: Stoppe $car");
     StopPV($car);
+    StopChargingCars();
 
     $PV_StopSince = 0;
     $StopDelayLogged = 0;
@@ -700,4 +736,9 @@ sub DbgLog
     LMLog($text);
 }
 
+sub StopChargingCars
+{
+    StopPV("Smart")  if IsCharging("Smart");
+    StopPV("Ioniq5") if IsCharging("Ioniq5");
+}
 1;
