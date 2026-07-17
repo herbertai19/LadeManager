@@ -43,7 +43,6 @@ my %Config = (
     PV_StartDelay    => 30,      # Sekunden
     PV_StopDelay     => 30,
 
-    PV_CheckInterval => 10,
     PV_MinRun => 600,   # 10 Minuten
     Debug         => 0,
 );
