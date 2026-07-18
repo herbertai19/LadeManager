@@ -815,8 +815,8 @@ sub UpdateChargeStatus
 
     return if($energy <= $startEnergy);
 
-    my $geladen = $energy - $startEnergy;
-
+my $geladen = ($energy - $startEnergy) / 1000;
+    
     LMLog(sprintf(
     "%s: StartEnergy=%.3f  Energy=%.3f  Geladen=%.3f",
     $car,
