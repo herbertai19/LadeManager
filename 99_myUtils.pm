@@ -808,6 +808,20 @@ sub UpdateChargeStatus
 
     my $geladen = $energy - $startEnergy;
 
+    if($geladen < -0.01)
+{
+    LMLog("$car: Shelly-Energiezähler zurückgesetzt.");
+
+    fhem("setreading LadeManager ${car}_StartEnergy $energy");
+    return;
+}
+
+if($geladen > $akku * 1.2)
+{
+    LMLog("$car: unrealistische Energiemenge ($geladen kWh)");
+    return;
+}
+
     my $akku = $Cars{$car}{Akku_kWh};
 
     my $soc = $startSOC
@@ -823,18 +837,28 @@ sub UpdateChargeStatus
         $soc
     ));
 
-    my ($rest,$netz,$sek,$zeit,$ende) =
-        CalcCharge(
-            $akku,
-            $Cars{$car}{Leistung},
-            $soc,
-            $ziel
-        );
+my ($rest,$netz,$sek,$zeit,$ende) =
+    CalcCharge(
+        $akku,
+        $power,
+        $soc,
+        $ziel
+    );
 
     fhem("setreading LadeManager ${car}_Rest_kWh $rest");
     fhem("setreading LadeManager ${car}_Netz_kWh $netz");
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
     fhem("setreading LadeManager ${car}_Ende $ende");
+    my $status = sprintf(
+    "%.1f%% | %.2f kWh geladen | %.2f kWh Rest | %.2f kW | Ende %s",
+    $soc,
+    $geladen,
+    $rest,
+    $power,
+    $ende
+);
+
+fhem("setreading LadeManager ${car}_Info $status");
 }
 
 1;
