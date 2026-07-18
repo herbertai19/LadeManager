@@ -307,6 +307,8 @@ LMLog(sprintf(
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
     fhem("setreading LadeManager ${car}_Ende $ende");
     fhem("setreading LadeManager ${car}_Status Laedt");
+    # Betriebsmodus merken
+    fhem("setreading LadeManager ${car}_Modus Manuell");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
 
     LMLog("LadeManager: $car startet fuer $zeit");
@@ -345,6 +347,7 @@ LMLog(sprintf(
 ));
 
     fhem("set $shelly off");
+    fhem("setreading LadeManager ${car}_Modus -");
 
 if (NeedsCharge($car))
 {
