@@ -44,6 +44,7 @@ my %Config = (
     PV_StopDelay     => 30,
 PV_MinBatterySOC    => 30,    # Unterhalb keine PV-Ladung
 PV_ResumeBatterySOC => 35,    # Erst ab diesem SOC wieder freigeben
+ChargeEfficiency    => 0.90,
     PV_MinRun => 600,   # 10 Minuten
     Debug         => 0,
 );
@@ -67,6 +68,7 @@ Smart => {
     Shelly    => "Shelly1_Smart",
     Priority  => 1,
     PVReading => "Smart_PV",
+    Akku_kWh => 17.6,
 },
 Ioniq5 => {
     Akku      => 77.4,
@@ -74,6 +76,7 @@ Ioniq5 => {
     Shelly    => "Shelly2_Ioniq5",
     Priority  => 2,
     PVReading => "Ioniq_PV",
+    Akku_kWh => 77.4,
 }
 );
 ############################################################
@@ -280,6 +283,22 @@ if($power > 100)
 
     return;
 }
+
+#-----------------------------------------
+# Startwerte für SOC-Schätzung merken
+#-----------------------------------------
+
+my $energy = ReadingsNum($shelly,"energy",0);
+
+fhem("setreading LadeManager ${car}_StartSOC $soc");
+fhem("setreading LadeManager ${car}_StartEnergy $energy");
+
+LMLog(sprintf(
+    "%s: StartSOC=%.1f%% StartEnergy=%.3f",
+    $car,
+    $soc,
+    $energy
+));
 
     fhem("setreading LadeManager ${car}_SOC $soc");
     fhem("setreading LadeManager ${car}_Ziel $ziel");
