@@ -307,6 +307,7 @@ LMLog(sprintf(
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
     fhem("setreading LadeManager ${car}_Ende $ende");
     fhem("setreading LadeManager ${car}_Status Laedt");
+    SetCarState($car,"🟠 Lädt (Manuell)");
     # Betriebsmodus merken
     fhem("setreading LadeManager ${car}_Modus Manuell");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
@@ -351,15 +352,15 @@ LMLog(sprintf(
 
 if (NeedsCharge($car))
 {
-    fhem("setreading LadeManager ${car}_Status Wartet");
+      SetCarState($car,"🟡 Wartet auf PV");
 }
 else
 {
     fhem("setreading LadeManager ${car}_Status Fertig");
+    SetCarState($car,"⚪ Fertig");
     fhem("setreading LadeManager ${car}_Aktiv off");
     
     LMLog("$car fertig -> pruefe naechstes PV-Fahrzeug");
-
 }
 delete $AlreadyChargingLogged{$car};
     LMLog("StopCar: $car gestoppt");
@@ -661,6 +662,7 @@ if ($start && (time() - $start) < $Config{PV_MinRun})
         $min,
         $sec
     ));
+    SetCarState($car,"🔵 Mindestlaufzeit");
 
     return;
 }
@@ -731,6 +733,7 @@ sub StartPV
     LMLog("StartPV: $car");
 
     StartCar($car,$soc,$ziel);
+    SetCarState($car,"🟢 Lädt (PV)");
 }
 
 ############################################################
@@ -868,16 +871,32 @@ sub UpdateChargeStatus
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
     fhem("setreading LadeManager ${car}_Ende $ende");
 
-    my $status = sprintf(
-        "%.1f%% | %.2f kWh geladen | %.2f kWh Rest | %.2f kW | Ende %s",
-        $soc,
-        $geladen,
-        $rest,
-        $power,
-        $ende
-    );
+my $state = ReadingsVal(
+    "LadeManager",
+    "${car}_State",
+    "-"
+);
+
+my $status = sprintf(
+    "%s | %.1f%% | %.2f kWh geladen | %.2f kWh Rest | %.2f kW | Ende %s",
+    $state,
+    $soc,
+    $geladen,
+    $rest,
+    $power,
+    $ende
+);
 
     fhem("setreading LadeManager ${car}_Info $status");
+}
+
+sub SetCarState
+{
+    my ($car,$state) = @_;
+
+    fhem("setreading LadeManager ${car}_State $state");
+
+    LMLog("$car: Status -> $state");
 }
 
 1;
