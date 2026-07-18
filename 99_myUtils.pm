@@ -327,6 +327,23 @@ sub StopCar
 
     return if(ReadingsVal($shelly,"relay","off") eq "off");
 
+#-----------------------------------------
+# Aktuellen SOC als neuen Startwert sichern
+#-----------------------------------------
+
+my $soc = ReadingsNum("LadeManager","${car}_SOC",0);
+my $energy = ReadingsNum($shelly,"energy",0);
+
+fhem("setreading LadeManager ${car}_StartSOC $soc");
+fhem("setreading LadeManager ${car}_StartEnergy $energy");
+
+LMLog(sprintf(
+    "%s: Neuer StartSOC=%.1f%% StartEnergy=%.3f",
+    $car,
+    $soc,
+    $energy
+));
+
     fhem("set $shelly off");
 
 if (NeedsCharge($car))
