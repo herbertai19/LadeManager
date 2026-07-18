@@ -817,6 +817,14 @@ sub UpdateChargeStatus
 
     my $geladen = $energy - $startEnergy;
 
+    LMLog(sprintf(
+    "%s: StartEnergy=%.3f  Energy=%.3f  Geladen=%.3f",
+    $car,
+    $startEnergy,
+    $energy,
+    $geladen
+));
+
     if($geladen < -0.01)
     {
         LMLog("$car: Shelly-Energiezähler zurückgesetzt.");
