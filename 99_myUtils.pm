@@ -544,6 +544,9 @@ my $akku  = ReadingsNum("SENEC","AKKU-Beladung",0);
 
 my $akku = ReadingsNum("SENEC","AKKU-Beladung",0);
 
+UpdateChargeStatus("Smart");
+UpdateChargeStatus("Ioniq5");
+
 # Übergang in den Sperrzustand
 if(!$BatteryLock && $akku < $Config{PV_MinBatterySOC})
 {
@@ -770,4 +773,51 @@ sub StopChargingCars
     StopPV("Smart")  if IsCharging("Smart");
     StopPV("Ioniq5") if IsCharging("Ioniq5");
 }
+
+sub UpdateChargeStatus
+{
+    my ($car) = @_;
+
+    return unless(IsCharging($car));
+
+    my $shelly = $Cars{$car}{Shelly};
+
+    my $startSOC    = ReadingsNum("LadeManager","${car}_StartSOC",0);
+    my $startEnergy = ReadingsNum("LadeManager","${car}_StartEnergy",0);
+
+    my $energy = ReadingsNum($shelly,"energy",0);
+
+    return if($energy <= $startEnergy);
+
+    my $geladen = $energy - $startEnergy;
+
+    my $akku = $Cars{$car}{Akku_kWh};
+
+    my $soc = $startSOC
+            + ($geladen * $Config{ChargeEfficiency} / $akku * 100);
+
+    my $ziel = ReadingsNum("LadeManager","${car}_Ziel",100);
+
+    $soc = $ziel if($soc > $ziel);
+
+    fhem(sprintf(
+        "setreading LadeManager %s_SOC %.1f",
+        $car,
+        $soc
+    ));
+
+    my ($rest,$netz,$sek,$zeit,$ende) =
+        CalcCharge(
+            $akku,
+            $Cars{$car}{Leistung},
+            $soc,
+            $ziel
+        );
+
+    fhem("setreading LadeManager ${car}_Rest_kWh $rest");
+    fhem("setreading LadeManager ${car}_Netz_kWh $netz");
+    fhem("setreading LadeManager ${car}_Ladezeit $zeit");
+    fhem("setreading LadeManager ${car}_Ende $ende");
+}
+
 1;
