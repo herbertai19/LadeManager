@@ -584,7 +584,7 @@ oninput="$('#ioniqsoc').text(this.value + '%');"
     <span
         data-type="label"
         data-device="Lambda"
-        data-get="Boiler-Temperatur"></span> °C
+        data-get="Boiler-Temperatur"></span>
 </div>
 
 <div id="wwstate" class="statustext">AUS</div>
@@ -601,39 +601,6 @@ oninput="$('#ioniqsoc').text(this.value + '%');"
       data-get="state"></span>
 </div> <!-- Ende Label -->
     <hr style="margin:12px 0;border:1px solid #333;">
-
-<div class="cardtitle" style="font-size:18px;">💧 Warmwasser</div>
-
-<div style="
-    text-align:center;
-    font-size:22px;
-    color:#00ff99;
-    font-weight:bold;
-    margin-top:6px;">
-
-    <span
-        data-type="label"
-        data-device="Lambda"
-        data-get="Boiler-Temperatur"></span> °C
-
-</div>
-
-<div id="wwstate"
-     class="statustext">
-AUS
-</div>
-
-<div class="buttons">
-    <div class="btn" onclick="warmwasserOn()">EIN</div>
-    <div class="btn" onclick="warmwasserOff()">AUS</div>
-</div>
-
-<span id="wwdummy"
-      style="display:none"
-      data-type="label"
-      data-device="Warmwasser"
-      data-get="state">
-</span>
 
 <span id="einhellpower"
       style="display:none"
