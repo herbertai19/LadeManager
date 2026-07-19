@@ -247,6 +247,8 @@ sub StartCar
     my ($rest,$netz,$sek,$zeit,$ende) =
         CalcCharge($akku,$leistung,$soc,$ziel);
 
+        LMLog("StartCar: sek=$sek soc=$soc ziel=$ziel rest=$rest");
+
 if($sek == 0)
 {
 if ($Config{Debug}) {
