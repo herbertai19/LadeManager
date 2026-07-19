@@ -9,6 +9,7 @@ use POSIX qw(strftime);
 # myUtils
 #########################################
 
+
 sub myUtils_Initialize() {
     return;
 }
@@ -250,11 +251,15 @@ sub StartCar
 
 if($sek == 0)
 {
+if ($Debug) {
     LMLog("LadeManager: $car bereits auf Ziel.");
+}
 
     if (IsCharging($car))
     {
+    if ($Debug) {
         LMLog("LadeManager: Stoppe $car (Ziel erreicht)");
+        }
         StopCar($car);
     }
 
@@ -311,9 +316,9 @@ LMLog(sprintf(
     # Betriebsmodus merken
     fhem("setreading LadeManager ${car}_Modus Manuell");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
-
+if ($Debug) {
     LMLog("LadeManager: $car startet fuer $zeit");
-
+}
     fhem("set $shelly on-for-timer $sek");
     fhem("setreading LadeManager ${car}_StartTime " . time());
 }
@@ -359,8 +364,9 @@ else
     fhem("setreading LadeManager ${car}_Status Fertig");
     SetCarState($car,"⚪ Fertig");
     fhem("setreading LadeManager ${car}_Aktiv off");
-    
+    if ($Debug) {
     LMLog("$car fertig -> pruefe naechstes PV-Fahrzeug");
+    }
 }
 delete $AlreadyChargingLogged{$car};
     LMLog("StopCar: $car gestoppt");
@@ -409,9 +415,9 @@ if(time() - $PV_StartSince < $Config{PV_StartDelay})
 }
 
 $StartDelayLogged = 0;
-
+if ($Debug) {
         LMLog("CheckPV: Starte $car");
-
+}
 StartPV($car,$soc,$ziel);
 
         $PV_StartSince = 0;
@@ -445,12 +451,17 @@ sub Smart85
 
     if(IsPVEnabled("Smart"))
     {
+    if ($Debug) {
         LMLog("Smart85: PV-Modus");
+        }
         CheckPV();
     }
     else
     {
+    if ($Debug) {
+    if ($Debug) {
         LMLog("Smart85: Sofort laden");
+        }
         StartCar("Smart",$soc,85);
     }
 }
@@ -464,12 +475,16 @@ sub Smart100
 
     if(IsPVEnabled("Smart"))
     {
+    if ($Debug) {
         LMLog("Smart100: PV-Modus");
+        }
         CheckPV();
     }
     else
     {
+    if ($Debug) {
         LMLog("Smart100: Sofort laden");
+        }
         StartCar("Smart",$soc,100);
     }
 }
@@ -609,7 +624,9 @@ unless (defined $pvcar)
 
     unless ($NoPVLogged)
     {
+    if ($Debug) {
         LMLog("CheckPV: Kein PV-Fahrzeug");
+        }
         $NoPVLogged = 1;
     }
 
