@@ -345,7 +345,12 @@ sub StopCar
 
     my $shelly = $Cars{$car}{Shelly};
 
-    return if(ReadingsVal($shelly,"relay","off") eq "off");
+if (ReadingsVal($shelly,"relay","off") eq "off")
+{
+    fhem("deletereading LadeManager ${car}_StartTime");
+    delete $AlreadyChargingLogged{$car};
+    return;
+}
 
 #-----------------------------------------
 # Aktuellen SOC als neuen Startwert sichern
