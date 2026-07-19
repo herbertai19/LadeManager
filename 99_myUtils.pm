@@ -353,7 +353,11 @@ LMLog(sprintf(
     fhem("set $shelly off");
     fhem("setreading LadeManager ${car}_Modus -");
 
-if (NeedsCharge($car))
+my $need = NeedsCharge($car);
+LMLog("StopCar: NeedsCharge($car) = $need");
+
+# if (NeedsCharge($car))
+if ($need)
 {
       SetCarState($car,"🟡 Wartet auf PV");
 }
