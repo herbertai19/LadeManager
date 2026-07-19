@@ -255,7 +255,7 @@ if ($Debug) {
 
     if (IsCharging($car))
     {
-    if ($Debug) {
+    if ($Config{Debug}) {
         LMLog("LadeManager: Stoppe $car (Ziel erreicht)");
         }
         StopCar($car);
@@ -314,7 +314,7 @@ LMLog(sprintf(
     # Betriebsmodus merken
     fhem("setreading LadeManager ${car}_Modus Manuell");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
-if ($Debug) {
+if ($Config{Debug}) {
     LMLog("LadeManager: $car startet fuer $zeit");
 }
     fhem("set $shelly on-for-timer $sek");
@@ -362,7 +362,7 @@ else
     fhem("setreading LadeManager ${car}_Status Fertig");
     SetCarState($car,"⚪ Fertig");
     fhem("setreading LadeManager ${car}_Aktiv off");
-    if ($Debug) {
+    if ($Config{Debug}) {
     LMLog("$car fertig -> pruefe naechstes PV-Fahrzeug");
     }
 }
@@ -413,7 +413,7 @@ if(time() - $PV_StartSince < $Config{PV_StartDelay})
 }
 
 $StartDelayLogged = 0;
-if ($Debug) {
+if ($Config{Debug}) {
         LMLog("CheckPV: Starte $car");
 }
 StartPV($car,$soc,$ziel);
@@ -449,15 +449,15 @@ sub Smart85
 
     if(IsPVEnabled("Smart"))
     {
-    if ($Debug) {
+    if ($Config{Debug}) {
         LMLog("Smart85: PV-Modus");
         }
         CheckPV();
     }
     else
     {
-    if ($Debug) {
-    if ($Debug) {
+
+    if ($Config{Debug}) {
         LMLog("Smart85: Sofort laden");
         }
         StartCar("Smart",$soc,85);
@@ -473,14 +473,14 @@ sub Smart100
 
     if(IsPVEnabled("Smart"))
     {
-    if ($Debug) {
+    if ($Config{Debug}) {
         LMLog("Smart100: PV-Modus");
         }
         CheckPV();
     }
     else
     {
-    if ($Debug) {
+    if ($Config{Debug}) {
         LMLog("Smart100: Sofort laden");
         }
         StartCar("Smart",$soc,100);
@@ -622,7 +622,7 @@ unless (defined $pvcar)
 
     unless ($NoPVLogged)
     {
-    if ($Debug) {
+    if ($Config{Debug}) {
         LMLog("CheckPV: Kein PV-Fahrzeug");
         }
         $NoPVLogged = 1;
