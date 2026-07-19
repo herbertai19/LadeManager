@@ -546,7 +546,7 @@ oninput="$('#ioniqsoc').text(this.value + '%');"
 <!-- Einhell --------------------------------------------------->
 <div class="card">
 
-    <div class="cardtitle">Einhell Ladegeräte</div>
+<div class="cardtitle">🔋 Einhell</div>
 
     <div class="buttons">
         <div class="btn" onclick="einhellOn()">EIN</div>
@@ -576,8 +576,64 @@ oninput="$('#ioniqsoc').text(this.value + '%');"
           data-device="Shelly3_Einhell"
           data-get="energy_round"></span> kWh
 </div>
+<hr style="margin:12px 0;border:1px solid #333;">
 
+<div class="cardtitle" style="font-size:18px;">💧 Warmwasser</div>
+
+<div style="text-align:center;font-size:22px;color:#00ff99;font-weight:bold;">
+    <span
+        data-type="label"
+        data-device="Lambda"
+        data-get="Boiler-Temperatur"></span> °C
+</div>
+
+<div id="wwstate" class="statustext">AUS</div>
+
+<div class="buttons">
+    <div class="btn" onclick="warmwasserOn()">EIN</div>
+    <div class="btn" onclick="warmwasserOff()">AUS</div>
+</div>
+
+<span id="wwdummy"
+      style="display:none"
+      data-type="label"
+      data-device="Warmwasser"
+      data-get="state"></span>
 </div> <!-- Ende Label -->
+    <hr style="margin:12px 0;border:1px solid #333;">
+
+<div class="cardtitle" style="font-size:18px;">💧 Warmwasser</div>
+
+<div style="
+    text-align:center;
+    font-size:22px;
+    color:#00ff99;
+    font-weight:bold;
+    margin-top:6px;">
+
+    <span
+        data-type="label"
+        data-device="Lambda"
+        data-get="Boiler-Temperatur"></span> °C
+
+</div>
+
+<div id="wwstate"
+     class="statustext">
+AUS
+</div>
+
+<div class="buttons">
+    <div class="btn" onclick="warmwasserOn()">EIN</div>
+    <div class="btn" onclick="warmwasserOff()">AUS</div>
+</div>
+
+<span id="wwdummy"
+      style="display:none"
+      data-type="label"
+      data-device="Warmwasser"
+      data-get="state">
+</span>
 
 <span id="einhellpower"
       style="display:none"
@@ -786,6 +842,14 @@ if (einhellOn) {
 } else {
     $("#einhellpowertext").text("⚡ --");
 }
+   // Warmwasser
+
+const wwOn = $("#wwdummy").text().trim() === "on";
+
+$("#wwstate")
+    .text(wwOn ? "🟢 EIN" : "⚪ AUS")
+    .removeClass("on off")
+    .addClass(wwOn ? "on" : "off");
 
     const now = new Date();
 
@@ -893,7 +957,22 @@ function einhellOff(){
         encodeURIComponent("set Shelly3_Einhell off"));
 
 }  
+    
+    
+function warmwasserOn(){
 
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("set Warmwasser on"));
+
+}
+
+function warmwasserOff(){
+
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("set Warmwasser off"));
+
+}
+    
 function smartPV(){
 
     const btn = $("#smartpvbtn");
