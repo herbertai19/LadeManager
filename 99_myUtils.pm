@@ -323,7 +323,7 @@ LMLog(sprintf(
     fhem("setreading LadeManager ${car}_Ende $ende");
     fhem("setreading LadeManager ${car}_Status Laedt");
     fhem("setreading LadeManager ${car}_Aktiv on");
-    SetCarState($car,"🟠 Lädt (Manuell)");
+    SetCarState($car,"🟢 Lädt (Manuell)");
     # Betriebsmodus merken
     fhem("setreading LadeManager ${car}_Modus Manuell");
     fhem("setreading LadeManager ${car}_State $soc%->$ziel% ($zeit)");
@@ -378,7 +378,8 @@ LMLog("StopCar: NeedsCharge($car) = $need");
 # if (NeedsCharge($car))
 if ($need)
 {
-      SetCarState($car,"🟡 Wartet auf PV");
+       SetCarState($car,"🟡 Wartet auf PV");
+
 }
 else
 {
