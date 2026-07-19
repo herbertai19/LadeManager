@@ -272,17 +272,20 @@ if ($Config{Debug}) {
     return;
 }
 
-    my $power = ReadingsNum($shelly,"power",0);
+my $relay = ReadingsVal($shelly,"relay","off");
+my $power = ReadingsNum($shelly,"power",0);
 
-if($power > 100)
+LMLog(sprintf(
+    "StartCar: relay=%s power=%.0f",
+    $relay,
+    $power
+));
+
+if($relay eq "on")
 {
     unless ($AlreadyChargingLogged{$car})
     {
-        LMLog(sprintf(
-            "LadeManager: %s laedt bereits (%.0fW).",
-            $car,
-            $power
-        ));
+        LMLog("LadeManager: $car laedt bereits.");
         $AlreadyChargingLogged{$car} = 1;
     }
 
