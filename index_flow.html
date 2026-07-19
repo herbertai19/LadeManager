@@ -77,7 +77,11 @@ body{
     margin-top:10px;
     text-align:center;
 }
-
+    
+#ioniqsoc{
+    margin-top:-8px;
+    margin-bottom:10px;
+}
 .bar{
     width:92%;
     margin:auto;
@@ -454,7 +458,6 @@ Status
 
 <div id="ioniqsoc"
      class="value"
-         style="margin-top:-12px;"
      data-type="label"
      data-device="LadeManager"
      data-get="Ioniq5_SOC"
@@ -556,27 +559,38 @@ oninput="$('#ioniqsoc').text(this.value + '%');"
 
 <div class="label">
 
-    Status
+<div style="
+display:flex;
+justify-content:space-around;
+align-items:center;
+margin:8px 0 15px 0;
+font-size:22px;">
 
-    <div id="einhellstate" class="statustext">
-        AUS
-    </div>
+<div id="einhellstate" class="statustext">
+AUS
+</div>
 
-    <div id="einhellpowertext" class="powertext">
-        &#9889; --
-    </div>
+<div id="einhellpowertext" class="powertext">
+⚡ --
+</div>
+
+</div>
+
+<div style="text-align:center;color:#bbb;">
+Gesamt
+</div>
+
+<div style="
+text-align:center;
+font-size:22px;
+color:#00ff99;
+font-weight:bold;">
+<span
+data-type="label"
+data-device="Shelly3_Einhell"
+data-get="energy_round"></span> kWh
+</div>
     
-   <br>
-
-<div style="text-align:center;color:#bbb;font-size:16px;">
-    Gesamt
-</div>
-
-<div style="text-align:center;font-size:22px;color:#00ff99;font-weight:bold;">
-    <span data-type="label"
-          data-device="Shelly3_Einhell"
-          data-get="energy_round"></span> kWh
-</div>
 <hr style="margin:12px 0;border:1px solid #333;">
 
 <div class="cardtitle" style="font-size:18px;">💧 Warmwasser</div>
