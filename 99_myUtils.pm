@@ -45,7 +45,7 @@ PV_MinBatterySOC    => 30,    # Unterhalb keine PV-Ladung
 PV_ResumeBatterySOC => 35,    # Erst ab diesem SOC wieder freigeben
 ChargeEfficiency    => 0.90,
     PV_MinRun => 600,   # 10 Minuten
-    Debug         => 0,
+    Debug         => 1,
 );
 ############################################################
 # PV-Hysterese
