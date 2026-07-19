@@ -244,9 +244,6 @@ sub StartCar
     my $leistung = $Cars{$car}{Leistung};
     my $shelly   = $Cars{$car}{Shelly};
 
-    # Bereits aktiv?
-return if(ReadingsVal("LadeManager","${car}_Aktiv","off") eq "on");
-
     my ($rest,$netz,$sek,$zeit,$ende) =
         CalcCharge($akku,$leistung,$soc,$ziel);
 
