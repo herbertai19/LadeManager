@@ -249,7 +249,7 @@ sub StartCar
 
 if($sek == 0)
 {
-if ($Debug) {
+if ($Config{Debug}) {
     LMLog("LadeManager: $car bereits auf Ziel.");
 }
 
