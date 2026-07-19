@@ -244,6 +244,9 @@ sub StartCar
     my $leistung = $Cars{$car}{Leistung};
     my $shelly   = $Cars{$car}{Shelly};
 
+    # Bereits aktiv?
+return if(ReadingsVal("LadeManager","${car}_Aktiv","off") eq "on");
+
     my ($rest,$netz,$sek,$zeit,$ende) =
         CalcCharge($akku,$leistung,$soc,$ziel);
 
@@ -287,6 +290,13 @@ if($power > 100)
     return;
 }
 
+my $startTime = ReadingsVal("LadeManager","${car}_StartTime","");
+
+if ($startTime ne "")
+{
+    return;
+}
+
 #-----------------------------------------
 # Startwerte für SOC-Schätzung merken
 #-----------------------------------------
@@ -310,6 +320,7 @@ LMLog(sprintf(
     fhem("setreading LadeManager ${car}_Ladezeit $zeit");
     fhem("setreading LadeManager ${car}_Ende $ende");
     fhem("setreading LadeManager ${car}_Status Laedt");
+    fhem("setreading LadeManager ${car}_Aktiv on");
     SetCarState($car,"🟠 Lädt (Manuell)");
     # Betriebsmodus merken
     fhem("setreading LadeManager ${car}_Modus Manuell");
@@ -317,6 +328,7 @@ LMLog(sprintf(
 if ($Config{Debug}) {
     LMLog("LadeManager: $car startet fuer $zeit");
 }
+fhem("setreading LadeManager ${car}_Aktiv on");
     fhem("set $shelly on-for-timer $sek");
     fhem("setreading LadeManager ${car}_StartTime " . time());
 }
@@ -580,8 +592,6 @@ my $netz  = GetNetPower();
 my $pvcar = GetNextPVCar();
 my $akku  = ReadingsNum("SENEC","AKKU-Beladung",0);
 
-my $akku = ReadingsNum("SENEC","AKKU-Beladung",0);
-
 UpdateChargeStatus("Smart");
 UpdateChargeStatus("Ioniq5");
 
@@ -768,18 +778,6 @@ sub StopPV
     StopCar($car);
 }
 
-sub TestPV
-{
-    my $soc  = ReadingsNum("LadeManager","Smart_SOC",0);
-    my $ziel = ReadingsNum("LadeManager","Smart_Ziel",85);
-
-    StartCar("Smart",$soc,$ziel);
-}
-
-sub TestStop
-{
-    StopCar("Smart");
-}
 sub SetSOC
 {
     my ($car,$soc)=@_;
