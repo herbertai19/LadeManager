@@ -8,7 +8,6 @@ use POSIX qw(strftime);
 # myUtils
 #########################################
 
-
 sub myUtils_Initialize() {
     return;
 }
