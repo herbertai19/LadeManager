@@ -737,7 +737,7 @@ if(time() - $PV_StopSince < $Config{PV_StopDelay})
     unless ($StopDelayLogged)
     {
         LMLog(sprintf(
-            "CheckPV: Stopverzögerung (%02d:%02d verbleibend)",
+            "CheckPV: Stopverzögerung läuft...",
             $min,
             $sec
         ));
