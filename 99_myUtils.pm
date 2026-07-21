@@ -202,9 +202,20 @@ sub GetNextPVCar
     {
         next unless IsPVEnabled($car);
         next unless NeedsCharge($car);
-DbgLog("$car: PV=" . IsPVEnabled($car)
+
+my $status =
+      "PV=" . IsPVEnabled($car)
     . " Aktiv=" . ReadingsVal("LadeManager","${car}_Aktiv","?")
-    . " NeedsCharge=" . NeedsCharge($car));
+    . " NeedsCharge=" . NeedsCharge($car);
+
+my $lastStatus = ReadingsVal("LadeManager","${car}_LastStatus","");
+
+if ($status ne $lastStatus)
+{
+    DbgLog("$car: $status");
+    fhem("setreading LadeManager ${car}_LastStatus $status");
+}
+
         return $car;
     }
 
