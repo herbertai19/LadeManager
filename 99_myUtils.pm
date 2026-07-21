@@ -842,14 +842,6 @@ sub UpdateChargeStatus
 
 my $geladen = ($energy - $startEnergy) / 1000;
     
-    LMLog(sprintf(
-    "%s: StartEnergy=%.3f  Energy=%.3f  Geladen=%.3f",
-    $car,
-    $startEnergy,
-    $energy,
-    $geladen
-));
-
     if($geladen < -0.01)
     {
         LMLog("$car: Shelly-Energiezähler zurückgesetzt.");
@@ -865,6 +857,21 @@ my $geladen = ($energy - $startEnergy) / 1000;
 
     my $soc = $startSOC
             + ($geladen * $Config{ChargeEfficiency} / $akku * 100);
+
+            my $socInt  = int($soc);
+my $lastSoc = ReadingsNum("LadeManager","${car}_SOC_Log",-1);
+
+if ($socInt != $lastSoc)
+{
+    LMLog(sprintf(
+        "%s: SOC %d%% (%.2f kWh geladen)",
+        $car,
+        $socInt,
+        $geladen
+    ));
+
+    fhem("setreading LadeManager ${car}_SOC_Log $socInt");
+}
 
     my $ziel = ReadingsNum("LadeManager","${car}_Ziel",100);
 
