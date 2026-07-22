@@ -889,7 +889,7 @@ if ($socInt != $lastSoc)
     $soc = $ziel if($soc > $ziel);
 
     fhem(sprintf(
-        "setreading LadeManager %s_SOC %.0f",
+        "setreading LadeManager %s_SOC %.2f",
         $car,
         $soc
     ));
