@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="../css/fhem-tablet-ui.css">
+
+<script src="../lib/jquery.min.js"></script>
+<script src="../js/fhem-tablet-ui.min.js"></script>
+
+<style>
+
+body{
+    margin:0;
+    background:#111;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+
+.dashboard{
+    width:min(1500px,98vw);
+    margin:auto;
+    padding:10px;
+    box-sizing:border-box;
+}
+    
+  .title{
+    text-align:center;
+    font-size:clamp(26px,3vw,38px);
+    padding:10px 0 12px 0;
+    font-weight:bold;
+    color:#fff;
+}
+    
+.toprow{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:14px;
+}
+
+.bottomrow{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.card{
+    background:#1b1b1b;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 0 18px rgba(0,0,0,.45);
+  //  min-height:260px;
+    display:flex;
+    flex-direction:column;
+}
+
+.cardtitle{
+    font-size:clamp(20px,2vw,28px);
+    text-align:center;
+    margin-bottom:8px;
+}
+    
+.value{
+    text-align:center;
+    font-size:clamp(36px,4vw,58px);
+    color:#00ff99;
+    font-weight:bold;
+    line-height:1;
+    min-height:58px;
+}
+
+.label{
+    font-size:20px;
+    color:#bbb;
+    margin-top:10px;
+    text-align:center;
+}
+    
+.bar{
+    width:92%;
+    margin:auto;
+    height:22px;
+    background:#444;
+    border-radius:14px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.barfill{
+    display:block;
+    width:50%;
+    height:22px;
+    background:#2ecc71;
+    transition:width .5s;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:18px;
+}
+
+.btn{
+    flex:1;
+    background:#1976d2;
+    border-radius:12px;
+    padding:18px;
+    color:#fff;
+    font-size:26px;
+    font-weight:bold;
+    text-align:center;
+    cursor:pointer;
+}
+
+.pvbtn{
+    flex:0.8;
+    background:#555;
+}
+
+.pvbtn.active{
+    background:#2e7d32;
+    color:#fff;
+}
+
+.btn.selected{
+    background:#0b4ea2;
+    border:2px solid #8fd3ff;
+    color:#fff;
+    box-sizing:border-box;
+}
+    
+}
+
+.btn:hover{
+    background:#29a0ff;
+}
+
+.statusdot{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    margin:12px auto;
+    background:#d32f2f;
+}
+
+.statusdot.on{
+    background:#43a047;
+}
+
+.statustext{
+
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin-top:8px;
+    margin-bottom:8px;
+
+}
+
+.statustext.on{
+
+    color:#2ecc71;
+
+}
+
+.statustext.off{
+
+    color:#e74c3c;
+
+}
+
+.powertext{
+    text-align:center;
+    color:#ddd;
+    font-size:22px;
+    margin-top:12px;
+    font-weight:bold;
+}
+    .infoLine{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:6px 0;
+}
+
+    .sliderbox{
+    margin:18px 10px 8px 10px;
+}
+
+/* ---------- Tablet (alle iPads) ---------- */
+
+@media (max-width:1366px){
+
+    .dashboard{
+        width:99vw;
+        padding:6px;
+    }
+
+.toprow{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:14px;
+}
+
+.toprow .card{
+    min-height:0;
+    height:auto;
+}
+
+    .bottomrow{
+        gap:8px;
+    }
+
+    .card{
+        min-height:170px;
+        padding:10px;
+        border-radius:12px;
+    }
+
+    .title{
+        font-size:26px;
+        padding:12px;
+    }
+
+    .cardtitle{
+        font-size:10px;
+        margin-bottom:6px;
+    }
+
+    .value{
+        font-size:30px;
+    }
+
+    .label{
+        font-size:14px;
+    }
+
+    .btn{
+        font-size:16px;
+        padding:10px;
+        border-radius:10px;
+    }
+
+    .powertext{
+        font-size:16px;
+    }
+
+    .statustext{
+        font-size:16px;
+    }
+
+    .bar{
+        height:16px;
+    }
+
+    .barfill{
+        height:16px;
+    }
+
+}
+
+.statusbar{
+    margin-top:14px;
+    padding:8px 20px;
+    border-top:1px solid #333;
+
+    display:flex;
+    align-items:center;
+
+    color:#aaa;
+    font-size:14px;
+}
+
+.statusvalue{
+    color:#00ff99;
+    transition:color 0.3s;
+}
+
+.statusvalue.fresh{
+    color:#ff0000;
+}
+.statusvalue.stale{
+    color:#888 !important;
+}    
+.statusbar > div:first-child{
+    flex:0 0 90px;
+    text-align:left;
+}
+
+.statusbar > div:not(:first-child){
+    flex:1;
+    text-align:center;
+    white-space:nowrap;
+}
+
+.statusbar #lastupdate{
+    color:#00ff99;
+    font-weight:bold;
+    font-size:16px;
+}
+    
+#klimamode{
+    width:140px;
+    flex:0 0 140px;
+}
+   Smart: <span id="smartcomm">OK</span> 
+    
+</style>
+
+</head>
+
+<body>
+
+<div class="title">Haus Energiefluss</div>
+
+<div class="dashboard">
+
+<div class="toprow">
+
+<div class="card">
+<div class="cardtitle">PV</div>
+<div class="value"
+     data-type="label"
+     data-device="SENEC"
+     data-get="PV-Erzeugung"
+     data-unit=" W"></div>
+</div>
+
+<div class="card">
+<div class="cardtitle">Haus</div>
+<div class="value"
+     data-type="label"
+     data-device="SENEC"
+     data-get="Haus-Stromverbrauch"
+     data-unit=" W"></div>
+</div>
+
+<div class="card">
+<div class="cardtitle">Speicher</div>
+<div class="value"
+     data-type="label"
+     data-device="SENEC"
+     data-get="AKKU-Beladung"
+     data-unit="%"></div>
+<div class="value"
+     style="font-size:16px"
+     data-type="label"
+     data-device="SENEC"
+     data-get="AKKU-Entnahme"
+     data-unit=" W"></div>
+</div>
+
+<div class="card">
+<div class="cardtitle">Netz</div>
+<div class="value"
+     data-type="label"
+     data-device="SENEC"
+     data-get="Netz-Bezug"
+     data-unit=" W"></div>
+</div>
+
+</div>
+
+<div class="bottomrow">
+
+<!-- Smart ----------------------------------------------------->
+<div class="card">
+
+<div class="cardtitle">Smart EQ</div>
+
+<div class="bar">
+<div id="smartbar" class="barfill"></div>
+</div>
+
+<div id="smartsoc"
+     class="value"
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Smart_SOC"
+     data-unit="%">
+</div>
+    <div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Smart_PV"
+     style="display:none">
+</div>
+
+    <div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Smart_Ziel"
+     style="display:none">
+</div>
+<div class="sliderbox">
+
+<input
+    id="smartslider"
+    type="range"
+    min="0"
+    max="100"
+    value="50"
+    style="width:100%;"
+oninput="$('#smartsoc').text(this.value+'%');"
+    onchange="setSmartSOC(this.value);">
+
+</div>
+
+<div class="buttons">
+    <div class="btn" id="smart85btn" onclick="smart85()">85 %</div>
+    <div class="btn" id="smart100btn" onclick="smart100()">100 %</div>
+    <div class="btn pvbtn" id="smartpvbtn" onclick="smartPV()">☀ PV</div>
+</div>
+    
+<div style="flex:1"></div>
+    
+<div class="label">
+
+<div class="infoLine">
+    <span>Rest:</span>
+    <span>
+        <span data-type="label"
+              data-device="LadeManager"
+              data-get="Smart_Rest_kWh"></span> kWh
+    </span>
+</div>
+
+<div class="infoLine">
+    <span>Ende:</span>
+    <span data-type="label"
+          data-device="LadeManager"
+          data-get="Smart_Ende"></span>
+</div>
+
+<br>
+
+Status
+<div id="smartstate" class="statustext">
+    AUS
+</div>
+
+<div id="smartpowertext" class="powertext">
+⚡ --
+</div>
+
+</div>
+
+<span id="smartpower"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly1_Smart"
+      data-get="power">
+</span>
+
+<span id="smartrelay"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly1_Smart"
+      data-get="relay">
+</span>
+
+</div>
+
+<!-- Hyundai ----------------------------------------------------->
+
+    <div class="card">
+
+        <div class="cardtitle">Hyundai Ioniq5</div>
+<div class="bar">
+    <div id="ioniqbar" class="barfill"></div>
+</div>
+      <div class="label" style="text-align:center; position:relative; top:-45px;">
+<div id="ioniqsoc"
+     class="value"
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Ioniq5_SOC"
+     data-unit="%">
+</div>
+
+<div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Ioniq_PV"
+     style="display:none">
+</div>
+
+<div
+     data-type="label"
+     data-device="LadeManager"
+     data-get="Ioniq5_Ziel"
+     style="display:none">
+</div>
+
+<div class="sliderbox">
+
+    <input
+        id="ioniqslider"
+        type="range"
+        min="0"
+        max="100"
+        value="50"
+        style="width:100%;"
+oninput="$('#ioniqsoc').text(this.value + '%');"
+        onchange="setIoniqSOC(this.value);">
+
+</div>
+
+     <div class="buttons">
+     <div class="btn" id="ioniq85btn" onclick="ioniq85()">85 %</div>
+     <div class="btn" id="ioniq100btn" onclick="ioniq100()">100 %</div>
+     <div class="btn pvbtn" id="ioniqpvbtn" onclick="ioniqPV()">☀ PV</div>
+</div>   
+</div>
+
+<div class="label" style="text-align:center;">
+    
+<div class="infoLine">
+    <span>Rest:</span>
+    <span>
+        <span data-type="label"
+              data-device="LadeManager"
+              data-get="Ioniq5_Rest_kWh"></span> kWh
+    </span>
+</div>
+
+<div class="infoLine">
+    <span>Ende:</span>
+    <span data-type="label"
+          data-device="LadeManager"
+          data-get="Ioniq5_Ende"></span>
+</div>
+
+<br>
+
+            Status
+
+<div id="ioniqstate" class="statustext">
+    AUS
+</div>
+<div id="ioniqpowertext"
+     style="
+        text-align:center;
+        color:#ddd;
+        font-size:18px;
+        margin-top:8px;">
+    ⚡ --
+</div>
+            
+<span id="ioniqpower"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly2_Ioniq5"
+      data-get="power">
+</span>
+            
+<span id="ioniqrelay"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly2_Ioniq5"
+      data-get="relay">
+</span>
+        </div>
+
+    </div>
+
+<!-- Einhell --------------------------------------------------->
+<div class="card">
+
+<div class="cardtitle">🔋 Einhell</div>
+
+    <div class="buttons">
+        <div class="btn" onclick="einhellOn()">EIN</div>
+        <div class="btn" onclick="einhellOff()">AUS</div>
+    </div>
+
+<div class="label">
+
+<div style="
+display:flex;
+justify-content:space-around;
+align-items:center;
+margin:8px 0 15px 0;
+font-size:22px;">
+
+<div id="einhellstate" class="statustext">
+AUS
+</div>
+
+<div id="einhellpowertext" class="powertext">
+⚡ --
+</div>
+
+</div>
+
+<div style="text-align:center;color:#bbb;">
+Gesamt
+</div>
+
+<div style="
+text-align:center;
+font-size:22px;
+color:#00ff99;
+font-weight:bold;">
+<span
+data-type="label"
+data-device="Shelly3_Einhell"
+data-get="energy_round"></span> kWh
+</div>
+    
+<hr style="margin:12px 0;border:1px solid #333;">
+
+<div class="cardtitle" style="font-size:18px;">💧 Warmwasser</div>
+
+<div style="text-align:center;font-size:22px;color:#00ff99;font-weight:bold;">
+    <span
+        data-type="label"
+        data-device="Lambda"
+        data-get="Boiler-Temperatur"></span>
+</div>
+
+<div id="wwstate" class="statustext">AUS</div>
+
+<div class="buttons">
+    <div class="btn" onclick="warmwasserOn()">EIN</div>
+    <div class="btn" onclick="warmwasserOff()">AUS</div>
+</div>
+
+<span id="wwdummy"
+      style="display:none"
+      data-type="label"
+      data-device="Warmwasser"
+      data-get="state"></span>
+</div> <!-- Ende Label -->
+    <hr style="margin:12px 0;border:1px solid #333;">
+
+<span id="einhellpower"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly3_Einhell"
+      data-get="power">
+</span>
+
+<span id="einhellrelay"
+      style="display:none"
+      data-type="label"
+      data-device="Shelly3_Einhell"
+      data-get="relay">
+</span>
+
+</div>   <!-- Ende Einhell-Karte -->
+    </div>   <!-- Ende Einhell-Karte -->
+
+
+  <div class="statusbar">
+
+    <div id="lastupdate">--:--:--</div>
+
+    <div>
+        Lambda:
+        <span
+            class="statusvalue"
+            data-type="label"
+            data-device="Lambda"
+            data-get="HeatPump-OperatingStatus"></span>
+        |
+KU-Status:
+<span
+    class="statusvalue"
+    data-type="label"
+    data-device="Lambda"
+    data-get="KU-Status"></span>
+        |
+        KU:
+        <span
+            class="statusvalue"
+            data-type="label"
+            data-device="Lambda"
+            data-get="KU-FlowLineTemperatur"></span>
+        |
+        COP:
+        <span
+            class="statusvalue"
+            data-type="label"
+            data-device="Lambda"
+            data-get="HeatPump-COP"></span>
+        |
+        Strom:
+        <span
+            class="statusvalue"
+            data-type="label"
+            data-device="Lambda"
+            data-get="HeatPump-FIPowerConsumption"></span>
+        |
+        Raum:
+        <span
+            class="statusvalue"
+            data-type="label"
+            data-device="SIW27"
+            data-get="Isttemperatur"></span> °C
+        |
+        Soll:
+        <span
+            class="statusvalue"
+            data-type="label"
+            data-device="SIW27"
+            data-get="Solltemperatur"></span> °C
+    </div>
+    <div>
+        Klima:
+        <select id="klimamode"
+                onchange="setKlimaMode(this.value)"
+                style="
+                    background:#222;
+                    color:#ddd;
+                    border:1px solid #555;
+                    border-radius:5px;
+                    padding:3px 6px;
+                    font-size:14px;">
+            <option value="Off">Off</option>
+            <option value="Cool">Cool</option>
+        </select>
+    </div>
+
+    <span
+        data-type="label"
+        data-device="KlimaMode"
+        data-get="state"
+        style="display:none">
+    </span>
+
+</div>
+</div>
+<script>
+var smart=50;
+var ioniq=50;
+    function setKlimaMode(mode) {
+    $.get(
+        '/fhem?cmd=' +
+        encodeURIComponent('set KlimaMode ' + mode) +
+        '&XHR=1'
+    );
+}
+let smartDragging = false;
+let ioniqDragging = false;
+// ------------------------------------------------------------
+// Statuswerte: bei Änderung 60 Sekunden rot
+// ------------------------------------------------------------
+
+const statusOldValues = {};
+const statusFreshTimers = {};
+
+const STATUS_STALE_SECONDS = 120;
+
+function checkStatusValues() {
+
+    document.querySelectorAll(".statusvalue").forEach(function(el) {
+
+        const device = el.dataset.device;
+        const reading = el.dataset.get;
+
+        const key = device + "|" + reading;
+
+        const value = el.textContent.trim();
+
+        // ----------------------------------------------------
+        // Alter des echten FHEM-Readings aus FTUI bestimmen
+        // ----------------------------------------------------
+
+        let stale = false;
+
+        if (
+            typeof ftui !== "undefined" &&
+            ftui.deviceStates &&
+            ftui.deviceStates[device] &&
+            ftui.deviceStates[device][reading]
+        ) {
+
+            const state = ftui.deviceStates[device][reading];
+
+            if (state.date) {
+
+                const dateString = state.date.replace(" ", "T");
+                const timestamp = new Date(dateString).getTime();
+
+                if (!isNaN(timestamp)) {
+
+                    const ageSeconds =
+                        (Date.now() - timestamp) / 1000;
+
+                    stale = ageSeconds > STATUS_STALE_SECONDS;
+                }
+            }
+        }
+
+        // ----------------------------------------------------
+        // Alter Status -> grau
+        // ----------------------------------------------------
+
+        if (stale) {
+
+            el.classList.add("stale");
+            el.classList.remove("fresh");
+
+        } else {
+
+            el.classList.remove("stale");
+
+            // ------------------------------------------------
+            // Wertänderung -> 60 Sekunden rot
+            // ------------------------------------------------
+
+            if (!(key in statusOldValues)) {
+
+                statusOldValues[key] = value;
+
+            } else if (statusOldValues[key] !== value) {
+
+                statusOldValues[key] = value;
+
+                el.classList.add("fresh");
+
+                if (statusFreshTimers[key]) {
+                    clearTimeout(statusFreshTimers[key]);
+                }
+
+                statusFreshTimers[key] = setTimeout(function() {
+
+                    el.classList.remove("fresh");
+
+                }, 60000);
+            }
+        }
+    });
+}
+
+setInterval(checkStatusValues, 1000);
+function updateBars() {
+
+    let klimaMode = $('[data-device="KlimaMode"][data-get="state"]')
+    .first()
+    .text()
+    .trim();
+
+if (klimaMode === "Off" || klimaMode === "Cool") {
+    $("#klimamode").val(klimaMode);
+}
+    // Smart
+    let smart = parseFloat(
+        $('[data-device="LadeManager"][data-get="Smart_SOC"]')
+        .first().text()
+    ) || 0;
+
+    $("#smartbar").css("width", smart + "%");
+
+// Slider nur aktualisieren, wenn er nicht benutzt wird
+if (!$("#smartslider").is(":focus")) {
+    $("#smartslider").val(smart);
+}
+
+// Prozentanzeige immer aus FHEM übernehmen
+$("#smartslidervalue").text(smart + " %");
+
+    // Hyundai
+    let ioniq = parseFloat(
+        $('[data-device="LadeManager"][data-get="Ioniq5_SOC"]')
+        .first().text()
+    ) || 0;
+$("#ioniqbar").css("width", ioniq + "%");
+
+if (!$("#ioniqslider").is(":focus")) {
+    $("#ioniqslider").val(ioniq);
+}
+
+$("#ioniqslidervalue").text(ioniq + " %");
+    // PV-Modus Smart
+if ($('[data-device="LadeManager"][data-get="Smart_PV"]').text().trim() === "on") {
+    $("#smartpvbtn").addClass("active");
+} else {
+    $("#smartpvbtn").removeClass("active");
+}
+
+// PV-Modus Ioniq
+if ($('[data-device="LadeManager"][data-get="Ioniq_PV"]').text().trim() === "on") {
+    $("#ioniqpvbtn").addClass("active");
+} else {
+    $("#ioniqpvbtn").removeClass("active");
+}
+    // Smart Ziel
+const smartZiel =
+    $('[data-device="LadeManager"][data-get="Smart_Ziel"]')
+    .text().trim();
+
+if (smartZiel !== "") {
+    $("#smart85btn").toggleClass("selected", smartZiel === "85");
+    $("#smart100btn").toggleClass("selected", smartZiel === "100");
+}
+
+// Ioniq Ziel
+const ioniqZiel =
+    $('[data-device="LadeManager"][data-get="Ioniq5_Ziel"]')
+    .text().trim();
+
+if (ioniqZiel !== "") {
+    $("#ioniq85btn").toggleClass("selected", ioniqZiel === "85");
+    $("#ioniq100btn").toggleClass("selected", ioniqZiel === "100");
+}
+    
+}   // <<< Ende von updateBars()
+    
+function updateStatus() {
+// Smart Status
+
+const smartRelay = $("#smartrelay").text() === "on";
+const sp = parseFloat($("#smartpower").text()) || 0;
+
+if (!smartRelay) {
+
+    $("#smartstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+} else if (sp > 50) {
+
+    $("#smartstate")
+        .text("LÄDT")
+        .removeClass("off")
+        .addClass("on");
+
+} else {
+
+    $("#smartstate")
+        .text("FERTIG")
+        .removeClass("off")
+        .addClass("on");
+
+}
+
+// Hyundai Status
+
+const ioniqRelay = $("#ioniqrelay").text() === "on";
+const ip = parseFloat($("#ioniqpower").text()) || 0;
+
+if (!ioniqRelay) {
+
+    $("#ioniqstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+} else if (ip > 50) {
+
+    $("#ioniqstate")
+        .text("LÄDT")
+        .removeClass("off")
+        .addClass("on");
+
+} else {
+
+    $("#ioniqstate")
+        .text("FERTIG")
+        .removeClass("off")
+        .addClass("on");
+
+}
+
+ // Smart
+
+if (smartRelay) {
+    $("#smartpowertext").text("⚡ " + formatPower(sp));
+} else {
+    $("#smartpowertext").text("⚡ --");
+}
+    
+// Ioniq
+
+if ($("#ioniqrelay").text() === "on") {
+    $("#ioniqpowertext").text("⚡ " + formatPower(ip));
+} else {
+    $("#ioniqpowertext").text("⚡ --");
+}
+// Einhell
+
+const einhellOn = $("#einhellrelay").text() === "on";
+if (einhellOn) {
+
+    $("#einhellstate")
+        .text("EIN")
+        .removeClass("off")
+        .addClass("on");
+
+} else {
+
+    $("#einhellstate")
+        .text("AUS")
+        .removeClass("on")
+        .addClass("off");
+
+}
+
+let ep = parseFloat($("#einhellpower").text()) || 0;
+
+if (einhellOn) {
+    $("#einhellpowertext").text("⚡ " + formatPower(ep));
+} else {
+    $("#einhellpowertext").text("⚡ --");
+}
+   // Warmwasser
+
+const wwOn = $("#wwdummy").text().trim() === "on";
+
+$("#wwstate")
+    .text(wwOn ? "🟢 EIN" : "⚪ AUS")
+    .removeClass("on off")
+    .addClass(wwOn ? "on" : "off");
+
+    const now = new Date();
+
+$("#lastupdate").text(
+    now.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    })
+);
+} // Ende updateStatus()
+
+function formatPower(watt) {
+
+    if (watt < 1000)
+        return Math.round(watt) + " W";
+
+    return (watt / 1000).toFixed(2).replace(".", ",") + " kW";
+} // Ende function formatPower
+
+    //-----------------------------------------------------
+// Smart
+//-----------------------------------------------------
+
+function smart85(){
+
+    $("#smart85btn").addClass("selected");
+    $("#smart100btn").removeClass("selected");
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Smart85();;}"));
+
+}
+    function smart100(){
+
+    $("#smart100btn").addClass("selected");
+    $("#smart85btn").removeClass("selected");
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Smart100();;}"));
+
+}
+
+//-----------------------------------------------------
+// Ioniq
+//-----------------------------------------------------
+
+function ioniq85(){
+
+    $("#ioniq85btn").addClass("selected");
+    $("#ioniq100btn").removeClass("selected");
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Ioniq85();;}"));
+
+}
+
+function ioniq100(){
+
+    $("#ioniq100btn").addClass("selected");
+    $("#ioniq85btn").removeClass("selected");
+
+    $.get("/fhem?XHR=1&cmd="+
+        encodeURIComponent("{Ioniq100();;}"));
+
+}
+
+//-----------------------------------------------------
+// Slider
+//-----------------------------------------------------
+function setSmartSOC(v){
+
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent('{SetSOC("Smart",' + v + ');;}'),
+        function() {
+            setTimeout(updateBars, 300);
+        }
+    );
+}
+
+function setIoniqSOC(v){
+
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent('{SetSOC("Ioniq5",' + v + ');;}'),
+        function() {
+            setTimeout(updateBars, 300);
+        }
+    );
+}
+
+function einhellOn(){
+
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("set Shelly3_Einhell on"));
+
+    setTimeout(updateStatus,500);
+
+}
+
+function einhellOff(){
+
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("set Shelly3_Einhell off"));
+
+}  
+    
+    
+function warmwasserOn(){
+
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("set Warmwasser on"));
+
+}
+
+function warmwasserOff(){
+
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("set Warmwasser off"));
+
+}
+    
+function smartPV(){
+
+    const btn = $("#smartpvbtn");
+    const on = btn.hasClass("active");
+
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent(
+            'setreading LadeManager Smart_PV ' + (on ? "off" : "on")
+        )
+    );
+
+    btn.toggleClass("active");
+}
+
+function ioniqPV(){
+
+    const btn = $("#ioniqpvbtn");
+    const on = btn.hasClass("active");
+
+    $.get(
+        "/fhem?XHR=1&cmd=" +
+        encodeURIComponent(
+            'setreading LadeManager Ioniq_PV ' + (on ? "off" : "on")
+        )
+    );
+
+    btn.toggleClass("active");
+}
+
+function testPV()
+{
+    $.get("/fhem?XHR=1&cmd=" +
+        encodeURIComponent("{CheckPV();;}"));
+}
+    
+    $(function () {
+
+    updateBars();
+    updateStatus();
+
+    setInterval(updateStatus, 500);
+    setInterval(updateBars,1000);
+
+});
+
+</script>
+</body>
+</html>

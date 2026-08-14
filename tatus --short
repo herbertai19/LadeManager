@@ -1,0 +1,123 @@
+[33mdc8108e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/main[m[33m)[m Update 99_myUtils.pm
+[33m9ef4e87[m Update 99_myUtils.pm
+[33m51b4e41[m Update 99_myUtils.pm
+[33me3b3b37[m Update 99_myUtils.pm
+[33mecd3e39[m Update 99_myUtils.pm
+[33m493daa4[m Update 99_myUtils.pm
+[33m3aedda0[m Add Pushover subroutine for notifications
+[33m5a46a30[m Update 99_myUtils.pm
+[33me0d4871[m Update 99_myUtils.pm
+[33m5b564f4[m Update 99_myUtils.pm
+[33maf2b396[m Change power reading format to integer
+[33mf322556[m Change SOC formatting from decimal to integer
+[33mbda80ec[m Update 99_myUtils.pm
+[33mcacfd02[m Update 99_myUtils.pm
+[33madfb063[m Add relay condition to start time check
+[33m53ef6b6[m Update 99_myUtils.pm
+[33m28b6663[m Update 99_myUtils.pm
+[33m496a1e0[m Update SOC reading format in LadeManager
+[33m72e0736[m Update 99_myUtils.pm
+[33me9c8b94[m Update 99_myUtils.pm
+[33m6b03eb4[m Update 99_myUtils.pm
+[33mb403e30[m Update 99_myUtils.pm
+[33m1f5b9ab[m Update 99_myUtils.pm
+[33m09a5801[m Update 99_myUtils.pm
+[33m0d198e5[m Update 99_myUtils.pm
+[33m2d58fd1[m Update 99_myUtils.pm
+[33m2bbc680[m Enable debug mode by setting Debug to 1
+[33m4c9190b[m Update 99_myUtils.pm
+[33m7e67405[m Update 99_myUtils.pm
+[33m24dc608[m Update 99_myUtils.pm
+[33m3b2cfe3[m Update 99_myUtils.pm
+[33mbcc8361[m Update 99_myUtils.pm
+[33m1cf6a43[m Update 99_myUtils.pm
+[33m51cd4b9[m Update 99_myUtils.pm
+[33m366534c[m Update 99_myUtils.pm
+[33m6a7ebf3[m Update 99_myUtils.pm
+[33ma0916b3[m Update 99_myUtils.pm
+[33mf88d094[m Update 99_myUtils.pm
+[33mc0f3987[m Update 99_myUtils.pm
+[33m2b42e3e[m Update 99_myUtils.pm
+[33ma7a3a19[m Update 99_myUtils.pm
+[33m9839fc6[m Update 99_myUtils.pm
+[33m4ac442e[m Update 99_myUtils.pm
+[33m74701a5[m Update 99_myUtils.pm
+[33m4329d7b[m Update 99_myUtils.pm
+[33ma65daa0[m Update 99_myUtils.pm
+[33m467b858[m Implement battery lock and resume logic
+[33mfa44c51[m Remove PV_CheckInterval setting from myUtils
+[33m235ba58[m Update 99_myUtils.pm
+[33m336ef11[m Update 99_myUtils.pm
+[33mae7b5dd[m Update 99_myUtils.pm
+[33m2b9997a[m Update 99_myUtils.pm
+[33ma1f635e[m Update 99_myUtils.pm
+[33mf2de014[m Update 99_myUtils.pm
+[33mb490bea[m Update 99_myUtils.pm
+[33ma15b607[m Update 99_myUtils.pm
+[33m86b9942[m Update 99_myUtils.pm
+[33mac3b43a[m Update 99_myUtils.pm
+[33m492f4ec[m Update 99_myUtils.pm
+[33m3603084[m Update 99_myUtils.pm
+[33m3aff67b[m Update 99_myUtils.pm
+[33mbfcaa44[m Update 99_myUtils.pm
+[33m76a3cf6[m Update 99_myUtils.pm
+[33mbeddb2e[m Update 99_myUtils.pm
+[33me8e1206[m Update 99_myUtils.pm
+[33m590e13b[m Update 99_myUtils.pm
+[33mf02f308[m Update 99_myUtils.pm
+[33ma59dec9[m Update 99_myUtils.pm
+[33m5c077d5[m Update 99_myUtils.pm
+[33ma546cf2[m Update 99_myUtils.pm
+[33m4ae708d[m Update 99_myUtils.pm
+[33m63d65fd[m Update 99_myUtils.pm
+[33m880b444[m Update 99_myUtils.pm
+[33m6f7ac62[m Update 99_myUtils.pm
+[33m5cdb764[m Update 99_myUtils.pm
+[33mc9c364c[m Update 99_myUtils.pm
+[33mdadfdc6[m Update 99_myUtils.pm
+[33mc507695[m Update 99_myUtils.pm
+[33mdbe6770[m Update 99_myUtils.pm
+[33mbcbd68f[m Update 99_myUtils.pm
+[33m2356d83[m Update 99_myUtils.pm
+[33m72be6c3[m Update 99_myUtils.pm
+[33m0c4311e[m Update 99_myUtils.pm
+[33mf273bc1[m Update 99_myUtils.pm
+[33m391a0a3[m Update 99_myUtils.pm
+[33m59f1f99[m Update 99_myUtils.pm
+[33m88530e4[m Update 99_myUtils.pm
+[33mb9751aa[m Update 99_myUtils.pm
+[33m07537c6[m Update 99_myUtils.pm
+[33m64e613e[m Update 99_myUtils.pm
+[33m67a2b28[m Update 99_myUtils.pm
+[33mfecf6eb[m Update 99_myUtils.pm
+[33m31ba63d[m Update 99_myUtils.pm
+[33me44abfd[m Update 99_myUtils.pm
+[33m81a106c[m Update 99_myUtils.pm
+[33me533e12[m Update 99_myUtils.pm
+[33m835d3fa[m Update 99_myUtils.pm
+[33m9e75291[m Update 99_myUtils.pm
+[33m9825908[m Update 99_myUtils.pm
+[33mad18e21[m Update 99_myUtils.pm
+[33m9e19bec[m Update 99_myUtils.pm
+[33m6b69a1e[m Update 99_myUtils.pm
+[33m5817294[m Update 99_myUtils.pm
+[33m919aa12[m Update 99_myUtils.pm
+[33m8c613da[m Update 99_myUtils.pm
+[33m16cdcdb[m Update 99_myUtils.pm
+[33m790ff91[m Update 99_myUtils.pm
+[33mc5ddb9e[m Update 99_myUtils.pm
+[33m563f469[m Update 99_myUtils.pm
+[33mfe30739[m Update 99_myUtils.pm
+[33mbc5d7f9[m Update 99_myUtils.pm
+[33maae01e3[m Update 99_myUtils.pm
+[33mfbcb937[m Update 99_myUtils.pm
+[33meed7186[m Update 99_myUtils.pm
+[33m34ab7ef[m Restore 99_myUtils.pm
+[33m978bcce[m ...
+[33mba74327[m Update 99_myUtils.pm
+[33m32ced27[m Update 99_myUtils.pm
+[33mfdf7732[m Update 99_myUtils.pm
+[33m40d9462[m Update 99_myUtils.pm
+[33m954f355[m Update 99_myUtils.pm
+[33mfcd9232[m Update 99_myUtils.pm
+[33m015894f[m Add files via upload
