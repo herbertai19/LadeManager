@@ -561,19 +561,41 @@ sub SmartMinus {
 ############################################################
 # Komfortfunktionen Ioniq5
 ############################################################
-
 sub Ioniq85
 {
     my $soc = ReadingsNum("LadeManager","Ioniq5_SOC",50);
-    fhem("setreading LadeManager Ioniq5_Aktiv on");
-    StartCar("Ioniq5",$soc,85);
-}
 
+    fhem("setreading LadeManager Ioniq5_Aktiv on");
+    fhem("setreading LadeManager Ioniq5_Ziel 85");
+
+    if(IsPVEnabled("Ioniq5"))
+    {
+        LMLog("Ioniq85: PV-Modus");
+        CheckPV();
+    }
+    else
+    {
+        LMLog("Ioniq85: Sofort laden");
+        StartCar("Ioniq5",$soc,85);
+    }
+}
 sub Ioniq100
 {
     my $soc = ReadingsNum("LadeManager","Ioniq5_SOC",50);
+
     fhem("setreading LadeManager Ioniq5_Aktiv on");
-    StartCar("Ioniq5",$soc,100);
+    fhem("setreading LadeManager Ioniq5_Ziel 100");
+
+    if(IsPVEnabled("Ioniq5"))
+    {
+        LMLog("Ioniq100: PV-Modus");
+        CheckPV();
+    }
+    else
+    {
+        LMLog("Ioniq100: Sofort laden");
+        StartCar("Ioniq5",$soc,100);
+    }
 }
 
 ###############################################
