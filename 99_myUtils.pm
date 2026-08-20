@@ -1012,7 +1012,6 @@ sub SetCarState
 
     LMLog("$car: Status -> $state");
 }
-
 sub PersonenAktion($)
 {
     my ($kamera) = @_;
@@ -1035,8 +1034,6 @@ sub PersonenAktion($)
 
     # Kamera im KameraCenter hervorheben
     fhem("set CamDisplay $kamera");
-# Samsung Tablet aufwecken und KameraCenter öffnen
-qx(curl -sS 'https://ask.macrodroid.com/e43b3b10-968e-4dbd-9721-8fdd55f876ad/KameraWake');
 
     # Kamera-Zugangsdaten aus Secret-Datei lesen
     my ($camera_user, $camera_pass);
@@ -1060,14 +1057,34 @@ qx(curl -sS 'https://ask.macrodroid.com/e43b3b10-968e-4dbd-9721-8fdd55f876ad/Kam
         return;
     }
 
-    # aktuellen Snapshot holen
+    # -------------------------------------------------
+    # Snapshot SOFORT nach der Erkennung holen
+    # -------------------------------------------------
+
     system(
         "curl --digest -s -u '" . $camera_user . ":" . $camera_pass . "' " .
         "'http://$ip/axis-cgi/jpg/image.cgi' " .
         "-o '$bild'"
     );
 
-    # Pushover mit dem Bild
+    # -------------------------------------------------
+    # Snapshot für das KameraCenter bereitstellen
+    # -------------------------------------------------
+
+    my $eventbild = "/opt/fhem/www/tablet/kamera/events/${kamera}.jpg";
+
+    system("cp '$bild' '$eventbild'");
+
+    # -------------------------------------------------
+    # Samsung Tablet aufwecken und KameraCenter öffnen
+    # -------------------------------------------------
+
+    qx(curl -sS 'https://ask.macrodroid.com/e43b3b10-968e-4dbd-9721-8fdd55f876ad/KameraWake');
+
+    # -------------------------------------------------
+    # Pushover mit dem Snapshot
+    # -------------------------------------------------
+
     system(
         "/opt/fhem/www/tablet/kamera/pushover.sh " .
         "'Person erkannt $name' " .
@@ -1075,4 +1092,6 @@ qx(curl -sS 'https://ask.macrodroid.com/e43b3b10-968e-4dbd-9721-8fdd55f876ad/Kam
         "'$bild'"
     );
 }
+
+1;
 1;
