@@ -1035,6 +1035,8 @@ sub PersonenAktion($)
 
     # Kamera im KameraCenter hervorheben
     fhem("set CamDisplay $kamera");
+# Samsung Tablet aufwecken und KameraCenter öffnen
+qx(curl -sS 'https://ask.macrodroid.com/e43b3b10-968e-4dbd-9721-8fdd55f876ad/KameraWake');
 
     # Kamera-Zugangsdaten aus Secret-Datei lesen
     my ($camera_user, $camera_pass);
