@@ -1012,6 +1012,32 @@ sub SetCarState
 
     LMLog("$car: Status -> $state");
 }
+
+sub FullyScreensaverReset()
+{
+    my $fully_pass;
+
+    if (open(my $fh, '<', '/opt/fhem/secrets/kamera.conf')) {
+        while (my $line = <$fh>) {
+            chomp $line;
+
+            if ($line =~ /^FULLY_PASS='(.*)'$/) {
+                $fully_pass = $1;
+            }
+        }
+        close($fh);
+    }
+
+    return unless defined $fully_pass;
+
+    system(
+        "curl -sS --max-time 5 " .
+        "'http://192.168.26.203:2323/?cmd=setStringSetting&key=timeToScreensaverV2&value=60&password=" .
+        $fully_pass . "' >/dev/null 2>&1"
+    );
+    LMLog("Fully Screensaver-Timer wieder auf 60 Sekunden gesetzt");
+}
+
 sub PersonenAktion($)
 {
     my ($kamera) = @_;
@@ -1034,6 +1060,40 @@ sub PersonenAktion($)
 
     # Kamera im KameraCenter hervorheben
     fhem("set CamDisplay $kamera");
+    # Fully Kiosk Remote-Admin-Passwort lesen
+    my $fully_pass;
+
+    if (open(my $fh, '<', '/opt/fhem/secrets/kamera.conf')) {
+        while (my $line = <$fh>) {
+            chomp $line;
+
+            if ($line =~ /^FULLY_PASS='(.*)'$/) {
+                $fully_pass = $1;
+            }
+        }
+        close($fh);
+    }
+
+if (defined $fully_pass) {
+
+    # Screensaver während der Alarmanzeige deaktivieren
+    if (my $pid = fork()) {
+        # FHEM läuft sofort weiter
+    }
+    elsif (defined $pid) {
+        system(
+            "curl -sS --max-time 5 " .
+            "'http://192.168.26.203:2323/?cmd=setStringSetting&key=timeToScreensaverV2&value=0&password=" .
+            $fully_pass . "' >/dev/null 2>&1"
+        );
+        exit(0);
+    }
+
+    LMLog("Fully Screensaver während Alarm deaktiviert");
+}
+    # Alten 4-Minuten-Timer löschen und neu starten
+    fhem("delete FullyScreensaverTimer");
+    fhem("define FullyScreensaverTimer at +00:04:00 {FullyScreensaverReset()}");
 
     # Kamera-Zugangsdaten aus Secret-Datei lesen
     my ($camera_user, $camera_pass);
@@ -1060,13 +1120,11 @@ sub PersonenAktion($)
     # -------------------------------------------------
     # Snapshot SOFORT nach der Erkennung holen
     # -------------------------------------------------
-
     system(
         "curl --digest -s -u '" . $camera_user . ":" . $camera_pass . "' " .
         "'http://$ip/axis-cgi/jpg/image.cgi' " .
         "-o '$bild'"
     );
-
     # -------------------------------------------------
     # Snapshot für das KameraCenter bereitstellen
     # -------------------------------------------------
@@ -1078,13 +1136,20 @@ sub PersonenAktion($)
     # -------------------------------------------------
     # Samsung Tablet aufwecken und KameraCenter öffnen
     # -------------------------------------------------
-
-    qx(curl -sS 'https://ask.macrodroid.com/e43b3b10-968e-4dbd-9721-8fdd55f876ad/KameraWake');
-
+if (my $pid = fork()) {
+    # FHEM läuft sofort weiter
+}
+elsif (defined $pid) {
+    system(
+        "curl -sS -o /dev/null " .
+        "'https://ask.macrodroid.com/e43b3b10-968e-4dbd-9721-8fdd55f876ad/KameraWake' " .
+        ">/dev/null 2>&1"
+    );
+    exit(0);
+}
     # -------------------------------------------------
     # Pushover mit dem Snapshot
     # -------------------------------------------------
-
     system(
         "/opt/fhem/www/tablet/kamera/pushover.sh " .
         "'Person erkannt $name' " .
@@ -1093,5 +1158,4 @@ sub PersonenAktion($)
     );
 }
 
-1;
 1;
